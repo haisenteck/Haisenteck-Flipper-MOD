@@ -36,9 +36,7 @@ def LoadAppManifest(env, entry):
 def PrepareApplicationsBuild(env):
     try:
         appbuild = env["APPBUILD"] = env["APPMGR"].filter_apps(
-            applist=env["APPS"],
-            ext_applist=env["EXTRA_EXT_APPS"],
-            hw_target=env.subst("f${TARGET_HW}"),
+            env["APPS"], env.subst("f${TARGET_HW}")
         )
     except Exception as e:
         raise StopError(e)
@@ -58,11 +56,6 @@ def DumpApplicationConfig(target, source, env):
                 fg.green(f"{apptype.value}:\n\t"),
                 ", ".join(app.appid for app in app_sublist),
             )
-    if incompatible_ext_apps := env["APPBUILD"].get_incompatible_ext_apps():
-        print(
-            fg.blue("Incompatible apps (skipped):\n\t"),
-            ", ".join(app.appid for app in incompatible_ext_apps),
-        )
 
 
 def build_apps_c(target, source, env):
