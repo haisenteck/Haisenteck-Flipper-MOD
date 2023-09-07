@@ -46,7 +46,6 @@ null.d
 /.vscode
 
 # bundle output
-/dist
 /artifacts-default
 /artifacts-ofw-anims
 /artifacts-rgb-patch
