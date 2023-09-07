@@ -1,0 +1,10 @@
+App(
+    appid="fruttivendolo",
+    name="FRUTTIVENDOLO",
+    apptype=FlipperAppType.EXTERNAL,
+    entry_point="fruttivendolo_app",
+    requires=["gui","dialogs"],
+    stack_size=2 * 1024,
+    fap_icon="fruttivendolo.png",
+    fap_category="Bluetooth",
+)

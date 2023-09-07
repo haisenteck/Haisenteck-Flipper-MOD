@@ -1,6 +1,6 @@
 </a>
 <h3>Haisenteck - Flipper zero firmware Mod</h3><br>
-link al file di installazione: https://github.com/haisenteck/Haisenteck-Flipper-MOD/blob/dev/dist/f7-C/flipper-z-f7-update-local.tgz <br>
+link al file di installazione: https://github.com/haisenteck/Haisenteck-Flipper-MOD/blob/dev/dist/f7-D/flipper-z-f7-update-local.tgz <br>
 <br>
 <br>
 # Novità<br>
@@ -29,7 +29,7 @@ link al file di installazione: https://github.com/haisenteck/Haisenteck-Flipper-
 </ul>
 - **APP**<br>
 <ul>
-	<li>- Aggiunto quasi tutte le app trovate e aggiornate alle API 35.1</li><br>
+	<li>- </li><br>
 </ul>
 <br>
 <br>
