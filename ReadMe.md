@@ -6,11 +6,11 @@ link al file di installazione: https://github.com/haisenteck/Haisenteck-Flipper-
 # Novità<br>
 - **BLUETOOTH**<br>
 <ul>
-	<li>modifica a libreria di base per inclusione di diverse modalità del bluetooth notification per presentare il flipper come dispositivo Apple.</li>
+	<del><li>modifica a libreria di base per inclusione di diverse modalità del bluetooth notification per presentare il flipper come dispositivo Apple.</li>
 	<li>creato app per la gestione, si chiama FRUTTIVENDOLO.<br></li>
 		<ul><li>aprire l'app FRUTTIVENDOLO dalla sezione bluetooth delle app.</li>
 		<li>selezionare la modalità voluta come da indicazioni a schermo</li>
-		<li><del>andare nelle impostazioni bluetooth e avviare/riavviare il bluetooth per rendere effettive le modifiche.</del> risolto, ora si riavvia alla selezione della versione</li></ul>
+		<li>andare nelle impostazioni bluetooth e avviare/riavviare il bluetooth per rendere effettive le modifiche. risolto, ora si riavvia alla selezione della versione</li></ul></del>
 	
 </ul>
 - **NFC**<br>
