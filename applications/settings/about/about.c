@@ -72,7 +72,7 @@ static DialogMessageButton compliance_screen(DialogsApp* dialogs, DialogMessage*
 static DialogMessageButton unleashed_info_screen(DialogsApp* dialogs, DialogMessage* message) {
     DialogMessageButton result;
 
-    const char* screen_header = "Unleashed Firmware\n";
+    const char* screen_header = "Haisenteck Firmware\n";
 
     const char* screen_text = "Play with caution.\n"
                               "Not for illegal use!";
@@ -91,7 +91,7 @@ static DialogMessageButton unleashed_info_screen2(DialogsApp* dialogs, DialogMes
 
     const char* screen_text = "Custom plugins included\n"
                               "For updates & info visit\n"
-                              "github.com/DarkFlippers";
+                              "github.com/haisenteck/Haisenteck-Flipper-MOD";
 
     dialog_message_set_text(message, screen_text, 0, 0, AlignLeft, AlignTop);
     result = dialog_message_show(dialogs, message);
