@@ -66,7 +66,7 @@ link al file di installazione: https://github.com/haisenteck/Haisenteck-Flipper-
 <li>- esp-serial-flasher</li><br>
 <li>- QR Code</li><br>
 <li>- [GPIO] Input Reader 2</li><br>
-<li>- VB Migration Assistant --- da risolvere problematiche dopo modifica librerie</li><br>
+<li>- VB Migration Assistant</li><br>
 <li>- Atomic Dice Roller</li><br>
 <li>- Chronometer</li><br>
 <li>- [ESP32] Evil Portal</li><br>
@@ -79,7 +79,7 @@ link al file di installazione: https://github.com/haisenteck/Haisenteck-Flipper-
 <li>- 2048</li><br>
 <li>- Pokemon Trading</li><br>
 <li>- GPIO Controller</li><br>
-<li>- [NMEA] GPS --- da risolvere problematiche dopo modifica librerie</li><br>
+<li>- [NMEA] GPS</li><br>
 <li>- [HC-SR] Dist. Sensor</li><br>
 <li>- Heap Defence</li><br>
 <li>- HEX Viewer</li><br>
@@ -93,7 +93,7 @@ link al file di installazione: https://github.com/haisenteck/Haisenteck-Flipper-
 <li>- BH1750</li><br>
 <li>- Logic Analyzer</li><br>
 <li>- LoRA_Terminal</li><br>
-<li>- MagSpoof --- da risolvere problematiche dopo modifica librerie</li><br>
+<li>- MagSpoof</li><br>
 <li>- Mass Storage</li><br>
 <li>- [Mx2125] Accelerometer</li><br>
 <li>- Metronome</li><br>
@@ -113,7 +113,7 @@ link al file di installazione: https://github.com/haisenteck/Haisenteck-Flipper-
 <li>- Music Player</li><br>
 <li>- NFC Magic</li><br>
 <li>- magic</li><br>
-<li>- NFC Maker --- da risolvere problematiche dopo modifica librerie</li><br>
+<li>- NFC Maker</li><br>
 <li>- NFC/RFID detector</li><br>
 <li>- [NRF24] Batch</li><br>
 <li>- nrf24</li><br>
@@ -121,16 +121,16 @@ link al file di installazione: https://github.com/haisenteck/Haisenteck-Flipper-
 <li>- nrf24</li><br>
 <li>- [NRF24] Sniffer</li><br>
 <li>- nrf24</li><br>
-<li>- [iClass] PicoPass --- da risolvere problematiche dopo modifica librerie</li><br>
+<li>- [iClass] PicoPass</li><br>
 <li>- loclass</li><br>
 <li>- Sub-GHz Playlist</li><br>
 <li>- POCSAG Pager</li><br>
-<li>- ProtoView --- da risolvere problematiche dopo modifica librerie</li><br>
+<li>- ProtoView</li><br>
 <li>- RC2014 ColecoVision</li><br>
 <li>- [RCWL-0516] Motion Sensor</li><br>
 <li>- Subghz Rolling Flaws</li><br>
 <li>- SUPER-CHIP</li><br>
-<li>- Seader --- da risolvere problematiche dopo modifica librerie</li><br>
+<li>- Seader</li><br>
 <li>- asn1</li><br>
 <li>- Secret Toggle</li><br>
 <li>- [GPIO] Sentry Safe</li><br>
@@ -140,7 +140,7 @@ link al file di installazione: https://github.com/haisenteck/Haisenteck-Flipper-
 <li>- Snake Game</li><br>
 <li>- Solitaire</li><br>
 <li>- Spectrum Analyzer</li><br>
-<li>- SPI Mem Manager --- da risolvere problematiche dopo modifica librerie</li><br>
+<li>- SPI Mem Manager</li><br>
 <li>- spi</li><br>
 <li>- Sudoku</li><br>
 <li>- SWD Probe</li><br>
@@ -153,7 +153,7 @@ link al file di installazione: https://github.com/haisenteck/Haisenteck-Flipper-
 <li>- TPMS Reader</li><br>
 <li>- UART Terminal</li><br>
 <li>- u-blox GPS</li><br>
-<li>- [YRM100] UHF RFID --- da risolvere problematiche dopo modifica librerie</li><br>
+<li>- [YRM100] UHF RFID</li><br>
 <li>- Temp sensors reader</li><br>
 <li>- USB HID Autofire</li><br>
 <li>- USB Midi</li><br>
@@ -161,7 +161,7 @@ link al file di installazione: https://github.com/haisenteck/Haisenteck-Flipper-
 <li>- Video Player</li><br>
 <li>- WAV Player</li><br>
 <li>- Weather Station</li><br>
-<li>- Wiegand Reader --- da risolvere problematiche dopo modifica librerie</li><br>
+<li>- Wiegand Reader</li><br>
 <li>- WIFI Mapping</li><br>
 <li>- [ESP8266] Deauther v2</li><br>
 <li>- [ESP32] WiFi Marauder</li><br>
