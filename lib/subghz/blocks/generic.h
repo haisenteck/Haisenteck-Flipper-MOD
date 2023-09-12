@@ -8,12 +8,34 @@
 #include <furi.h>
 #include <furi_hal.h>
 #include "../types.h"
+#include <locale/locale.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
+#define WS_NO_ID 0xFFFFFFFF
+#define WS_NO_BATT 0xFF
+#define WS_NO_HUMIDITY 0xFF
+#define WS_NO_CHANNEL 0xFF
+#define WS_NO_BTN 0xFF
+#define WS_NO_TEMPERATURE -273.0f
+
+typedef struct SubGhzBlockGeneric_wheather SubGhzBlockGeneric_wheather;
 typedef struct SubGhzBlockGeneric SubGhzBlockGeneric;
+
+struct SubGhzBlockGeneric_wheather {
+    const char* protocol_name;
+    uint64_t data;
+    uint32_t id;
+    uint8_t data_count_bit;
+    uint8_t battery_low;
+    uint8_t humidity;
+    uint32_t timestamp;
+    uint8_t channel;
+    uint8_t btn;
+    float temp;
+};
 
 struct SubGhzBlockGeneric {
     const char* protocol_name;
@@ -26,6 +48,7 @@ struct SubGhzBlockGeneric {
     uint8_t cnt_2;
     uint32_t seed;
 };
+
 
 /**
  * Get name preset.
@@ -45,6 +68,12 @@ SubGhzProtocolStatus subghz_block_generic_serialize(
     SubGhzBlockGeneric* instance,
     FlipperFormat* flipper_format,
     SubGhzRadioPreset* preset);
+	
+SubGhzProtocolStatus subghz_block_generic_serialize_wheather(
+    SubGhzBlockGeneric_wheather* instance,
+    FlipperFormat* flipper_format,
+    SubGhzRadioPreset* preset);
+
 
 /**
  * Deserialize data SubGhzBlockGeneric.
@@ -52,8 +81,10 @@ SubGhzProtocolStatus subghz_block_generic_serialize(
  * @param flipper_format Pointer to a FlipperFormat instance
  * @return Status Error
  */
-SubGhzProtocolStatus
-    subghz_block_generic_deserialize(SubGhzBlockGeneric* instance, FlipperFormat* flipper_format);
+SubGhzProtocolStatus subghz_block_generic_deserialize(SubGhzBlockGeneric* instance, FlipperFormat* flipper_format);
+
+SubGhzProtocolStatus subghz_block_generic_deserialize_wheather(SubGhzBlockGeneric_wheather* instance, FlipperFormat* flipper_format);
+
 
 /**
  * Deserialize data SubGhzBlockGeneric.

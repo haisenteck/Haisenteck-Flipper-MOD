@@ -46,3 +46,4 @@
 #include "bin_raw.h"
 #include "x10.h"
 #include "oregon2.h"
+#include "oregon3.h"
