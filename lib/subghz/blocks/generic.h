@@ -98,6 +98,13 @@ SubGhzProtocolStatus subghz_block_generic_deserialize_check_count_bit(
     FlipperFormat* flipper_format,
     uint16_t count_bit);
 
+SubGhzProtocolStatus subghz_block_generic_deserialize_check_count_bit_wheather(
+    SubGhzBlockGeneric_wheather* instance,
+    FlipperFormat* flipper_format,
+    uint16_t count_bit);
+
+
+
 #ifdef __cplusplus
 }
 #endif

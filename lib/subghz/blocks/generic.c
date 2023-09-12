@@ -374,3 +374,22 @@ SubGhzProtocolStatus subghz_block_generic_deserialize_check_count_bit(
     } while(false);
     return ret;
 }
+
+SubGhzProtocolStatus subghz_block_generic_deserialize_check_count_bit_wheather(
+    SubGhzBlockGeneric_wheather* instance,
+    FlipperFormat* flipper_format,
+    uint16_t count_bit) {
+    SubGhzProtocolStatus ret = SubGhzProtocolStatusError;
+    do {
+        ret = subghz_block_generic_deserialize_wheather(instance, flipper_format);
+        if(ret != SubGhzProtocolStatusOk) {
+            break;
+        }
+        if(instance->data_count_bit != count_bit) {
+            FURI_LOG_D(TAG, "Wrong number of bits in key");
+            ret = SubGhzProtocolStatusErrorValueBitCount;
+            break;
+        }
+    } while(false);
+    return ret;
+}

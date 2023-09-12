@@ -1,5 +1,5 @@
 entry,status,name,type,params
-Version,+,36.4,,
+Version,+,36.5,,
 Header,+,applications/drivers/subghz/cc1101_ext/cc1101_ext_interconnect.h,,
 Header,+,applications/services/bt/bt_service/bt.h,,
 Header,+,applications/services/cli/cli.h,,
@@ -2757,6 +2757,7 @@ Function,-,strxfrm_l,size_t,"char*, const char*, size_t, locale_t"
 Function,-,stub_parser_verify_read,_Bool,"NfcWorker*, FuriHalNfcTxRxContext*"
 Function,+,subghz_block_generic_deserialize,SubGhzProtocolStatus,"SubGhzBlockGeneric*, FlipperFormat*"
 Function,+,subghz_block_generic_deserialize_check_count_bit,SubGhzProtocolStatus,"SubGhzBlockGeneric*, FlipperFormat*, uint16_t"
+Function,+,subghz_block_generic_deserialize_check_count_bit_wheather,SubGhzProtocolStatus,"SubGhzBlockGeneric_wheather*, FlipperFormat*, uint16_t"
 Function,+,subghz_block_generic_deserialize_wheather,SubGhzProtocolStatus,"SubGhzBlockGeneric_wheather*, FlipperFormat*"
 Function,+,subghz_block_generic_get_preset_name,void,"const char*, FuriString*"
 Function,+,subghz_block_generic_serialize,SubGhzProtocolStatus,"SubGhzBlockGeneric*, FlipperFormat*, SubGhzRadioPreset*"
