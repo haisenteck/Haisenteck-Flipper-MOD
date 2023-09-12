@@ -26,6 +26,8 @@ link al file di installazione: https://github.com/haisenteck/Haisenteck-Flipper-
 	<li>SubGHz: Aggiunto AM_Q ai preset di utilizzo</li><br>
 	<li>SubGHz: corretto codice e aggiunto nuovamente protocollo X10</li><br>
 	<li>SubGHz: corretto codice e aggiunto nuovamente protocollo Oregon2 per riconoscimento segnale.</li>
+	<li>SubGHz: corretto codice e aggiunto protocollo Oregon3 per riconoscimento segnale.</li>
+	<li>SubGhz: predisposizione per ulteriori wheather station e comandi dedicati. </li>
 	<li>Subghz Rolling Flaws - app aggiunta grazie a https://github.com/jamisonderek/flipper-zero-tutorials </li><br>
 </ul>
 - **APP**<br>
