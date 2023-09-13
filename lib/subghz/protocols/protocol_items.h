@@ -45,6 +45,7 @@
 #include "kinggates_stylo_4k.h"
 #include "bin_raw.h"
 #include "x10.h"
+#include "oregon_v1.h"
 #include "oregon2.h"
 #include "oregon3.h"
 #include "acurite_592txr.h"
