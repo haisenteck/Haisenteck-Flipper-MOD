@@ -35,7 +35,7 @@ static const SubGhzBlockConst subghz_protocol_acurite_592txr_const = {
     .min_count_bit_for_found = 56,
 };
 
-struct WSProtocolDecoderAcurite_592TXR {
+struct subghz_protocolDecoderAcurite_592TXR {
     SubGhzProtocolDecoderBase base;
 
     SubGhzBlockDecoder decoder;
@@ -44,7 +44,7 @@ struct WSProtocolDecoderAcurite_592TXR {
     uint16_t header_count;
 };
 
-struct WSProtocolEncoderAcurite_592TXR {
+struct subghz_protocolEncoderAcurite_592TXR {
     SubGhzProtocolEncoderBase base;
 
     SubGhzProtocolBlockEncoder encoder;
@@ -92,7 +92,7 @@ const SubGhzProtocol subghz_protocol_acurite_592txr = {
 
 void* subghz_protocol_decoder_acurite_592txr_alloc(SubGhzEnvironment* environment) {
     UNUSED(environment);
-    WSProtocolDecoderAcurite_592TXR* instance = malloc(sizeof(WSProtocolDecoderAcurite_592TXR));
+    subghz_protocolDecoderAcurite_592TXR* instance = malloc(sizeof(subghz_protocolDecoderAcurite_592TXR));
     instance->base.protocol = &subghz_protocol_acurite_592txr;
     instance->generic.protocol_name = instance->base.protocol->name;
     return instance;
@@ -100,17 +100,17 @@ void* subghz_protocol_decoder_acurite_592txr_alloc(SubGhzEnvironment* environmen
 
 void subghz_protocol_decoder_acurite_592txr_free(void* context) {
     furi_assert(context);
-    WSProtocolDecoderAcurite_592TXR* instance = context;
+    subghz_protocolDecoderAcurite_592TXR* instance = context;
     free(instance);
 }
 
 void subghz_protocol_decoder_acurite_592txr_reset(void* context) {
     furi_assert(context);
-    WSProtocolDecoderAcurite_592TXR* instance = context;
+    subghz_protocolDecoderAcurite_592TXR* instance = context;
     instance->decoder.parser_step = Acurite_592TXRDecoderStepReset;
 }
 
-static bool subghz_protocol_acurite_592txr_check_crc(WSProtocolDecoderAcurite_592TXR* instance) {
+static bool subghz_protocol_acurite_592txr_check_crc(subghz_protocolDecoderAcurite_592TXR* instance) {
     uint8_t msg[] = {
         instance->decoder.decode_data >> 48,
         instance->decoder.decode_data >> 40,
@@ -148,7 +148,7 @@ static void subghz_protocol_acurite_592txr_remote_controller(SubGhzBlockGeneric_
 
 void subghz_protocol_decoder_acurite_592txr_feed(void* context, bool level, uint32_t duration) {
     furi_assert(context);
-    WSProtocolDecoderAcurite_592TXR* instance = context;
+    subghz_protocolDecoderAcurite_592TXR* instance = context;
 
     switch(instance->decoder.parser_step) {
     case Acurite_592TXRDecoderStepReset:
@@ -253,7 +253,7 @@ void subghz_protocol_decoder_acurite_592txr_feed(void* context, bool level, uint
 
 uint8_t subghz_protocol_decoder_acurite_592txr_get_hash_data(void* context) {
     furi_assert(context);
-    WSProtocolDecoderAcurite_592TXR* instance = context;
+    subghz_protocolDecoderAcurite_592TXR* instance = context;
     return subghz_protocol_blocks_get_hash_data(
         &instance->decoder, (instance->decoder.decode_count_bit / 8) + 1);
 }
@@ -263,13 +263,13 @@ SubGhzProtocolStatus subghz_protocol_decoder_acurite_592txr_serialize(
     FlipperFormat* flipper_format,
     SubGhzRadioPreset* preset) {
     furi_assert(context);
-    WSProtocolDecoderAcurite_592TXR* instance = context;
+    subghz_protocolDecoderAcurite_592TXR* instance = context;
     return subghz_block_generic_serialize_wheather(&instance->generic, flipper_format, preset);
 }
 
 SubGhzProtocolStatus subghz_protocol_decoder_acurite_592txr_deserialize(void* context, FlipperFormat* flipper_format) {
     furi_assert(context);
-    WSProtocolDecoderAcurite_592TXR* instance = context;
+    subghz_protocolDecoderAcurite_592TXR* instance = context;
     return subghz_block_generic_deserialize_check_count_bit_wheather(
         &instance->generic,
         flipper_format,
@@ -278,8 +278,8 @@ SubGhzProtocolStatus subghz_protocol_decoder_acurite_592txr_deserialize(void* co
 
 void subghz_protocol_decoder_acurite_592txr_get_string(void* context, FuriString* output) {
     furi_assert(context);
-    WSProtocolDecoderAcurite_592TXR* instance = context;
-    furi_string_printf(
+    subghz_protocolDecoderAcurite_592TXR* instance = context;
+    furi_string_cat_printf(
         output,
         "%s %dbit\r\n"
         "Key:0x%lX%08lX\r\n"

@@ -40,7 +40,7 @@ static const SubGhzBlockConst ws_oregon3_const = {
 // Sensors ID
 #define ID_THGR221 0xf824
 
-struct WSProtocolDecoderOregon3 {
+struct SubGhzProtocolDecoderOregon3 {
     SubGhzProtocolDecoderBase base;
 
     SubGhzBlockDecoder decoder;
@@ -52,7 +52,7 @@ struct WSProtocolDecoderOregon3 {
     uint64_t var_data;
 };
 
-typedef struct WSProtocolDecoderOregon3 WSProtocolDecoderOregon3;
+typedef struct SubGhzProtocolDecoderOregon3 SubGhzProtocolDecoderOregon3;
 
 typedef enum {
     Oregon3DecoderStepReset = 0,
@@ -62,7 +62,7 @@ typedef enum {
 
 void* ws_protocol_decoder_oregon3_alloc(SubGhzEnvironment* environment) {
     UNUSED(environment);
-    WSProtocolDecoderOregon3* instance = malloc(sizeof(WSProtocolDecoderOregon3));
+    SubGhzProtocolDecoderOregon3* instance = malloc(sizeof(SubGhzProtocolDecoderOregon3));
     instance->base.protocol = &subghz_protocol_oregon3;
     instance->generic.protocol_name = instance->base.protocol->name;
     instance->generic.humidity = WS_NO_HUMIDITY;
@@ -77,13 +77,13 @@ void* ws_protocol_decoder_oregon3_alloc(SubGhzEnvironment* environment) {
 
 void ws_protocol_decoder_oregon3_free(void* context) {
     furi_assert(context);
-    WSProtocolDecoderOregon3* instance = context;
+    SubGhzProtocolDecoderOregon3* instance = context;
     free(instance);
 }
 
 void ws_protocol_decoder_oregon3_reset(void* context) {
     furi_assert(context);
-    WSProtocolDecoderOregon3* instance = context;
+    SubGhzProtocolDecoderOregon3* instance = context;
     instance->decoder.parser_step = Oregon3DecoderStepReset;
     instance->decoder.decode_data = 0UL;
     instance->decoder.decode_count_bit = 0;
@@ -155,7 +155,7 @@ static void ws_oregon3_decode_var_data(SubGhzBlockGeneric_wheather* ws_b, uint16
 
 void ws_protocol_decoder_oregon3_feed(void* context, bool level, uint32_t duration) {
     furi_assert(context);
-    WSProtocolDecoderOregon3* instance = context;
+    SubGhzProtocolDecoderOregon3* instance = context;
     // Oregon v3.0 protocol is inverted
     ManchesterEvent event = level_and_duration_to_event(!level, duration);
 
@@ -233,7 +233,7 @@ void ws_protocol_decoder_oregon3_feed(void* context, bool level, uint32_t durati
 
 uint8_t ws_protocol_decoder_oregon3_get_hash_data(void* context) {
     furi_assert(context);
-    WSProtocolDecoderOregon3* instance = context;
+    SubGhzProtocolDecoderOregon3* instance = context;
     return subghz_protocol_blocks_get_hash_data(
         &instance->decoder, (instance->decoder.decode_count_bit / 8) + 1);
 }
@@ -243,7 +243,7 @@ SubGhzProtocolStatus ws_protocol_decoder_oregon3_serialize(
     FlipperFormat* flipper_format,
     SubGhzRadioPreset* preset) {
     furi_assert(context);
-    WSProtocolDecoderOregon3* instance = context;
+    SubGhzProtocolDecoderOregon3* instance = context;
     SubGhzProtocolStatus ret = SubGhzProtocolStatusError;
     ret = subghz_block_generic_serialize_wheather(&instance->generic, flipper_format, preset);
     if(ret != SubGhzProtocolStatusOk) return ret;
@@ -265,7 +265,7 @@ SubGhzProtocolStatus ws_protocol_decoder_oregon3_serialize(
 
 SubGhzProtocolStatus ws_protocol_decoder_oregon3_deserialize(void* context, FlipperFormat* flipper_format) {
     furi_assert(context);
-    WSProtocolDecoderOregon3* instance = context;
+    SubGhzProtocolDecoderOregon3* instance = context;
     uint32_t temp_data;
     SubGhzProtocolStatus ret = SubGhzProtocolStatusError;
     do {
@@ -318,7 +318,7 @@ static void oregon3_append_check_sum(uint32_t fix_data, uint64_t var_data, FuriS
 
 void ws_protocol_decoder_oregon3_get_string(void* context, FuriString* output) {
     furi_assert(context);
-    WSProtocolDecoderOregon3* instance = context;
+    SubGhzProtocolDecoderOregon3* instance = context;
     furi_string_cat_printf(
         output,
         "%s\r\n"
