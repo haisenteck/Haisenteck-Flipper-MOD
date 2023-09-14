@@ -49,4 +49,6 @@
 #include "oregon3.h"
 #include "acurite_592txr.h"
 #include "acurite_606tx.h"
+#include "acurite_609txc.h"
+#include "ambient_weather.h"
 #include "bin_raw.h"

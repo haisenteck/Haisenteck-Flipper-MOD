@@ -1,6 +1,6 @@
 #include "acurite_606tx.h"
 
-#define TAG "subghz_protocolAcurite_606TX"
+#define TAG "subghz_protocol_Acurite_606TX"
 
 /*
  * Help
