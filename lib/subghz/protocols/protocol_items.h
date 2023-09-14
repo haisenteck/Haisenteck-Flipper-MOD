@@ -51,4 +51,6 @@
 #include "acurite_606tx.h"
 #include "acurite_609txc.h"
 #include "ambient_weather.h"
+#include "gt_wt_02.h"
+#include "gt_wt_03.h"
 #include "bin_raw.h"

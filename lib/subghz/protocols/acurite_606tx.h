@@ -8,7 +8,7 @@
 #include "../blocks/generic.h"
 #include "../blocks/math.h"
 
-#define WS_PROTOCOL_ACURITE_606TX_NAME "Acurite-606TX"
+#define SUBGHZ_PROTOCOL_ACURITE_606TX_NAME "Acurite-606TX"
 
 typedef struct subghz_protocolDecoderAcurite_606TX subghz_protocolDecoderAcurite_606TX;
 typedef struct subghz_protocolEncoderAcurite_606TX subghz_protocolEncoderAcurite_606TX;

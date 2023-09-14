@@ -50,6 +50,8 @@ const SubGhzProtocol* subghz_protocol_registry_items[] = {
 	&subghz_protocol_acurite_606tx,
 	&subghz_protocol_acurite_609txc,
 	&subghz_protocol_ambient_weather,
+	&subghz_protocol_gt_wt_02,
+	&subghz_protocol_gt_wt_03,
 	&subghz_protocol_bin_raw,
 };
 
