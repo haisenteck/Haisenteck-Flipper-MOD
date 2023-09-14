@@ -353,7 +353,6 @@ SubGhzProtocolStatus subghz_block_generic_deserialize_wheather(SubGhzBlockGeneri
 
         res = SubGhzProtocolStatusOk;
     } while(0);
-
     return res;
 }
 
