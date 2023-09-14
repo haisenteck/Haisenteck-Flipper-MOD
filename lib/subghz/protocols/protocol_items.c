@@ -43,10 +43,11 @@ const SubGhzProtocol* subghz_protocol_registry_items[] = {
     &subghz_protocol_alutech_at_4n,
     &subghz_protocol_kinggates_stylo_4k,
     &subghz_protocol_x10,
-	&subghz_protocol_oregon_V1,
+	&subghz_protocol_oregon_v1,
 	&subghz_protocol_oregon2,
 	&subghz_protocol_oregon3,
 	&subghz_protocol_acurite_592txr,
+	&subghz_protocol_acurite_606tx,
 	&subghz_protocol_bin_raw,
 };
 
