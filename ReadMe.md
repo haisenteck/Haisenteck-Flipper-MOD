@@ -1,6 +1,6 @@
 </a>
 <h3>Haisenteck - Flipper zero firmware Mod</h3><br>
-link al file di installazione: https://github.com/haisenteck/Haisenteck-Flipper-MOD/blob/dev/dist/f7-D/flipper-z-f7-update-local.tgz <br>
+link al file di installazione: [https://github.com/haisenteck/Haisenteck-Flipper-MOD/blob/dev/dist/f7-D/flipper-z-f7-update-local.tgz](https://github.com/haisenteck/Haisenteck-Flipper-MOD/releases/tag/V1.0.5) <br>
 <br>
 <br>
 # Novità<br>
