@@ -23,8 +23,8 @@ link al file di installazione: https://github.com/haisenteck/Haisenteck-Flipper-
 </ul>
 - **Sub-GHz**<br>
 <ul>
-	<li>SubGHz: Aggiunto AM_Q ai preset di utilizzo</li><br>
-	<li>SubGhz: predisposizione per ulteriori wheather station e comandi dedicati. </li><br>
+	<li>SubGHz: Aggiunto AM_Q ai preset di utilizzo</li>
+	<li>SubGhz: predisposizione per ulteriori wheather station e comandi dedicati. </li>
 	<li>SubGhz Rolling Flaws - app aggiunta grazie a https://github.com/jamisonderek/flipper-zero-tutorials </li>
 	<li>SubGhz - Protocolli Aggiunti:<ul>
 		<li>Acurite 592</li>
@@ -45,7 +45,7 @@ link al file di installazione: https://github.com/haisenteck/Haisenteck-Flipper-
 		<li>TX8300</li>
 		<li>Wendox W6726</li>
 		<li>X10</li></ul></li>
-</ul><br>
+</ul>
 
 - **APP**<br>
 <ul>
