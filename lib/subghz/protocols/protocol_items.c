@@ -52,6 +52,13 @@ const SubGhzProtocol* subghz_protocol_registry_items[] = {
 	&subghz_protocol_ambient_weather,
 	&subghz_protocol_gt_wt_02,
 	&subghz_protocol_gt_wt_03,
+	&subghz_protocol_infactory,
+	&subghz_protocol_lacrosse_tx,
+	&subghz_protocol_lacrosse_tx141thbv2,
+	&subghz_protocol_nexus_th,
+	&subghz_protocol_thermopro_tx4,
+	&subghz_protocol_tx_8300,
+	&subghz_protocol_wendox_w6726,
 	&subghz_protocol_bin_raw,
 };
 
