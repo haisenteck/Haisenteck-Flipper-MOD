@@ -45,7 +45,7 @@ struct subghz_protocol_DecoderTX_8300 {
     SubGhzProtocolDecoderBase base;
 
     SubGhzBlockDecoder decoder;
-    SubGhzBlockGeneric_wheather generic;
+    SubGhzBlockGeneric generic;
     uint32_t package_1;
     uint32_t package_2;
 };
@@ -54,7 +54,7 @@ struct subghz_protocol_EncoderTX_8300 {
     SubGhzProtocolEncoderBase base;
 
     SubGhzProtocolBlockEncoder encoder;
-    SubGhzBlockGeneric_wheather generic;
+    SubGhzBlockGeneric generic;
 };
 
 typedef enum {
@@ -132,9 +132,9 @@ static bool subghz_protocol_tx_8300_check_crc(subghz_protocol_DecoderTX_8300* in
 
 /**
  * Analysis of received data
- * @param instance Pointer to a SubGhzBlockGeneric_wheather* instance
+ * @param instance Pointer to a SubGhzBlockGeneric* instance
  */
-static void subghz_protocol_tx_8300_remote_controller(SubGhzBlockGeneric_wheather* instance) {
+static void subghz_protocol_tx_8300_remote_controller(SubGhzBlockGeneric* instance) {
     instance->humidity = (((instance->data >> 28) & 0x0F) * 10) + ((instance->data >> 24) & 0x0F);
     instance->btn = WS_NO_BTN;
     if(!((instance->data >> 22) & 0x03))
@@ -252,14 +252,14 @@ SubGhzProtocolStatus subghz_protocol_decoder_tx_8300_serialize(
     SubGhzRadioPreset* preset) {
     furi_assert(context);
     subghz_protocol_DecoderTX_8300* instance = context;
-    return subghz_block_generic_serialize_wheather(&instance->generic, flipper_format, preset);
+    return subghz_block_generic_serialize(&instance->generic, flipper_format, preset);
 }
 
 SubGhzProtocolStatus
     subghz_protocol_decoder_tx_8300_deserialize(void* context, FlipperFormat* flipper_format) {
     furi_assert(context);
     subghz_protocol_DecoderTX_8300* instance = context;
-    return subghz_block_generic_deserialize_check_count_bit_wheather(
+    return subghz_block_generic_deserialize_check_count_bit(
         &instance->generic, flipper_format, subghz_protocol_tx_8300_const.min_count_bit_for_found);
 }
 

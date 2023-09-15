@@ -38,14 +38,14 @@ struct subghz_protocol_DecoderAuriol_TH {
     SubGhzProtocolDecoderBase base;
 
     SubGhzBlockDecoder decoder;
-    SubGhzBlockGeneric_wheather generic;
+    SubGhzBlockGeneric generic;
 };
 
 struct subghz_protocol_EncoderAuriol_TH {
     SubGhzProtocolEncoderBase base;
 
     SubGhzProtocolBlockEncoder encoder;
-    SubGhzBlockGeneric_wheather generic;
+    SubGhzBlockGeneric generic;
 };
 
 typedef enum {
@@ -119,9 +119,9 @@ static bool subghz_protocol_auriol_th_check(subghz_protocol_DecoderAuriol_TH* in
 
 /**
  * Analysis of received data
- * @param instance Pointer to a SubGhzBlockGeneric_wheather* instance
+ * @param instance Pointer to a SubGhzBlockGeneric* instance
  */
-static void subghz_protocol_auriol_th_remote_controller(SubGhzBlockGeneric_wheather* instance) {
+static void subghz_protocol_auriol_th_remote_controller(SubGhzBlockGeneric* instance) {
     instance->id = (instance->data >> 31) & 0xFF;
     instance->battery_low = ((instance->data >> 30) & 1);
     instance->channel = ((instance->data >> 25) & 0x03) + 1;
@@ -216,14 +216,14 @@ SubGhzProtocolStatus subghz_protocol_decoder_auriol_th_serialize(
     SubGhzRadioPreset* preset) {
     furi_assert(context);
     subghz_protocol_DecoderAuriol_TH* instance = context;
-    return subghz_block_generic_serialize_wheather(&instance->generic, flipper_format, preset);
+    return subghz_block_generic_serialize(&instance->generic, flipper_format, preset);
 }
 
 SubGhzProtocolStatus
     subghz_protocol_decoder_auriol_th_deserialize(void* context, FlipperFormat* flipper_format) {
     furi_assert(context);
     subghz_protocol_DecoderAuriol_TH* instance = context;
-    return subghz_block_generic_deserialize_check_count_bit_wheather(
+    return subghz_block_generic_deserialize_check_count_bit(
         &instance->generic, flipper_format, subghz_protocol_auriol_th_const.min_count_bit_for_found);
 }
 

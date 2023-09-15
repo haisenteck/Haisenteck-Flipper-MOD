@@ -44,7 +44,7 @@ struct SubGhzProtocolDecoderOregon3 {
     SubGhzProtocolDecoderBase base;
 
     SubGhzBlockDecoder decoder;
-    SubGhzBlockGeneric_wheather generic;
+    SubGhzBlockGeneric generic;
     ManchesterState manchester_state;
     bool prev_bit;
 
@@ -124,7 +124,7 @@ static uint8_t oregon3_sensor_id_var_bits(uint16_t sensor_id) {
     }
 }
 
-static void ws_oregon3_decode_const_data(SubGhzBlockGeneric_wheather* ws_block) {
+static void ws_oregon3_decode_const_data(SubGhzBlockGeneric* ws_block) {
     ws_block->id = OREGON3_SENSOR_ID(ws_block->data);
     ws_block->channel = (ws_block->data >> 12) & 0xF;
     ws_block->battery_low = (ws_block->data & OREGON3_FLAG_BAT_LOW) ? 1 : 0;
@@ -143,7 +143,7 @@ static float ws_oregon3_decode_temp(uint32_t data) {
     return (float)temp_val / 10.0;
 }
 
-static void ws_oregon3_decode_var_data(SubGhzBlockGeneric_wheather* ws_b, uint16_t sensor_id, uint32_t data) {
+static void ws_oregon3_decode_var_data(SubGhzBlockGeneric* ws_b, uint16_t sensor_id, uint32_t data) {
     switch(sensor_id) {
     case ID_THGR221:
     default:
@@ -245,7 +245,7 @@ SubGhzProtocolStatus ws_protocol_decoder_oregon3_serialize(
     furi_assert(context);
     SubGhzProtocolDecoderOregon3* instance = context;
     SubGhzProtocolStatus ret = SubGhzProtocolStatusError;
-    ret = subghz_block_generic_serialize_wheather(&instance->generic, flipper_format, preset);
+    ret = subghz_block_generic_serialize(&instance->generic, flipper_format, preset);
     if(ret != SubGhzProtocolStatusOk) return ret;
     uint32_t temp = instance->var_bits;
     if(!flipper_format_write_uint32(flipper_format, "VarBits", &temp, 1)) {
@@ -269,7 +269,7 @@ SubGhzProtocolStatus ws_protocol_decoder_oregon3_deserialize(void* context, Flip
     uint32_t temp_data;
     SubGhzProtocolStatus ret = SubGhzProtocolStatusError;
     do {
-        ret = subghz_block_generic_deserialize_wheather(&instance->generic, flipper_format);
+        ret = subghz_block_generic_deserialize(&instance->generic, flipper_format);
         if(ret != SubGhzProtocolStatusOk) {
             break;
         }

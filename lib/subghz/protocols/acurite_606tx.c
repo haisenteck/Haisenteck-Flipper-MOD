@@ -27,14 +27,14 @@ struct subghz_protocolDecoderAcurite_606TX {
     SubGhzProtocolDecoderBase base;
 
     SubGhzBlockDecoder decoder;
-    SubGhzBlockGeneric_wheather generic;
+    SubGhzBlockGeneric generic;
 };
 
 struct subghz_protocolEncoderAcurite_606TX {
     SubGhzProtocolEncoderBase base;
 
     SubGhzProtocolBlockEncoder encoder;
-    SubGhzBlockGeneric_wheather generic;
+    SubGhzBlockGeneric generic;
 };
 
 typedef enum {
@@ -108,9 +108,9 @@ static bool subghz_protocol_acurite_606tx_check(subghz_protocolDecoderAcurite_60
 
 /**
  * Analysis of received data
- * @param instance Pointer to a SubGhzBlockGeneric_wheather* instance
+ * @param instance Pointer to a SubGhzBlockGeneric* instance
  */
-static void subghz_protocol_acurite_606tx_remote_controller(SubGhzBlockGeneric_wheather* instance) {
+static void subghz_protocol_acurite_606tx_remote_controller(SubGhzBlockGeneric* instance) {
     instance->id = (instance->data >> 24) & 0xFF;
     instance->battery_low = (instance->data >> 23) & 1;
 
@@ -205,14 +205,14 @@ SubGhzProtocolStatus subghz_protocol_decoder_acurite_606tx_serialize(
     SubGhzRadioPreset* preset) {
     furi_assert(context);
     subghz_protocolDecoderAcurite_606TX* instance = context;
-    return subghz_block_generic_serialize_wheather(&instance->generic, flipper_format, preset);
+    return subghz_block_generic_serialize(&instance->generic, flipper_format, preset);
 }
 
 SubGhzProtocolStatus
     subghz_protocol_decoder_acurite_606tx_deserialize(void* context, FlipperFormat* flipper_format) {
     furi_assert(context);
     subghz_protocolDecoderAcurite_606TX* instance = context;
-    return subghz_block_generic_deserialize_check_count_bit_wheather(
+    return subghz_block_generic_deserialize_check_count_bit(
         &instance->generic,
         flipper_format,
         subghz_protocol_acurite_606tx_const.min_count_bit_for_found);

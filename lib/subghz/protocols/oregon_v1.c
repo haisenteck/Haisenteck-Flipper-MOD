@@ -50,7 +50,7 @@ struct subghz_protocolDecoderOregon_V1 {
     SubGhzProtocolDecoderBase base;
 
     SubGhzBlockDecoder decoder;
-    SubGhzBlockGeneric_wheather generic;
+    SubGhzBlockGeneric generic;
     ManchesterState manchester_state;
     uint16_t header_count;
     uint8_t first_bit;
@@ -60,7 +60,7 @@ struct subghz_protocolEncoderOregon_V1 {
     SubGhzProtocolEncoderBase base;
 
     SubGhzProtocolBlockEncoder encoder;
-    SubGhzBlockGeneric_wheather generic;
+    SubGhzBlockGeneric generic;
 };
 
 typedef enum {
@@ -131,9 +131,9 @@ static bool subghz_protocol_oregon_v1_check(subghz_protocolDecoderOregon_V1* ins
 
 /**
  * Analysis of received data
- * @param instance Pointer to a SubGhzBlockGeneric_wheather* instance
+ * @param instance Pointer to a SubGhzBlockGeneric* instance
  */
-static void subghz_protocol_oregon_v1_remote_controller(SubGhzBlockGeneric_wheather* instance) {
+static void subghz_protocol_oregon_v1_remote_controller(SubGhzBlockGeneric* instance) {
     uint64_t data = subghz_protocol_blocks_reverse_key(instance->data, 32);
 
     instance->id = data & 0xFF;
@@ -289,14 +289,14 @@ SubGhzProtocolStatus subghz_protocol_decoder_oregon_v1_serialize(
     SubGhzRadioPreset* preset) {
     furi_assert(context);
     subghz_protocolDecoderOregon_V1* instance = context;
-    return subghz_block_generic_serialize_wheather(&instance->generic, flipper_format, preset);
+    return subghz_block_generic_serialize(&instance->generic, flipper_format, preset);
 }
 
 SubGhzProtocolStatus
     subghz_protocol_decoder_oregon_v1_deserialize(void* context, FlipperFormat* flipper_format) {
     furi_assert(context);
     subghz_protocolDecoderOregon_V1* instance = context;
-    return subghz_block_generic_deserialize_check_count_bit_wheather(
+    return subghz_block_generic_deserialize_check_count_bit(
         &instance->generic, flipper_format, subghz_protocol_oregon_v1_const.min_count_bit_for_found);
 }
 

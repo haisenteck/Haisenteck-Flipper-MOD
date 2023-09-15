@@ -40,14 +40,14 @@ struct subghz_protocol_DecoderNexus_TH {
     SubGhzProtocolDecoderBase base;
 
     SubGhzBlockDecoder decoder;
-    SubGhzBlockGeneric_wheather generic;
+    SubGhzBlockGeneric generic;
 };
 
 struct subghz_protocol_EncoderNexus_TH {
     SubGhzProtocolEncoderBase base;
 
     SubGhzProtocolBlockEncoder encoder;
-    SubGhzBlockGeneric_wheather generic;
+    SubGhzBlockGeneric generic;
 };
 
 typedef enum {
@@ -121,9 +121,9 @@ static bool subghz_protocol_nexus_th_check(subghz_protocol_DecoderNexus_TH* inst
 
 /**
  * Analysis of received data
- * @param instance Pointer to a SubGhzBlockGeneric_wheather* instance
+ * @param instance Pointer to a SubGhzBlockGeneric* instance
  */
-static void subghz_protocol_nexus_th_remote_controller(SubGhzBlockGeneric_wheather* instance) {
+static void subghz_protocol_nexus_th_remote_controller(SubGhzBlockGeneric* instance) {
     instance->id = (instance->data >> 28) & 0xFF;
     instance->battery_low = !((instance->data >> 27) & 1);
     instance->channel = ((instance->data >> 24) & 0x03) + 1;
@@ -222,14 +222,14 @@ SubGhzProtocolStatus subghz_protocol_decoder_nexus_th_serialize(
     SubGhzRadioPreset* preset) {
     furi_assert(context);
     subghz_protocol_DecoderNexus_TH* instance = context;
-    return subghz_block_generic_serialize_wheather(&instance->generic, flipper_format, preset);
+    return subghz_block_generic_serialize(&instance->generic, flipper_format, preset);
 }
 
 SubGhzProtocolStatus
     subghz_protocol_decoder_nexus_th_deserialize(void* context, FlipperFormat* flipper_format) {
     furi_assert(context);
     subghz_protocol_DecoderNexus_TH* instance = context;
-    return subghz_block_generic_deserialize_check_count_bit_wheather(
+    return subghz_block_generic_deserialize_check_count_bit(
         &instance->generic, flipper_format, subghz_protocol_nexus_th_const.min_count_bit_for_found);
 }
 

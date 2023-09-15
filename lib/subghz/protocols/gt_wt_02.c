@@ -41,14 +41,14 @@ struct WSProtocolDecoderGT_WT02 {
     SubGhzProtocolDecoderBase base;
 
     SubGhzBlockDecoder decoder;
-    SubGhzBlockGeneric_wheather generic;
+    SubGhzBlockGeneric generic;
 };
 
 struct WSProtocolEncoderGT_WT02 {
     SubGhzProtocolEncoderBase base;
 
     SubGhzProtocolBlockEncoder encoder;
-    SubGhzBlockGeneric_wheather generic;
+    SubGhzBlockGeneric generic;
 };
 
 typedef enum {
@@ -121,9 +121,9 @@ static bool subghz_protocol_gt_wt_02_check(WSProtocolDecoderGT_WT02* instance) {
 
 /**
  * Analysis of received data
- * @param instance Pointer to a SubGhzBlockGeneric_wheather* instance
+ * @param instance Pointer to a SubGhzBlockGeneric* instance
  */
-static void subghz_protocol_gt_wt_02_remote_controller(SubGhzBlockGeneric_wheather* instance) {
+static void subghz_protocol_gt_wt_02_remote_controller(SubGhzBlockGeneric* instance) {
     instance->id = (instance->data >> 29) & 0xFF;
     instance->battery_low = (instance->data >> 28) & 1;
     instance->btn = (instance->data >> 27) & 1;
@@ -223,14 +223,14 @@ SubGhzProtocolStatus subghz_protocol_decoder_gt_wt_02_serialize(
     SubGhzRadioPreset* preset) {
     furi_assert(context);
     WSProtocolDecoderGT_WT02* instance = context;
-    return subghz_block_generic_serialize_wheather(&instance->generic, flipper_format, preset);
+    return subghz_block_generic_serialize(&instance->generic, flipper_format, preset);
 }
 
 SubGhzProtocolStatus
     subghz_protocol_decoder_gt_wt_02_deserialize(void* context, FlipperFormat* flipper_format) {
     furi_assert(context);
     WSProtocolDecoderGT_WT02* instance = context;
-    return subghz_block_generic_deserialize_check_count_bit_wheather(
+    return subghz_block_generic_deserialize_check_count_bit(
         &instance->generic, flipper_format, subghz_protocol_gt_wt_02_const.min_count_bit_for_found);
 }
 

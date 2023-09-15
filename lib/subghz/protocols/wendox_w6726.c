@@ -39,7 +39,7 @@ struct subghz_protocol_DecoderWendoxW6726 {
     SubGhzProtocolDecoderBase base;
 
     SubGhzBlockDecoder decoder;
-    SubGhzBlockGeneric_wheather generic;
+    SubGhzBlockGeneric generic;
 
     uint16_t header_count;
 };
@@ -48,7 +48,7 @@ struct subghz_protocol_EncoderWendoxW6726 {
     SubGhzProtocolEncoderBase base;
 
     SubGhzProtocolBlockEncoder encoder;
-    SubGhzBlockGeneric_wheather generic;
+    SubGhzBlockGeneric generic;
 };
 
 typedef enum {
@@ -124,9 +124,9 @@ static bool subghz_protocol_wendox_w6726_check(subghz_protocol_DecoderWendoxW672
 
 /**
  * Analysis of received data
- * @param instance Pointer to a SubGhzBlockGeneric_wheather* instance
+ * @param instance Pointer to a SubGhzBlockGeneric* instance
  */
-static void subghz_protocol_wendox_w6726_remote_controller(SubGhzBlockGeneric_wheather* instance) {
+static void subghz_protocol_wendox_w6726_remote_controller(SubGhzBlockGeneric* instance) {
     instance->id = (instance->data >> 24) & 0xFF;
     instance->battery_low = (instance->data >> 6) & 1;
     instance->channel = WS_NO_CHANNEL;
@@ -265,14 +265,14 @@ SubGhzProtocolStatus subghz_protocol_decoder_wendox_w6726_serialize(
     SubGhzRadioPreset* preset) {
     furi_assert(context);
     subghz_protocol_DecoderWendoxW6726* instance = context;
-    return subghz_block_generic_serialize_wheather(&instance->generic, flipper_format, preset);
+    return subghz_block_generic_serialize(&instance->generic, flipper_format, preset);
 }
 
 SubGhzProtocolStatus
     subghz_protocol_decoder_wendox_w6726_deserialize(void* context, FlipperFormat* flipper_format) {
     furi_assert(context);
     subghz_protocol_DecoderWendoxW6726* instance = context;
-    return subghz_block_generic_deserialize_check_count_bit_wheather(
+    return subghz_block_generic_deserialize_check_count_bit(
         &instance->generic,
         flipper_format,
         subghz_protocol_wendox_w6726_const.min_count_bit_for_found);

@@ -31,7 +31,7 @@ struct subghz_protocol_DecoderLaCrosse_TX141THBv2 {
     SubGhzProtocolDecoderBase base;
 
     SubGhzBlockDecoder decoder;
-    SubGhzBlockGeneric_wheather generic;
+    SubGhzBlockGeneric generic;
 
     uint16_t header_count;
 };
@@ -40,7 +40,7 @@ struct subghz_protocol_EncoderLaCrosse_TX141THBv2 {
     SubGhzProtocolEncoderBase base;
 
     SubGhzProtocolBlockEncoder encoder;
-    SubGhzBlockGeneric_wheather generic;
+    SubGhzBlockGeneric generic;
 };
 
 typedef enum {
@@ -118,9 +118,9 @@ static bool
 
 /**
  * Analysis of received data
- * @param instance Pointer to a SubGhzBlockGeneric_wheather* instance
+ * @param instance Pointer to a SubGhzBlockGeneric* instance
  */
-static void subghz_protocol_lacrosse_tx141thbv2_remote_controller(SubGhzBlockGeneric_wheather* instance) {
+static void subghz_protocol_lacrosse_tx141thbv2_remote_controller(SubGhzBlockGeneric* instance) {
     uint64_t data = instance->data;
     if(instance->data_count_bit == LACROSSE_TX141TH_BV2_BIT_COUNT) {
         data >>= 1;
@@ -135,7 +135,7 @@ static void subghz_protocol_lacrosse_tx141thbv2_remote_controller(SubGhzBlockGen
 
 /**
  * Analysis of received data
- * @param instance Pointer to a SubGhzBlockGeneric_wheather* instance
+ * @param instance Pointer to a SubGhzBlockGeneric* instance
  */
 static bool subghz_protocol_decoder_lacrosse_tx141thbv2_add_bit(
     subghz_protocol_DecoderLaCrosse_TX141THBv2* instance,
@@ -259,7 +259,7 @@ SubGhzProtocolStatus subghz_protocol_decoder_lacrosse_tx141thbv2_serialize(
     SubGhzRadioPreset* preset) {
     furi_assert(context);
     subghz_protocol_DecoderLaCrosse_TX141THBv2* instance = context;
-    return subghz_block_generic_serialize_wheather(&instance->generic, flipper_format, preset);
+    return subghz_block_generic_serialize(&instance->generic, flipper_format, preset);
 }
 
 SubGhzProtocolStatus subghz_protocol_decoder_lacrosse_tx141thbv2_deserialize(
@@ -267,7 +267,7 @@ SubGhzProtocolStatus subghz_protocol_decoder_lacrosse_tx141thbv2_deserialize(
     FlipperFormat* flipper_format) {
     furi_assert(context);
     subghz_protocol_DecoderLaCrosse_TX141THBv2* instance = context;
-    return subghz_block_generic_deserialize_check_count_bit_wheather(
+    return subghz_block_generic_deserialize_check_count_bit(
         &instance->generic,
         flipper_format,
         subghz_protocol_lacrosse_tx141thbv2_const.min_count_bit_for_found);

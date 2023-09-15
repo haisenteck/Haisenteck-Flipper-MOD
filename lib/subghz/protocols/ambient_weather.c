@@ -46,7 +46,7 @@ struct subghz_protocol_DecoderAmbient_Weather {
     SubGhzProtocolDecoderBase base;
 
     SubGhzBlockDecoder decoder;
-    SubGhzBlockGeneric_wheather generic;
+    SubGhzBlockGeneric generic;
     ManchesterState manchester_saved_state;
     uint16_t header_count;
 };
@@ -55,7 +55,7 @@ struct subghz_protocol_EncoderAmbient_Weather {
     SubGhzProtocolEncoderBase base;
 
     SubGhzProtocolBlockEncoder encoder;
-    SubGhzBlockGeneric_wheather generic;
+    SubGhzBlockGeneric generic;
 };
 
 const SubGhzProtocolDecoder subghz_protocol_ambient_weather_decoder = {
@@ -128,9 +128,9 @@ static bool subghz_protocol_ambient_weather_check_crc(subghz_protocol_DecoderAmb
 
 /**
  * Analysis of received data
- * @param instance Pointer to a SubGhzBlockGeneric_wheather* instance
+ * @param instance Pointer to a SubGhzBlockGeneric* instance
  */
-static void subghz_protocol_ambient_weather_remote_controller(SubGhzBlockGeneric_wheather* instance) {
+static void subghz_protocol_ambient_weather_remote_controller(SubGhzBlockGeneric* instance) {
     instance->id = (instance->data >> 32) & 0xFF;
     instance->battery_low = (instance->data >> 31) & 1;
     instance->channel = ((instance->data >> 28) & 0x07) + 1;
@@ -234,14 +234,14 @@ SubGhzProtocolStatus subghz_protocol_decoder_ambient_weather_serialize(
     SubGhzRadioPreset* preset) {
     furi_assert(context);
     subghz_protocol_DecoderAmbient_Weather* instance = context;
-    return subghz_block_generic_serialize_wheather(&instance->generic, flipper_format, preset);
+    return subghz_block_generic_serialize(&instance->generic, flipper_format, preset);
 }
 
 SubGhzProtocolStatus
     subghz_protocol_decoder_ambient_weather_deserialize(void* context, FlipperFormat* flipper_format) {
     furi_assert(context);
     subghz_protocol_DecoderAmbient_Weather* instance = context;
-    return subghz_block_generic_deserialize_check_count_bit_wheather(
+    return subghz_block_generic_deserialize_check_count_bit(
         &instance->generic,
         flipper_format,
         subghz_protocol_ambient_weather_const.min_count_bit_for_found);

@@ -53,7 +53,7 @@ struct subghz_protocol_DecoderLaCrosse_TX {
     SubGhzProtocolDecoderBase base;
 
     SubGhzBlockDecoder decoder;
-    SubGhzBlockGeneric_wheather generic;
+    SubGhzBlockGeneric generic;
 
     uint16_t header_count;
 };
@@ -62,7 +62,7 @@ struct subghz_protocol_EncoderLaCrosse_TX {
     SubGhzProtocolEncoderBase base;
 
     SubGhzProtocolBlockEncoder encoder;
-    SubGhzBlockGeneric_wheather generic;
+    SubGhzBlockGeneric generic;
 };
 
 typedef enum {
@@ -144,9 +144,9 @@ static bool subghz_protocol_lacrosse_tx_check_crc(subghz_protocol_DecoderLaCross
 
 /**
  * Analysis of received data
- * @param instance Pointer to a SubGhzBlockGeneric_wheather* instance
+ * @param instance Pointer to a SubGhzBlockGeneric* instance
  */
-static void subghz_protocol_lacrosse_tx_remote_controller(SubGhzBlockGeneric_wheather* instance) {
+static void subghz_protocol_lacrosse_tx_remote_controller(SubGhzBlockGeneric* instance) {
     uint8_t msg_type = (instance->data >> 32) & 0x0F;
     instance->id = (((instance->data >> 28) & 0x0F) << 3) | (((instance->data >> 24) & 0x0F) >> 1);
 
@@ -287,14 +287,14 @@ SubGhzProtocolStatus subghz_protocol_decoder_lacrosse_tx_serialize(
     SubGhzRadioPreset* preset) {
     furi_assert(context);
     subghz_protocol_DecoderLaCrosse_TX* instance = context;
-    return subghz_block_generic_serialize_wheather(&instance->generic, flipper_format, preset);
+    return subghz_block_generic_serialize(&instance->generic, flipper_format, preset);
 }
 
 SubGhzProtocolStatus
     subghz_protocol_decoder_lacrosse_tx_deserialize(void* context, FlipperFormat* flipper_format) {
     furi_assert(context);
     subghz_protocol_DecoderLaCrosse_TX* instance = context;
-    return subghz_block_generic_deserialize_check_count_bit_wheather(
+    return subghz_block_generic_deserialize_check_count_bit(
         &instance->generic, flipper_format, subghz_protocol_lacrosse_tx_const.min_count_bit_for_found);
 }
 
