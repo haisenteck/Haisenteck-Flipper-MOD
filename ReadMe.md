@@ -1,6 +1,6 @@
 </a>
 <h3>Haisenteck - Flipper zero firmware Mod</h3><br>
-link al file di installazione: https://github.com/haisenteck/Haisenteck-Flipper-MOD/blob/dev/dist/f7-D/flipper-z-f7-update-local.tgz <br>
+link al file di installazione: [https://github.com/haisenteck/Haisenteck-Flipper-MOD/blob/dev/dist/f7-D/flipper-z-f7-update-local.tgz](https://github.com/haisenteck/Haisenteck-Flipper-MOD/releases/tag/V1.0.5) <br>
 <br>
 <br>
 # Novità<br>
@@ -23,13 +23,30 @@ link al file di installazione: https://github.com/haisenteck/Haisenteck-Flipper-
 </ul>
 - **Sub-GHz**<br>
 <ul>
-	<li>SubGHz: Aggiunto AM_Q ai preset di utilizzo</li><br>
-	<li>SubGHz: corretto codice e aggiunto nuovamente protocollo X10</li><br>
-	<li>SubGHz: corretto codice e aggiunto nuovamente protocollo Oregon2 per riconoscimento segnale.</li>
-	<li>SubGHz: corretto codice e aggiunto protocollo Oregon3 per riconoscimento segnale.</li>
+	<li>SubGHz: Aggiunto AM_Q ai preset di utilizzo</li>
 	<li>SubGhz: predisposizione per ulteriori wheather station e comandi dedicati. </li>
-	<li>Subghz Rolling Flaws - app aggiunta grazie a https://github.com/jamisonderek/flipper-zero-tutorials </li><br>
+	<li>SubGhz Rolling Flaws - app aggiunta grazie a https://github.com/jamisonderek/flipper-zero-tutorials </li>
+	<li>SubGhz - Protocolli Aggiunti:<ul>
+		<li>Acurite 592</li>
+		<li>Acurite 606TX</li>
+		<li>Acurite 609TXC</li>
+		<li>Ambient Wheather</li>
+		<li>Auriol_AHFL</li>
+		<li>Auriol HG06061</li>
+		<li>GT-WT02</li>
+		<li>GT-WT03</li>
+		<li>inFactory-TH</li>
+		<li>LaCrosse_TX</li>
+		<li>Nexus-TH</li>
+		<li>Oregon V1</li>
+		<li>Oregon2</li>
+		<li>Oregon3</li>
+		<li>ThermoPRO-TX4</li>
+		<li>TX8300</li>
+		<li>Wendox W6726</li>
+		<li>X10</li></ul></li>
 </ul>
+
 - **APP**<br>
 <ul>
 
