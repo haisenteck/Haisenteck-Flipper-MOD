@@ -11,7 +11,8 @@ enum SubGhzSettingIndex {
     SubGhzSettingIndexIgnoreMagellan,
     SubGhzSettingIndexSound,
     SubGhzSettingIndexLock,
-    SubGhzSettingIndexRAWThresholdRSSI,
+    SubGhzSettingIndexIgnorePrinceton,
+	SubGhzSettingIndexRAWThresholdRSSI,
 };
 
 #define RAW_THRESHOLD_RSSI_COUNT 11

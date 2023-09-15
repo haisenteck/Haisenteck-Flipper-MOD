@@ -114,6 +114,8 @@ const char* subghz_txrx_get_preset_name(SubGhzTxRx* instance, const char* preset
     const char* preset_name = "";
     if(!strcmp(preset, "FuriHalSubGhzPresetOok270Async")) {
         preset_name = "AM270";
+    } else if(!strcmp(preset, "FuriHalSubGhzPresetOok650Async_q")) {
+        preset_name = "AM_Q";
     } else if(!strcmp(preset, "FuriHalSubGhzPresetOok650Async")) {
         preset_name = "AM650";
     } else if(!strcmp(preset, "FuriHalSubGhzPreset2FSKDev238Async")) {
