@@ -82,7 +82,8 @@ const SubGhzProtocolEncoder subghz_protocol_ambient_weather_encoder = {
 
 const SubGhzProtocol subghz_protocol_ambient_weather = {
     .name = subghz_protocol_AMBIENT_WEATHER_NAME,
-    .type = SubGhzProtocolWeatherStation,
+    //.type = SubGhzProtocolWeatherStation,
+    .type = SubGhzProtocolTypeStatic,
     .flag = SubGhzProtocolFlag_433 | SubGhzProtocolFlag_315 | SubGhzProtocolFlag_868 |
             SubGhzProtocolFlag_AM | SubGhzProtocolFlag_Decodable,
 

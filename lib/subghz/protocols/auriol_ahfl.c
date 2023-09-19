@@ -79,7 +79,8 @@ const SubGhzProtocolEncoder subghz_protocol_auriol_ahfl_encoder = {
 
 const SubGhzProtocol subghz_protocol_auriol_ahfl = {
     .name = SUBGHZ_PROTOCOL_AURIOL_AHFL_NAME,
-    .type = SubGhzProtocolWeatherStation,
+    //.type = SubGhzProtocolWeatherStation,
+    .type = SubGhzProtocolTypeStatic,
     .flag = SubGhzProtocolFlag_433 | SubGhzProtocolFlag_315 | SubGhzProtocolFlag_868 |
             SubGhzProtocolFlag_AM | SubGhzProtocolFlag_Decodable,
 

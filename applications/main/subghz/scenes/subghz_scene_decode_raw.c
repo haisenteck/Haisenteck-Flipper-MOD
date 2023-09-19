@@ -89,7 +89,7 @@ bool subghz_scene_decode_raw_start(SubGhz* subghz) {
     } while(false);
 
     if(success) {
-        //FURI_LOG_I(TAG, "Listening at \033[0;33m%s\033[0m.", furi_string_get_cstr(file_name));
+        FURI_LOG_I(TAG, "Listening at \033[0;33m%s\033[0m.", furi_string_get_cstr(file_name));
 
         subghz->decode_raw_file_worker_encoder = subghz_file_encoder_worker_alloc();
         if(subghz_file_encoder_worker_start(

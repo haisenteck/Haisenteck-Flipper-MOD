@@ -168,8 +168,7 @@ static void subghz_txrx_begin(SubGhzTxRx* instance, uint8_t* preset_data) {
 
 static uint32_t subghz_txrx_rx(SubGhzTxRx* instance, uint32_t frequency) {
     furi_assert(instance);
-    furi_assert(
-        instance->txrx_state != SubGhzTxRxStateRx && instance->txrx_state != SubGhzTxRxStateSleep);
+    furi_assert(instance->txrx_state != SubGhzTxRxStateRx && instance->txrx_state != SubGhzTxRxStateSleep);
 
     subghz_devices_idle(instance->radio_device);
 

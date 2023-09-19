@@ -53,6 +53,8 @@ void subghz_file_encoder_worker_add_level_duration(
         furi_stream_buffer_send(instance->stream, &duration, sizeof(int32_t), 100);
     } else {
         FURI_LOG_E(TAG, "Invalid level in the stream");
+		FURI_LOG_I(TAG, "Invalid level in the stream");
+		
     }
 }
 
@@ -163,10 +165,10 @@ static int32_t subghz_file_encoder_worker_thread(void* context) {
     while(res && instance->worker_running) {
         size_t stream_free_byte = furi_stream_buffer_spaces_available(instance->stream);
         if((stream_free_byte / sizeof(int32_t)) >= SUBGHZ_FILE_ENCODER_LOAD) {
+			FURI_LOG_I(TAG, "stream_free_byte");
             if(stream_read_line(stream, instance->str_data)) {
-                furi_string_trim(instance->str_data);
-                if(!subghz_file_encoder_worker_data_parse(
-                       instance, furi_string_get_cstr(instance->str_data))) {
+				furi_string_trim(instance->str_data);
+                if(!subghz_file_encoder_worker_data_parse(instance, furi_string_get_cstr(instance->str_data))) {
                     subghz_file_encoder_worker_add_level_duration(instance, LEVEL_DURATION_RESET);
                     break;
                 }

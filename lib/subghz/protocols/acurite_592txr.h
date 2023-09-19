@@ -58,10 +58,7 @@ uint8_t subghz_protocol_decoder_acurite_592txr_get_hash_data(void* context);
  * @param preset The modulation on which the signal was received, SubGhzRadioPreset
  * @return status
  */
-SubGhzProtocolStatus subghz_protocol_decoder_acurite_592txr_serialize(
-    void* context,
-    FlipperFormat* flipper_format,
-    SubGhzRadioPreset* preset);
+SubGhzProtocolStatus subghz_protocol_decoder_acurite_592txr_serialize(void* context, FlipperFormat* flipper_format, SubGhzRadioPreset* preset);
 
 /**
  * Deserialize data subghz_protocolDecoderAcurite_592TXR.
@@ -77,3 +74,13 @@ SubGhzProtocolStatus subghz_protocol_decoder_acurite_592txr_deserialize(void* co
  * @param output Resulting text
  */
 void subghz_protocol_decoder_acurite_592txr_get_string(void* context, FuriString* output);
+
+void subghz_protocol_encoder_acurite_592txr_stop(void* context);
+
+SubGhzProtocolStatus subghz_protocol_encoder_acurite_592txr_deserialize(void* context, FlipperFormat* flipper_format);
+
+void subghz_protocol_encoder_acurite_592txr_free(void* context);
+
+LevelDuration subghz_protocol_encoder_acurite_592txr_yield(void* context);
+
+void* subghz_protocol_encoder_acurite_592txr_alloc(SubGhzEnvironment* environment);
