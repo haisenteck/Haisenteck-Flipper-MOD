@@ -4,7 +4,7 @@ Info: local
 Target: 7
 Loader: updater.bin
 # little-endian hex!
-Loader CRC: E7 95 20 85
+Loader CRC: 29 21 10 05
 Firmware: firmware.dfu
 Radio: radio.bin
 Radio address: 00 50 0D 08
