@@ -1,14 +1,8 @@
 </a>
 <h3>Haisenteck - Flipper zero firmware Mod</h3><br>
-link al file di installazione stabile: <a href='https://github.com/haisenteck/Haisenteck-Flipper-MOD/releases/tag/V1.0.6' target='_blank'>
-<input type='button' style='padding-left:10px;padding-top:10px;padding-right:10px;padding-bottom:10px;margin-left:10px;margin-top:10px;margin-right:10px;margin-bottom:10px;background-color:#1b90bb;color:#FFFFFF;border-left-width:1px;border-top-width:1px;border-right-width:1px;border-bottom-width:1px;border-color:#d5d5d5;border-radius:5px;cursor:pointer' value='release stable' onMouseOver=this.style.backgroundColor='#FFFFFF';this.style.color='#1b90bb';this.style.borderColor='#d5d5d5' onMouseOut=this.style.backgroundColor='#1b90bb';this.style.color='#FFFFFF';this.style.borderColor='#d5d5d5' />
-</a><br>
-Link al file di installazione DEV build: <a href='https://github.com/haisenteck/Haisenteck-Flipper-MOD/blob/dev/dist/f7-D/flipper-z-f7-update-local.tgz' target='_blank'>
-<input type='button' style='padding-left:10px;padding-top:10px;padding-right:10px;padding-bottom:10px;margin-left:10px;margin-top:10px;margin-right:10px;margin-bottom:10px;background-color:#1b90bb;color:#FFFFFF;border-left-width:1px;border-top-width:1px;border-right-width:1px;border-bottom-width:1px;border-color:#d5d5d5;border-radius:5px;cursor:pointer' value='release Development' onMouseOver=this.style.backgroundColor='#FFFFFF';this.style.color='#1b90bb';this.style.borderColor='#d5d5d5' onMouseOut=this.style.backgroundColor='#1b90bb';this.style.color='#FFFFFF';this.style.borderColor='#d5d5d5' />
-</a><br>
-Link al repository dei contenuti extra: <a href='https://github.com/haisenteck/Flipper_MicroSD' target='_blank'>
-<input type='button' style='padding-left:10px;padding-top:10px;padding-right:10px;padding-bottom:10px;margin-left:10px;margin-top:10px;margin-right:10px;margin-bottom:10px;background-color:#1b90bb;color:#FFFFFF;border-left-width:1px;border-top-width:1px;border-right-width:1px;border-bottom-width:1px;border-color:#d5d5d5;border-radius:5px;cursor:pointer' value='Contenuti extra' onMouseOver=this.style.backgroundColor='#FFFFFF';this.style.color='#1b90bb';this.style.borderColor='#d5d5d5' onMouseOut=this.style.backgroundColor='#1b90bb';this.style.color='#FFFFFF';this.style.borderColor='#d5d5d5' />
-</a> <br>
+link al file di installazione stabile: <a href='https://github.com/haisenteck/Haisenteck-Flipper-MOD/releases/tag/V1.0.6' target='_blank'>Versione STABILE</a><br>
+Link al file di installazione DEV build: <a href='https://github.com/haisenteck/Haisenteck-Flipper-MOD/blob/dev/dist/f7-D/flipper-z-f7-update-local.tgz' target='_blank'>Versione DEV Build</a><br>
+Link al repository dei contenuti extra: <a href='https://github.com/haisenteck/Flipper_MicroSD' target='_blank'>Contenuti Extra per Micro SD</a><br>
 <br>
 # Novità<br>
 - **BLUETOOTH**<br>
