@@ -27,24 +27,26 @@ link al file di installazione: [https://github.com/haisenteck/Haisenteck-Flipper
 	<li>SubGhz: predisposizione per ulteriori wheather station e comandi dedicati. </li>
 	<li>SubGhz Rolling Flaws - app aggiunta grazie a https://github.com/jamisonderek/flipper-zero-tutorials </li>
 	<li>SubGhz - Protocolli Aggiunti:<ul>
-		<li>Acurite 592</li>
-		<li>Acurite 606TX</li>
-		<li>Acurite 609TXC</li>
-		<li>Ambient Wheather</li>
-		<li>Auriol_AHFL</li>
-		<li>Auriol HG06061</li>
-		<li>GT-WT02</li>
-		<li>GT-WT03</li>
-		<li>inFactory-TH</li>
-		<li>LaCrosse_TX</li>
-		<li>Nexus-TH</li>
-		<li>Oregon V1</li>
-		<li>Oregon2</li>
-		<li>Oregon3</li>
-		<li>ThermoPRO-TX4</li>
-		<li>TX8300</li>
-		<li>Wendox W6726</li>
-		<li>X10</li></ul></li>
+		<li>Weather - Acurite 592</li>
+		<li>Weather - Acurite 606TX</li>
+		<li>Weather - Acurite 609TXC</li>
+		<li>Weather - Ambient Wheather</li>
+		<li>Weather - Auriol_AHFL</li>
+		<li>Weather - Auriol HG06061</li>
+		<li>Weather - GT-WT02</li>
+		<li>Weather - GT-WT03</li>
+		<li>Weather - inFactory-TH</li>
+		<li>Weather - LaCrosse_TX</li>
+		<li>Weather - Nexus-TH</li>
+		<li>Weather - Oregon V1</li>
+		<li>Weather - Oregon2</li>
+		<li>Weather - Oregon3</li>
+		<li>Weather - ThermoPRO-TX4</li>
+		<li>Weather - Weather - TX8300</li>
+		<li>Weather - Wendox W6726</li>
+		<li>SUBGHZ - X10</li>
+		<li>TPMS - Schrader GG4</li>
+		</ul></li>
 </ul>
 
 - **APP**<br>
