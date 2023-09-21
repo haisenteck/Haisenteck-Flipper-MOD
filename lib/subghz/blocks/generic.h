@@ -43,6 +43,8 @@ struct SubGhzBlockGeneric {
     float temp;
 	float pressure;
 	float temperature;
+	FuriString* result_ric;
+    FuriString* result_msg;
 };
 
 

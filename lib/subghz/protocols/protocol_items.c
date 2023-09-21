@@ -60,6 +60,7 @@ const SubGhzProtocol* subghz_protocol_registry_items[] = {
 	&subghz_protocol_tx_8300,
 	&subghz_protocol_wendox_w6726,
 	&subghz_protocol_schrader_gg4,
+	&subghz_protocol_pocsag,
 	&subghz_protocol_bin_raw,
 };
 
