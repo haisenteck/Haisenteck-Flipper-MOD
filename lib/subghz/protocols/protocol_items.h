@@ -60,4 +60,5 @@
 #include "thermopro_tx4.h"
 #include "tx_8300.h"
 #include "wendox_w6726.h"
+#include "schrader_gg4.h"
 #include "bin_raw.h"

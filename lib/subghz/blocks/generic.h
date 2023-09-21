@@ -21,6 +21,8 @@ extern "C" {
 #define WS_NO_BTN 0xFF
 #define WS_NO_TEMPERATURE -273.0f
 
+#define TPMS_NO_BATT 0xFF
+
 typedef struct SubGhzBlockGeneric SubGhzBlockGeneric;
 
 struct SubGhzBlockGeneric {
@@ -39,6 +41,8 @@ struct SubGhzBlockGeneric {
 	uint8_t channel;
 	uint32_t id;
     float temp;
+	float pressure;
+	float temperature;
 };
 
 
