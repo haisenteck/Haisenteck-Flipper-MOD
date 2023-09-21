@@ -1,5 +1,5 @@
 entry,status,name,type,params
-Version,+,37.0,,
+Version,+,37.1,,
 Header,+,applications/drivers/subghz/cc1101_ext/cc1101_ext_interconnect.h,,
 Header,+,applications/services/bt/bt_service/bt.h,,
 Header,+,applications/services/cli/cli.h,,
@@ -3031,6 +3031,8 @@ Function,-,ulTaskGenericNotifyTake,uint32_t,"UBaseType_t, BaseType_t, TickType_t
 Function,-,ulTaskGenericNotifyValueClear,uint32_t,"TaskHandle_t, UBaseType_t, uint32_t"
 Function,-,ulTaskGetIdleRunTimeCounter,uint32_t,
 Function,-,ulTaskGetIdleRunTimePercent,uint32_t,
+Function,-,ulTaskGetRunTimeCounter,uint32_t,const TaskHandle_t
+Function,-,ulTaskGetRunTimePercent,uint32_t,const TaskHandle_t
 Function,-,ungetc,int,"int, FILE*"
 Function,-,unsetenv,int,const char*
 Function,-,usbd_poll,void,usbd_device*
@@ -3064,6 +3066,10 @@ Function,-,vTaskAllocateMPURegions,void,"TaskHandle_t, const MemoryRegion_t*"
 Function,-,vTaskDelay,void,const TickType_t
 Function,-,vTaskDelete,void,TaskHandle_t
 Function,-,vTaskEndScheduler,void,
+Function,-,vTaskEnterCritical,void,
+Function,-,vTaskEnterCriticalFromISR,UBaseType_t,
+Function,-,vTaskExitCritical,void,
+Function,-,vTaskExitCriticalFromISR,void,UBaseType_t
 Function,-,vTaskGenericNotifyGiveFromISR,void,"TaskHandle_t, UBaseType_t, BaseType_t*"
 Function,-,vTaskGetInfo,void,"TaskHandle_t, TaskStatus_t*, BaseType_t, eTaskState"
 Function,-,vTaskGetRunTimeStats,void,char*
@@ -3085,6 +3091,7 @@ Function,-,vTaskStepTick,void,TickType_t
 Function,-,vTaskSuspend,void,TaskHandle_t
 Function,-,vTaskSuspendAll,void,
 Function,-,vTaskSwitchContext,void,
+Function,-,vTaskYieldWithinAPI,void,
 Function,-,vTimerSetReloadMode,void,"TimerHandle_t, const BaseType_t"
 Function,-,vTimerSetTimerID,void,"TimerHandle_t, void*"
 Function,-,vTimerSetTimerNumber,void,"TimerHandle_t, UBaseType_t"
@@ -3220,9 +3227,11 @@ Function,-,xTaskGenericNotifyFromISR,BaseType_t,"TaskHandle_t, UBaseType_t, uint
 Function,-,xTaskGenericNotifyStateClear,BaseType_t,"TaskHandle_t, UBaseType_t"
 Function,-,xTaskGenericNotifyWait,BaseType_t,"UBaseType_t, uint32_t, uint32_t, uint32_t*, TickType_t"
 Function,-,xTaskGetCurrentTaskHandle,TaskHandle_t,
+Function,-,xTaskGetCurrentTaskHandleCPU,TaskHandle_t,BaseType_t
 Function,+,xTaskGetHandle,TaskHandle_t,const char*
 Function,-,xTaskGetIdleTaskHandle,TaskHandle_t,
 Function,+,xTaskGetSchedulerState,BaseType_t,
+Function,-,xTaskGetStaticBuffers,BaseType_t,"TaskHandle_t, StackType_t**, StaticTask_t**"
 Function,+,xTaskGetTickCount,TickType_t,
 Function,-,xTaskGetTickCountFromISR,TickType_t,
 Function,-,xTaskIncrementTick,BaseType_t,
@@ -3234,10 +3243,12 @@ Function,-,xTaskResumeFromISR,BaseType_t,TaskHandle_t
 Function,-,xTimerCreate,TimerHandle_t,"const char*, const TickType_t, const BaseType_t, void*, TimerCallbackFunction_t"
 Function,-,xTimerCreateStatic,TimerHandle_t,"const char*, const TickType_t, const BaseType_t, void*, TimerCallbackFunction_t, StaticTimer_t*"
 Function,-,xTimerCreateTimerTask,BaseType_t,
-Function,-,xTimerGenericCommand,BaseType_t,"TimerHandle_t, const BaseType_t, const TickType_t, BaseType_t*, const TickType_t"
+Function,-,xTimerGenericCommandFromISR,BaseType_t,"TimerHandle_t, const BaseType_t, const TickType_t, BaseType_t*, const TickType_t"
+Function,-,xTimerGenericCommandFromTask,BaseType_t,"TimerHandle_t, const BaseType_t, const TickType_t, BaseType_t*, const TickType_t"
 Function,-,xTimerGetExpiryTime,TickType_t,TimerHandle_t
 Function,-,xTimerGetPeriod,TickType_t,TimerHandle_t
 Function,-,xTimerGetReloadMode,BaseType_t,TimerHandle_t
+Function,-,xTimerGetStaticBuffer,BaseType_t,"TimerHandle_t, StaticTimer_t**"
 Function,-,xTimerGetTimerDaemonTaskHandle,TaskHandle_t,
 Function,-,xTimerIsTimerActive,BaseType_t,TimerHandle_t
 Function,-,xTimerPendFunctionCall,BaseType_t,"PendedFunction_t, void*, uint32_t, TickType_t"
