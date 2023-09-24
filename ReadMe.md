@@ -25,6 +25,7 @@ Link al repository dei contenuti extra: <a href='https://github.com/haisenteck/F
 - **Sub-GHz**<br>
 <ul>
 	<li>SubGHz: Aggiunto AM_Q ai preset di utilizzo</li>
+	<li>SubGhz: Aggiunto TPMS ai preset di utilizzo</li>
 	<li>SubGhz: predisposizione per ulteriori wheather station e comandi dedicati. </li>
 	<li>SubGhz Rolling Flaws - app aggiunta grazie a https://github.com/jamisonderek/flipper-zero-tutorials </li>
 	<li>SubGhz - Protocolli Aggiunti:<ul>
@@ -45,6 +46,7 @@ Link al repository dei contenuti extra: <a href='https://github.com/haisenteck/F
 		<li>Weather - ThermoPRO-TX4</li>
 		<li>Weather - Weather - TX8300</li>
 		<li>Weather - Wendox W6726</li>
+		<li>Weather - Baldr Rain (supporto protocolo per Nexus) ------ Work in progress ------</li>
 		<li>SUBGHZ - X10</li>
 		<li>SUBGHZ - POCSAG</li>
 		<li>TPMS - Schrader GG4</li>
