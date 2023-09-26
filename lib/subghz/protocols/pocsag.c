@@ -368,7 +368,7 @@ const SubGhzProtocol subghz_protocol_pocsag = {
     .name = SUBGHZ_PROTOCOL_POCSAG_NAME,
     .type = SubGhzProtocolTypeStatic,
     .flag = SubGhzProtocolFlag_FM | SubGhzProtocolFlag_Decodable | SubGhzProtocolFlag_Save |
-            SubGhzProtocolFlag_Load,
+            SubGhzProtocolFlag_Load | SubGhzProtocolFlag_Save | SubGhzProtocolFlag_Send,
 
     .decoder = &subghz_protocol_pocsag_decoder,
 };

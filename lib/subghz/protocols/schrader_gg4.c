@@ -101,7 +101,7 @@ const SubGhzProtocol subghz_protocol_schrader_gg4 = {
     .name = SUBGHZ_PROTOCOL_SCHRADER_GG4_NAME,
     .type = SubGhzProtocolTypeStatic,
     .flag = SubGhzProtocolFlag_433 | SubGhzProtocolFlag_315 | SubGhzProtocolFlag_AM |
-            SubGhzProtocolFlag_Decodable,
+            SubGhzProtocolFlag_Decodable | SubGhzProtocolFlag_Load | SubGhzProtocolFlag_Save | SubGhzProtocolFlag_Send,
 
     .decoder = &subghz_protocol_schrader_gg4_decoder,
     .encoder = &subghz_protocol_schrader_gg4_encoder,

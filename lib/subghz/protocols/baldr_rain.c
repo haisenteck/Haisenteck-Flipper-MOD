@@ -97,7 +97,7 @@ const SubGhzProtocolEncoder subghz_protocol_baldr_rain_encoder = {
 const SubGhzProtocol subghz_protocol_baldr_rain = {
     .name = SUBGHZ_PROTOCOL_BALDR_RAIN_NAME,
     .type = SubGhzProtocolTypeStatic,
-    .flag = SubGhzProtocolFlag_433 | SubGhzProtocolFlag_FM | SubGhzProtocolFlag_Decodable | SubGhzProtocolFlag_Load,
+    .flag = SubGhzProtocolFlag_433 | SubGhzProtocolFlag_FM | SubGhzProtocolFlag_Decodable | SubGhzProtocolFlag_Load | SubGhzProtocolFlag_Save | SubGhzProtocolFlag_Send,
 
     .decoder = &subghz_protocol_baldr_rain_decoder,
     .encoder = &subghz_protocol_baldr_rain_encoder,

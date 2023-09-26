@@ -91,7 +91,7 @@ const SubGhzProtocol subghz_protocol_tx_8300 = {
     //.type = SubGhzProtocolWeatherStation,
     .type = SubGhzProtocolTypeStatic,
     .flag = SubGhzProtocolFlag_433 | SubGhzProtocolFlag_315 | SubGhzProtocolFlag_868 |
-            SubGhzProtocolFlag_AM | SubGhzProtocolFlag_Decodable,
+            SubGhzProtocolFlag_AM | SubGhzProtocolFlag_Decodable | SubGhzProtocolFlag_Load | SubGhzProtocolFlag_Save | SubGhzProtocolFlag_Send,
 
     .decoder = &subghz_protocol_tx_8300_decoder,
     .encoder = &subghz_protocol_tx_8300_encoder,

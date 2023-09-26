@@ -171,6 +171,10 @@ static Infrared* infrared_alloc() {
     view_dispatcher_add_view(
         view_dispatcher, InfraredViewStack, view_stack_get_view(infrared->view_stack));
 
+	infrared->move_view = infrared_move_view_alloc();
+    view_dispatcher_add_view(
+        view_dispatcher, InfraredViewMove, infrared_move_view_get_view(infrared->move_view));
+
     infrared->move_view = infrared_move_view_alloc();
     view_dispatcher_add_view(
         view_dispatcher, InfraredViewMove, infrared_move_view_get_view(infrared->move_view));
