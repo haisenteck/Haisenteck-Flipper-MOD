@@ -1,6 +1,6 @@
 </a>
 <h3>Haisenteck - Flipper zero firmware Mod</h3><br>
-link al file di installazione stabile: <a href='https://github.com/haisenteck/Haisenteck-Flipper-MOD/releases/tag/V1.0.9' target='_blank'>Versione STABILE</a><br>
+link al file di installazione stabile: <a href='https://github.com/haisenteck/Haisenteck-Flipper-MOD/releases/tag/V1.0.10' target='_blank'>Versione STABILE</a><br>
 Link al file di installazione DEV build: <a href='https://github.com/haisenteck/Haisenteck-Flipper-MOD/blob/dev/dist/f7-D/flipper-z-f7-update-local.tgz' target='_blank'>Versione DEV Build</a><br>
 Link al repository dei contenuti extra: <a href='https://github.com/haisenteck/Flipper_MicroSD' target='_blank'>Contenuti Extra per Micro SD</a><br>
 <br>
@@ -28,6 +28,7 @@ Link al repository dei contenuti extra: <a href='https://github.com/haisenteck/F
 	<li>SubGhz: Aggiunto TPMS ai preset di utilizzo</li>
 	<li>SubGhz: predisposizione per ulteriori wheather station e comandi dedicati. </li>
 	<li>SubGhz Rolling Flaws - app aggiunta grazie a https://github.com/jamisonderek/flipper-zero-tutorials </li>
+	<li>Subghz Shapshup - app aggiunta e corretto alcune parti di codice</li>
 	<li>SubGhz - Protocolli Aggiunti:<ul>
 		<li>Weather - Acurite 592</li>
 		<li>Weather - Acurite 606TX</li>
@@ -46,7 +47,7 @@ Link al repository dei contenuti extra: <a href='https://github.com/haisenteck/F
 		<li>Weather - ThermoPRO-TX4</li>
 		<li>Weather - Weather - TX8300</li>
 		<li>Weather - Wendox W6726</li>
-		<li>Weather - Baldr Rain (supporto protocolo per Nexus) ------ Work in progress ------</li>
+		<li>Weather - Baldr Rain (supporto protocolo per Nexus) ------ attualmente rimosso per problemi (falsi riconoscimenti) ------</li>
 		<li>SUBGHZ - X10</li>
 		<li>SUBGHZ - POCSAG</li>
 		<li>TPMS - Schrader GG4</li>
@@ -161,6 +162,7 @@ Link al repository dei contenuti extra: <a href='https://github.com/haisenteck/F
 <li>Secret Toggle</li>
 <li>[GPIO] Sentry Safe</li>
 <li>Servo Tester 2</li>
+<li>Shapshup</li>
 <li>Signal Generator</li>
 <li>Simon Says</li>
 <li>Snake Game</li>
@@ -195,6 +197,7 @@ Link al repository dei contenuti extra: <a href='https://github.com/haisenteck/F
 <li>Wii EC Analyser</li>
 <li>[GPIO] Wire Tester</li>
 <li>Zombiez</li>
+
 
 </ul>
 <br>

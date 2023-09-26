@@ -175,10 +175,6 @@ static Infrared* infrared_alloc() {
     view_dispatcher_add_view(
         view_dispatcher, InfraredViewMove, infrared_move_view_get_view(infrared->move_view));
 
-    infrared->move_view = infrared_move_view_alloc();
-    view_dispatcher_add_view(
-        view_dispatcher, InfraredViewMove, infrared_move_view_get_view(infrared->move_view));
-
     if(app_state->is_debug_enabled) {
         infrared->debug_view = infrared_debug_view_alloc();
         view_dispatcher_add_view(
