@@ -6,7 +6,7 @@
 
 #include <lib/subghz/blocks/custom_btn.h>
 
-#define TAG "SubGhz"
+#define TAG "SubGhzTxRx"
 
 static void subghz_txrx_radio_device_power_on(SubGhzTxRx* instance) {
     UNUSED(instance);
@@ -381,11 +381,11 @@ void subghz_txrx_hopper_update(SubGhzTxRx* instance) {
     default:
         break;
     }
-    float rssi = -127.0f;
+    //float rssi = -127.0f;
     if(instance->hopper_state != SubGhzHopperStateRSSITimeOut) {
         // See RSSI Calculation timings in CC1101 17.3 RSSI
-        rssi = subghz_devices_get_rssi(instance->radio_device);
-
+		float rssi = subghz_devices_get_rssi(instance->radio_device);
+		
         // Stay if RSSI is high enough
         if(rssi > -90.0f) {
             instance->hopper_timeout = 10;
@@ -405,7 +405,7 @@ void subghz_txrx_hopper_update(SubGhzTxRx* instance) {
 
     if(instance->txrx_state == SubGhzTxRxStateRx) {
         subghz_txrx_rx_end(instance);
-    };
+    }
     if(instance->txrx_state == SubGhzTxRxStateIDLE) {
         subghz_receiver_reset(instance->receiver);
         instance->preset->frequency =
@@ -552,7 +552,7 @@ void subghz_txrx_receiver_set_filter(SubGhzTxRx* instance, SubGhzProtocolFlag fi
     subghz_receiver_set_filter(instance->receiver, filter);
 }
 
-void subghz_txrx_set_rx_calback(
+void subghz_txrx_set_rx_callback(
     SubGhzTxRx* instance,
     SubGhzReceiverCallback callback,
     void* context) {

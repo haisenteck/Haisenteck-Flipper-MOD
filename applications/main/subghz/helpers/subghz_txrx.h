@@ -274,7 +274,7 @@ void subghz_txrx_receiver_set_filter(SubGhzTxRx* instance, SubGhzProtocolFlag fi
  * @param callback Callback for receive data
  * @param context Context for callback
  */
-void subghz_txrx_set_rx_calback(
+void subghz_txrx_set_rx_callback(
     SubGhzTxRx* instance,
     SubGhzReceiverCallback callback,
     void* context);
