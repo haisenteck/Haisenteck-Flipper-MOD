@@ -78,3 +78,13 @@ SubGhzProtocolStatus
  * @param output Resulting text
  */
 void subghz_protocol_decoder_acurite_606tx_get_string(void* context, FuriString* output);
+
+void subghz_protocol_encoder_acurite_606tx_stop(void* context);
+
+SubGhzProtocolStatus subghz_protocol_encoder_acurite_606tx_deserialize(void* context, FlipperFormat* flipper_format);
+
+void subghz_protocol_encoder_acurite_606tx_free(void* context);
+
+LevelDuration subghz_protocol_encoder_acurite_606tx_yield(void* context);
+
+void* subghz_protocol_encoder_acurite_606tx_alloc(SubGhzEnvironment* environment);

@@ -78,3 +78,14 @@ SubGhzProtocolStatus
  * @param output Resulting text
  */
 void subghz_protocol_decoder_ambient_weather_get_string(void* context, FuriString* output);
+
+
+void subghz_protocol_encoder_ambient_weather_stop(void* context);
+
+SubGhzProtocolStatus subghz_protocol_encoder_ambient_weather_deserialize(void* context, FlipperFormat* flipper_format);
+
+void subghz_protocol_encoder_ambient_weather_free(void* context);
+
+LevelDuration subghz_protocol_encoder_ambient_weather_yield(void* context);
+
+void* subghz_protocol_encoder_ambient_weather_alloc(SubGhzEnvironment* environment);
