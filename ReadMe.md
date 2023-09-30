@@ -31,27 +31,28 @@ Link al repository dei contenuti extra: <a href='https://github.com/haisenteck/F
 	<li>SubGhz Rolling Flaws - app aggiunta grazie a https://github.com/jamisonderek/flipper-zero-tutorials </li>
 	<li>Subghz Shapshup - app aggiunta e corretto alcune parti di codice</li>
 	<li>SubGhz - Protocolli Aggiunti:<ul>
-		<li>Weather - Acurite 592</li>
-		<li>Weather - Acurite 606TX</li>
-		<li>Weather - Acurite 609TXC</li>
-		<li>Weather - Ambient Wheather</li>
-		<li>Weather - Auriol_AHFL</li>
-		<li>Weather - Auriol HG06061</li>
-		<li>Weather - GT-WT02</li>
-		<li>Weather - GT-WT03</li>
-		<li>Weather - inFactory-TH</li>
-		<li>Weather - LaCrosse_TX</li>
-		<li>Weather - Nexus-TH</li>
-		<li>Weather - Oregon V1</li>
-		<li>Weather - Oregon2</li>
-		<li>Weather - Oregon3</li>
-		<li>Weather - ThermoPRO-TX4</li>
-		<li>Weather - Weather - TX8300</li>
-		<li>Weather - Wendox W6726</li>
+		<li>Weather - Acurite 592			-	lettura OK - salvataggio OK - invio OK</li>
+		<li>Weather - Acurite 606TX			-	lettura OK - salvataggio OK - invio OK</li>
+		<li>Weather - Acurite 609TXC		-	lettura OK - salvataggio OK - invio OK</li>
+		<li>Weather - Ambient Wheather		-	lettura OK - salvataggio OK - invio OK</li>
+		<li>Weather - Auriol_AHFL			-	lettura OK - salvataggio OK - invio OK</li>
+		<li>Weather - Auriol HG06061		-	lettura OK - salvataggio OK - invio OK</li>
+		<li>Weather - GT-WT02				-	lettura OK - salvataggio OK - invio OK</li>
+		<li>Weather - GT-WT03				-	lettura OK - salvataggio OK - invio OK</li>
+		<li>Weather - inFactory-TH			-	lettura OK - salvataggio OK - invio OK</li>
+		<li>Weather - LaCrosse_TX			-	lettura OK - salvataggio OK - invio OK</li>
+		<li>Weather - LaCrosse_TX141THBv2	-	lettura OK - salvataggio OK - invio OK</li>
+		<li>Weather - Nexus-TH				-	lettura OK - salvataggio OK - invio OK</li>
+		<li>Weather - Oregon V1				-	lettura OK - salvataggio na - invio OK</li>
+		<li>Weather - Oregon2				-	lettura OK - salvataggio na - invio OK</li>
+		<li>Weather - Oregon3				-	lettura OK - salvataggio na - invio OK</li>
+		<li>Weather - ThermoPRO-TX4			-	lettura OK - salvataggio OK - invio OK</li>
+		<li>Weather - TX8300				-	lettura OK - salvataggio OK - invio OK</li>
+		<li>Weather - Wendox W6726			-	lettura OK - salvataggio OK - invio OK</li>
 		<li>Weather - Baldr Rain (supporto protocolo per Nexus) ------ attualmente rimosso per problemi (falsi riconoscimenti) ------</li>
-		<li>SUBGHZ - X10</li>
-		<li>SUBGHZ - POCSAG</li>
-		<li>TPMS - Schrader GG4</li>
+		<li>SUBGHZ - X10					-	lettura OK - salvataggio OK - invio OK </li>
+		<li>SUBGHZ - POCSAG					-	lettura OK - salvataggio    - invio   </li>
+		<li>TPMS - Schrader GG4				-	lettura OK - salvataggio    - invio   </li>
 		</ul></li>
 </ul>
 

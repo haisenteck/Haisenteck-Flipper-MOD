@@ -48,13 +48,13 @@ static const SubGhzBlockConst subghz_protocol_x10_const = {
     .min_count_bit_for_found = 32,
 };
 
-struct SubGhzProtocolDecoderX10 {
+struct subghz_protocol_decoder_x10 {
     SubGhzProtocolDecoderBase base;
     SubGhzBlockDecoder decoder;
     SubGhzBlockGeneric generic;
 };
 
-struct SubGhzProtocolEncoderX10 {
+struct subghz_protocol_encoder_x10 {
     SubGhzProtocolEncoderBase base;
     SubGhzProtocolBlockEncoder encoder;
     SubGhzBlockGeneric generic;
@@ -79,25 +79,40 @@ const SubGhzProtocolDecoder subghz_protocol_x10_decoder = {
 };
 
 const SubGhzProtocolEncoder subghz_protocol_x10_encoder = {
-    .alloc = NULL,
-    .free = NULL,
-    .deserialize = NULL,
-    .stop = NULL,
-    .yield = NULL,
+    .alloc = subghz_protocol_encoder_x10_alloc,
+    .free = subghz_protocol_encoder_x10_free,
+
+    .deserialize = subghz_protocol_encoder_x10_deserialize,
+    .stop = subghz_protocol_encoder_x10_stop,
+    .yield = subghz_protocol_encoder_x10_yield,
 };
 
 const SubGhzProtocol subghz_protocol_x10 = {
     .name = SUBGHZ_PROTOCOL_X10_NAME,
     .type = SubGhzProtocolTypeDynamic,
     .flag = SubGhzProtocolFlag_315 /* Technically it is 310MHz only */ | SubGhzProtocolFlag_AM |
-            SubGhzProtocolFlag_Decodable,
+            SubGhzProtocolFlag_Decodable | SubGhzProtocolFlag_Load | SubGhzProtocolFlag_Save | SubGhzProtocolFlag_Send,
     .decoder = &subghz_protocol_x10_decoder,
     .encoder = &subghz_protocol_x10_encoder,
 };
 
+void* subghz_protocol_encoder_x10_alloc(SubGhzEnvironment* environment) {
+    UNUSED(environment);
+    subghz_protocol_encoder_x10* instance = malloc(sizeof(subghz_protocol_encoder_x10));
+
+    instance->base.protocol = &subghz_protocol_x10;
+    instance->generic.protocol_name = instance->base.protocol->name;
+
+    instance->encoder.repeat = 10;
+    instance->encoder.size_upload = 52;
+    instance->encoder.upload = malloc(instance->encoder.size_upload * sizeof(LevelDuration));
+    instance->encoder.is_running = false;
+    return instance;
+}
+
 void* subghz_protocol_decoder_x10_alloc(SubGhzEnvironment* environment) {
     UNUSED(environment);
-    SubGhzProtocolDecoderX10* instance = malloc(sizeof(SubGhzProtocolDecoderX10));
+    subghz_protocol_decoder_x10* instance = malloc(sizeof(subghz_protocol_decoder_x10));
     instance->base.protocol = &subghz_protocol_x10;
     instance->generic.protocol_name = instance->base.protocol->name;
     return instance;
@@ -105,13 +120,13 @@ void* subghz_protocol_decoder_x10_alloc(SubGhzEnvironment* environment) {
 
 void subghz_protocol_decoder_x10_free(void* context) {
     furi_assert(context);
-    SubGhzProtocolDecoderX10* instance = context;
+    subghz_protocol_decoder_x10* instance = context;
     free(instance);
 }
 
 void subghz_protocol_decoder_x10_reset(void* context) {
     furi_assert(context);
-    SubGhzProtocolDecoderX10* instance = context;
+    subghz_protocol_decoder_x10* instance = context;
     instance->decoder.decode_data = 0;
     instance->decoder.decode_count_bit = 0;
     instance->decoder.parser_step = X10DecoderStepReset;
@@ -120,7 +135,7 @@ void subghz_protocol_decoder_x10_reset(void* context) {
 bool subghz_protocol_x10_validate(void* context) {
     furi_assert(context);
 
-    SubGhzProtocolDecoderX10* instance = context;
+    subghz_protocol_decoder_x10* instance = context;
     SubGhzBlockDecoder* decoder = &instance->decoder;
     uint64_t data = decoder->decode_data;
 
@@ -131,7 +146,7 @@ bool subghz_protocol_x10_validate(void* context) {
 
 void subghz_protocol_decoder_x10_feed(void* context, bool level, uint32_t duration) {
     furi_assert(context);
-    SubGhzProtocolDecoderX10* instance = context;
+    subghz_protocol_decoder_x10* instance = context;
 
     switch(instance->decoder.parser_step) {
     case X10DecoderStepReset:
@@ -202,6 +217,13 @@ void subghz_protocol_decoder_x10_feed(void* context, bool level, uint32_t durati
     }
 }
 
+void subghz_protocol_encoder_x10_free(void* context) {
+    furi_assert(context);
+    subghz_protocol_encoder_x10* instance = context;
+    free(instance->encoder.upload);
+    free(instance);
+}
+
 /** 
  * Set the serial and btn values based on the data and data_count_bit.
  * @param instance Pointer to a SubGhzBlockGeneric* instance
@@ -213,7 +235,7 @@ static void subghz_protocol_x10_check_remote_controller(SubGhzBlockGeneric* inst
 
 uint8_t subghz_protocol_decoder_x10_get_hash_data(void* context) {
     furi_assert(context);
-    SubGhzProtocolDecoderX10* instance = context;
+    subghz_protocol_decoder_x10* instance = context;
     return subghz_protocol_blocks_get_hash_data(
         &instance->decoder, (instance->decoder.decode_count_bit / 8) + 1);
 }
@@ -223,14 +245,82 @@ SubGhzProtocolStatus subghz_protocol_decoder_x10_serialize(
     FlipperFormat* flipper_format,
     SubGhzRadioPreset* preset) {
     furi_assert(context);
-    SubGhzProtocolDecoderX10* instance = context;
+    subghz_protocol_decoder_x10* instance = context;
     return subghz_block_generic_serialize(&instance->generic, flipper_format, preset);
 }
 
-SubGhzProtocolStatus
-    subghz_protocol_decoder_x10_deserialize(void* context, FlipperFormat* flipper_format) {
+static bool subghz_protocol_encoder_x10_get_upload(subghz_protocol_encoder_x10* instance) {
+    furi_assert(instance);
+    size_t index = 0;
+    size_t size_upload = (instance->generic.data_count_bit * 2);
+    if(size_upload > instance->encoder.size_upload) {
+        FURI_LOG_E(TAG, "Size upload exceeds allocated encoder buffer.");
+        return false;
+    } else {
+        instance->encoder.size_upload = size_upload;
+    }
+
+    for(uint8_t i = instance->generic.data_count_bit; i > 1; i--) {
+        if(bit_read(instance->generic.data, i - 1)) {
+            //send bit 1
+            instance->encoder.upload[index++] =
+                level_duration_make(true, (uint32_t)subghz_protocol_x10_const.te_long);
+            instance->encoder.upload[index++] =
+                level_duration_make(false, (uint32_t)subghz_protocol_x10_const.te_short);
+        } else {
+            //send bit 0
+            instance->encoder.upload[index++] =
+                level_duration_make(true, (uint32_t)subghz_protocol_x10_const.te_short);
+            instance->encoder.upload[index++] =
+                level_duration_make(false, (uint32_t)subghz_protocol_x10_const.te_long);
+        }
+    }
+    if(bit_read(instance->generic.data, 0)) {
+        //send bit 1
+        instance->encoder.upload[index++] =
+            level_duration_make(true, (uint32_t)subghz_protocol_x10_const.te_long);
+        instance->encoder.upload[index++] = level_duration_make(
+            false,
+            (uint32_t)subghz_protocol_x10_const.te_short +
+                subghz_protocol_x10_const.te_long * 7);
+    } else {
+        //send bit 0
+        instance->encoder.upload[index++] =
+            level_duration_make(true, (uint32_t)subghz_protocol_x10_const.te_short);
+        instance->encoder.upload[index++] = level_duration_make(
+            false,
+            (uint32_t)subghz_protocol_x10_const.te_long +
+                subghz_protocol_x10_const.te_long * 7);
+    }
+    return true;
+}
+
+LevelDuration subghz_protocol_encoder_x10_yield(void* context) {
+    subghz_protocol_encoder_x10* instance = context;
+
+    if(instance->encoder.repeat == 0 || !instance->encoder.is_running) {
+        instance->encoder.is_running = false;
+        return level_duration_reset();
+    }
+
+    LevelDuration ret = instance->encoder.upload[instance->encoder.front];
+
+    if(++instance->encoder.front == instance->encoder.size_upload) {
+        instance->encoder.repeat--;
+        instance->encoder.front = 0;
+    }
+
+    return ret;
+}
+
+void subghz_protocol_encoder_x10_stop(void* context) {
+    subghz_protocol_encoder_x10* instance = context;
+    instance->encoder.is_running = false;
+}
+
+SubGhzProtocolStatus subghz_protocol_decoder_x10_deserialize(void* context, FlipperFormat* flipper_format) {
     furi_assert(context);
-    SubGhzProtocolDecoderX10* instance = context;
+    subghz_protocol_decoder_x10* instance = context;
     bool ret = false;
     do {
         if(!subghz_block_generic_deserialize(&instance->generic, flipper_format)) {
@@ -246,10 +336,37 @@ SubGhzProtocolStatus
     return ret;
 }
 
+SubGhzProtocolStatus subghz_protocol_encoder_x10_deserialize(void* context, FlipperFormat* flipper_format) {
+    furi_assert(context);
+    subghz_protocol_encoder_x10* instance = context;
+    SubGhzProtocolStatus ret = SubGhzProtocolStatusError;
+    do {
+        ret = subghz_block_generic_deserialize_check_count_bit(
+            &instance->generic,
+            flipper_format,
+            subghz_protocol_x10_const.min_count_bit_for_found);
+        if(ret != SubGhzProtocolStatusOk) {
+            break;
+        }
+        //optional parameter parameter
+        flipper_format_read_uint32(
+            flipper_format, "Repeat", (uint32_t*)&instance->encoder.repeat, 1);
+
+        if(!subghz_protocol_encoder_x10_get_upload(instance)) {
+            ret = SubGhzProtocolStatusErrorEncoderGetUpload;
+            break;
+        }
+        instance->encoder.is_running = true;
+
+    } while(false);
+
+    return ret;
+}
+
 const char* CHANNEL_LETTERS = "MNOPCDABEFGHKLIJ";
 void subghz_protocol_decoder_x10_get_string(void* context, FuriString* output) {
     furi_assert(context);
-    SubGhzProtocolDecoderX10* instance = context;
+    subghz_protocol_decoder_x10* instance = context;
     subghz_protocol_x10_check_remote_controller(&instance->generic);
 
     char code_channel = CHANNEL_LETTERS[(instance->generic.serial & 0x0F)];

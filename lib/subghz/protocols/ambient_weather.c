@@ -1,7 +1,7 @@
 #include "ambient_weather.h"
 #include <lib/toolbox/manchester_decoder.h>
 
-#define TAG "subghz_protocol_Ambient_Weather"
+#define TAG "subghz_protocol_ambient_weather"
 
 /*
  * Help
@@ -51,7 +51,7 @@ struct subghz_protocol_DecoderAmbient_Weather {
     uint16_t header_count;
 };
 
-struct subghz_protocol_EncoderAmbient_Weather {
+struct subghz_protocol_Encoder_Ambient_Weather {
     SubGhzProtocolEncoderBase base;
 
     SubGhzProtocolBlockEncoder encoder;
@@ -93,7 +93,7 @@ const SubGhzProtocol subghz_protocol_ambient_weather = {
 
 void* subghz_protocol_encoder_ambient_weather_alloc(SubGhzEnvironment* environment) {
     UNUSED(environment);
-    subghz_protocol_EncoderAmbient_Weather* instance = malloc(sizeof(subghz_protocol_EncoderAmbient_Weather));
+    subghz_protocol_Encoder_Ambient_Weather* instance = malloc(sizeof(subghz_protocol_Encoder_Ambient_Weather));
 
     instance->base.protocol = &subghz_protocol_ambient_weather;
     instance->generic.protocol_name = instance->base.protocol->name;
@@ -238,7 +238,7 @@ void subghz_protocol_decoder_ambient_weather_feed(void* context, bool level, uin
 
 void subghz_protocol_encoder_ambient_weather_free(void* context) {
     furi_assert(context);
-    subghz_protocol_EncoderAmbient_Weather* instance = context;
+    subghz_protocol_Encoder_Ambient_Weather* instance = context;
     free(instance->encoder.upload);
     free(instance);
 }
@@ -259,7 +259,7 @@ SubGhzProtocolStatus subghz_protocol_decoder_ambient_weather_serialize(
     return subghz_block_generic_serialize(&instance->generic, flipper_format, preset);
 }
 
-static bool subghz_protocol_encoder_ambient_weather_get_upload(subghz_protocol_EncoderAmbient_Weather* instance) {
+static bool subghz_protocol_encoder_ambient_weather_get_upload(subghz_protocol_Encoder_Ambient_Weather* instance) {
     furi_assert(instance);
     size_t index = 0;
     size_t size_upload = (instance->generic.data_count_bit * 2);
@@ -305,9 +305,42 @@ static bool subghz_protocol_encoder_ambient_weather_get_upload(subghz_protocol_E
     return true;
 }
 
-SubGhzProtocolStatus subghz_protocol_encoder_Ambient_weather_deserialize(void* context, FlipperFormat* flipper_format) {
+LevelDuration subghz_protocol_encoder_ambient_weather_yield(void* context) {
+    subghz_protocol_Encoder_Ambient_Weather* instance = context;
+
+    if(instance->encoder.repeat == 0 || !instance->encoder.is_running) {
+        instance->encoder.is_running = false;
+        return level_duration_reset();
+    }
+
+    LevelDuration ret = instance->encoder.upload[instance->encoder.front];
+
+    if(++instance->encoder.front == instance->encoder.size_upload) {
+        instance->encoder.repeat--;
+        instance->encoder.front = 0;
+    }
+
+    return ret;
+}
+
+void subghz_protocol_encoder_ambient_weather_stop(void* context) {
+    subghz_protocol_Encoder_Ambient_Weather* instance = context;
+    instance->encoder.is_running = false;
+}
+
+SubGhzProtocolStatus subghz_protocol_decoder_ambient_weather_deserialize(void* context, FlipperFormat* flipper_format) {
     furi_assert(context);
-    subghz_protocol_EncoderAmbient_Weather* instance = context;
+    subghz_protocol_DecoderAmbient_Weather* instance = context;
+    return subghz_block_generic_deserialize_check_count_bit(
+        &instance->generic,
+        flipper_format,
+        subghz_protocol_ambient_weather_const.min_count_bit_for_found);
+}
+
+
+SubGhzProtocolStatus subghz_protocol_encoder_ambient_weather_deserialize(void* context, FlipperFormat* flipper_format) {
+    furi_assert(context);
+    subghz_protocol_Encoder_Ambient_Weather* instance = context;
     SubGhzProtocolStatus ret = SubGhzProtocolStatusError;
     do {
         ret = subghz_block_generic_deserialize_check_count_bit(
@@ -330,38 +363,6 @@ SubGhzProtocolStatus subghz_protocol_encoder_Ambient_weather_deserialize(void* c
     } while(false);
 
     return ret;
-}
-
-LevelDuration subghz_protocol_encoder_ambient_weather_yield(void* context) {
-    subghz_protocol_EncoderAmbient_Weather* instance = context;
-
-    if(instance->encoder.repeat == 0 || !instance->encoder.is_running) {
-        instance->encoder.is_running = false;
-        return level_duration_reset();
-    }
-
-    LevelDuration ret = instance->encoder.upload[instance->encoder.front];
-
-    if(++instance->encoder.front == instance->encoder.size_upload) {
-        instance->encoder.repeat--;
-        instance->encoder.front = 0;
-    }
-
-    return ret;
-}
-
-void subghz_protocol_encoder_ambient_weather_stop(void* context) {
-    subghz_protocol_EncoderAmbient_Weather* instance = context;
-    instance->encoder.is_running = false;
-}
-
-SubGhzProtocolStatus subghz_protocol_decoder_ambient_weather_deserialize(void* context, FlipperFormat* flipper_format) {
-    furi_assert(context);
-    subghz_protocol_DecoderAmbient_Weather* instance = context;
-    return subghz_block_generic_deserialize_check_count_bit(
-        &instance->generic,
-        flipper_format,
-        subghz_protocol_ambient_weather_const.min_count_bit_for_found);
 }
 
 void subghz_protocol_decoder_ambient_weather_get_string(void* context, FuriString* output) {

@@ -11,7 +11,7 @@
 #define subghz_protocol_AMBIENT_WEATHER_NAME "Ambient_Weather"
 
 typedef struct subghz_protocol_DecoderAmbient_Weather subghz_protocol_DecoderAmbient_Weather;
-typedef struct subghz_protocol_EncoderAmbient_Weather subghz_protocol_EncoderAmbient_Weather;
+typedef struct subghz_protocol_Encoder_Ambient_Weather subghz_protocol_Encoder_Ambient_Weather;
 
 extern const SubGhzProtocolDecoder subghz_protocol_ambient_weather_decoder;
 extern const SubGhzProtocolEncoder subghz_protocol_ambient_weather_encoder;
@@ -69,8 +69,7 @@ SubGhzProtocolStatus subghz_protocol_decoder_ambient_weather_serialize(
  * @param flipper_format Pointer to a FlipperFormat instance
  * @return status
  */
-SubGhzProtocolStatus
-    subghz_protocol_decoder_ambient_weather_deserialize(void* context, FlipperFormat* flipper_format);
+SubGhzProtocolStatus subghz_protocol_decoder_ambient_weather_deserialize(void* context, FlipperFormat* flipper_format);
 
 /**
  * Getting a textual representation of the received data.

@@ -10,35 +10,35 @@
 
 #define subghz_protocol_THERMOPRO_TX4_NAME "ThermoPRO-TX4"
 
-typedef struct subghz_protocol_DecoderThermoPRO_TX4 subghz_protocol_DecoderThermoPRO_TX4;
-typedef struct subghz_protocol_EncoderThermoPRO_TX4 subghz_protocol_EncoderThermoPRO_TX4;
+typedef struct subghz_protocol_decoder_thermopro_tx4 subghz_protocol_decoder_thermopro_tx4;
+typedef struct subghz_protocol_encoder_thermopro_tx4 subghz_protocol_encoder_thermopro_tx4;
 
 extern const SubGhzProtocolDecoder subghz_protocol_thermopro_tx4_decoder;
 extern const SubGhzProtocolEncoder subghz_protocol_thermopro_tx4_encoder;
 extern const SubGhzProtocol subghz_protocol_thermopro_tx4;
 
 /**
- * Allocate subghz_protocol_DecoderThermoPRO_TX4.
+ * Allocate subghz_protocol_decoder_thermopro_tx4.
  * @param environment Pointer to a SubGhzEnvironment instance
- * @return subghz_protocol_DecoderThermoPRO_TX4* pointer to a subghz_protocol_DecoderThermoPRO_TX4 instance
+ * @return subghz_protocol_decoder_thermopro_tx4* pointer to a subghz_protocol_decoder_thermopro_tx4 instance
  */
 void* subghz_protocol_decoder_thermopro_tx4_alloc(SubGhzEnvironment* environment);
 
 /**
- * Free subghz_protocol_DecoderThermoPRO_TX4.
- * @param context Pointer to a subghz_protocol_DecoderThermoPRO_TX4 instance
+ * Free subghz_protocol_decoder_thermopro_tx4.
+ * @param context Pointer to a subghz_protocol_decoder_thermopro_tx4 instance
  */
 void subghz_protocol_decoder_thermopro_tx4_free(void* context);
 
 /**
- * Reset decoder subghz_protocol_DecoderThermoPRO_TX4.
- * @param context Pointer to a subghz_protocol_DecoderThermoPRO_TX4 instance
+ * Reset decoder subghz_protocol_decoder_thermopro_tx4.
+ * @param context Pointer to a subghz_protocol_decoder_thermopro_tx4 instance
  */
 void subghz_protocol_decoder_thermopro_tx4_reset(void* context);
 
 /**
  * Parse a raw sequence of levels and durations received from the air.
- * @param context Pointer to a subghz_protocol_DecoderThermoPRO_TX4 instance
+ * @param context Pointer to a subghz_protocol_decoder_thermopro_tx4 instance
  * @param level Signal level true-high false-low
  * @param duration Duration of this level in, us
  */
@@ -46,14 +46,14 @@ void subghz_protocol_decoder_thermopro_tx4_feed(void* context, bool level, uint3
 
 /**
  * Getting the hash sum of the last randomly received parcel.
- * @param context Pointer to a subghz_protocol_DecoderThermoPRO_TX4 instance
+ * @param context Pointer to a subghz_protocol_decoder_thermopro_tx4 instance
  * @return hash Hash sum
  */
 uint8_t subghz_protocol_decoder_thermopro_tx4_get_hash_data(void* context);
 
 /**
- * Serialize data subghz_protocol_DecoderThermoPRO_TX4.
- * @param context Pointer to a subghz_protocol_DecoderThermoPRO_TX4 instance
+ * Serialize data subghz_protocol_decoder_thermopro_tx4.
+ * @param context Pointer to a subghz_protocol_decoder_thermopro_tx4 instance
  * @param flipper_format Pointer to a FlipperFormat instance
  * @param preset The modulation on which the signal was received, SubGhzRadioPreset
  * @return status
@@ -64,8 +64,8 @@ SubGhzProtocolStatus subghz_protocol_decoder_thermopro_tx4_serialize(
     SubGhzRadioPreset* preset);
 
 /**
- * Deserialize data subghz_protocol_DecoderThermoPRO_TX4.
- * @param context Pointer to a subghz_protocol_DecoderThermoPRO_TX4 instance
+ * Deserialize data subghz_protocol_decoder_thermopro_tx4.
+ * @param context Pointer to a subghz_protocol_decoder_thermopro_tx4 instance
  * @param flipper_format Pointer to a FlipperFormat instance
  * @return status
  */
@@ -74,7 +74,18 @@ SubGhzProtocolStatus
 
 /**
  * Getting a textual representation of the received data.
- * @param context Pointer to a subghz_protocol_DecoderThermoPRO_TX4 instance
+ * @param context Pointer to a subghz_protocol_decoder_thermopro_tx4 instance
  * @param output Resulting text
  */
 void subghz_protocol_decoder_thermopro_tx4_get_string(void* context, FuriString* output);
+
+
+void subghz_protocol_encoder_thermopro_tx4_stop(void* context);
+
+SubGhzProtocolStatus subghz_protocol_encoder_thermopro_tx4_deserialize(void* context, FlipperFormat* flipper_format);
+
+void subghz_protocol_encoder_thermopro_tx4_free(void* context);
+
+LevelDuration subghz_protocol_encoder_thermopro_tx4_yield(void* context);
+
+void* subghz_protocol_encoder_thermopro_tx4_alloc(SubGhzEnvironment* environment);

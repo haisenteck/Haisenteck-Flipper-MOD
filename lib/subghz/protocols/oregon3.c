@@ -11,7 +11,7 @@
 
 #define TAG "SubGhzProtocolOregon3"
 
-static const SubGhzBlockConst ws_oregon3_const = {
+static const SubGhzBlockConst subghz_protocol_oregon3_const = {
     .te_long = 1100,
     .te_short = 500,
     .te_delta = 300,
@@ -60,7 +60,7 @@ typedef enum {
     Oregon3DecoderStepVarData,
 } Oregon3DecoderStep;
 
-void* ws_protocol_decoder_oregon3_alloc(SubGhzEnvironment* environment) {
+void* subghz_protocol_decoder_oregon3_alloc(SubGhzEnvironment* environment) {
     UNUSED(environment);
     SubGhzProtocolDecoderOregon3* instance = malloc(sizeof(SubGhzProtocolDecoderOregon3));
     instance->base.protocol = &subghz_protocol_oregon3;
@@ -75,13 +75,13 @@ void* ws_protocol_decoder_oregon3_alloc(SubGhzEnvironment* environment) {
     return instance;
 }
 
-void ws_protocol_decoder_oregon3_free(void* context) {
+void subghz_protocol_decoder_oregon3_free(void* context) {
     furi_assert(context);
     SubGhzProtocolDecoderOregon3* instance = context;
     free(instance);
 }
 
-void ws_protocol_decoder_oregon3_reset(void* context) {
+void subghz_protocol_decoder_oregon3_reset(void* context) {
     furi_assert(context);
     SubGhzProtocolDecoderOregon3* instance = context;
     instance->decoder.parser_step = Oregon3DecoderStepReset;
@@ -97,9 +97,9 @@ void ws_protocol_decoder_oregon3_reset(void* context) {
 static ManchesterEvent level_and_duration_to_event(bool level, uint32_t duration) {
     bool is_long = false;
 
-    if(DURATION_DIFF(duration, ws_oregon3_const.te_long) < ws_oregon3_const.te_delta) {
+    if(DURATION_DIFF(duration, subghz_protocol_oregon3_const.te_long) < subghz_protocol_oregon3_const.te_delta) {
         is_long = true;
-    } else if(DURATION_DIFF(duration, ws_oregon3_const.te_short) < ws_oregon3_const.te_delta) {
+    } else if(DURATION_DIFF(duration, subghz_protocol_oregon3_const.te_short) < subghz_protocol_oregon3_const.te_delta) {
         is_long = false;
     } else {
         return ManchesterEventReset;
@@ -153,7 +153,7 @@ static void ws_oregon3_decode_var_data(SubGhzBlockGeneric* ws_b, uint16_t sensor
     }
 }
 
-void ws_protocol_decoder_oregon3_feed(void* context, bool level, uint32_t duration) {
+void subghz_protocol_decoder_oregon3_feed(void* context, bool level, uint32_t duration) {
     furi_assert(context);
     SubGhzProtocolDecoderOregon3* instance = context;
     // Oregon v3.0 protocol is inverted
@@ -231,14 +231,14 @@ void ws_protocol_decoder_oregon3_feed(void* context, bool level, uint32_t durati
     }
 }
 
-uint8_t ws_protocol_decoder_oregon3_get_hash_data(void* context) {
+uint8_t subghz_protocol_decoder_oregon3_get_hash_data(void* context) {
     furi_assert(context);
     SubGhzProtocolDecoderOregon3* instance = context;
     return subghz_protocol_blocks_get_hash_data(
         &instance->decoder, (instance->decoder.decode_count_bit / 8) + 1);
 }
 
-SubGhzProtocolStatus ws_protocol_decoder_oregon3_serialize(
+SubGhzProtocolStatus subghz_protocol_decoder_oregon3_serialize(
     void* context,
     FlipperFormat* flipper_format,
     SubGhzRadioPreset* preset) {
@@ -263,7 +263,7 @@ SubGhzProtocolStatus ws_protocol_decoder_oregon3_serialize(
     return ret;
 }
 
-SubGhzProtocolStatus ws_protocol_decoder_oregon3_deserialize(void* context, FlipperFormat* flipper_format) {
+SubGhzProtocolStatus subghz_protocol_decoder_oregon3_deserialize(void* context, FlipperFormat* flipper_format) {
     furi_assert(context);
     SubGhzProtocolDecoderOregon3* instance = context;
     uint32_t temp_data;
@@ -288,7 +288,7 @@ SubGhzProtocolStatus ws_protocol_decoder_oregon3_deserialize(void* context, Flip
             ret = SubGhzProtocolStatusErrorParserOthers;
             break;
         }
-        if(instance->generic.data_count_bit != ws_oregon3_const.min_count_bit_for_found) {
+        if(instance->generic.data_count_bit != subghz_protocol_oregon3_const.min_count_bit_for_found) {
             FURI_LOG_E(TAG, "Wrong number of bits in key: %d", instance->generic.data_count_bit);
             ret = SubGhzProtocolStatusErrorValueBitCount;
             break;
@@ -316,7 +316,7 @@ static void oregon3_append_check_sum(uint32_t fix_data, uint64_t var_data, FuriS
         furi_string_cat_printf(output, "Sum err: 0x%hhX vs 0x%hhX", ref_sum, sum);
 }
 
-void ws_protocol_decoder_oregon3_get_string(void* context, FuriString* output) {
+void subghz_protocol_decoder_oregon3_get_string(void* context, FuriString* output) {
     furi_assert(context);
     SubGhzProtocolDecoderOregon3* instance = context;
     furi_string_cat_printf(
@@ -342,24 +342,159 @@ void ws_protocol_decoder_oregon3_get_string(void* context, FuriString* output) {
     }
 }
 
-const SubGhzProtocolDecoder ws_protocol_oregon3_decoder = {
-    .alloc = ws_protocol_decoder_oregon3_alloc,
-    .free = ws_protocol_decoder_oregon3_free,
+const SubGhzProtocolDecoder subghz_protocol_oregon3_decoder = {
+    .alloc = subghz_protocol_decoder_oregon3_alloc,
+    .free = subghz_protocol_decoder_oregon3_free,
 
-    .feed = ws_protocol_decoder_oregon3_feed,
-    .reset = ws_protocol_decoder_oregon3_reset,
+    .feed = subghz_protocol_decoder_oregon3_feed,
+    .reset = subghz_protocol_decoder_oregon3_reset,
 
-    .get_hash_data = ws_protocol_decoder_oregon3_get_hash_data,
-    .serialize = ws_protocol_decoder_oregon3_serialize,
-    .deserialize = ws_protocol_decoder_oregon3_deserialize,
-    .get_string = ws_protocol_decoder_oregon3_get_string,
+    .get_hash_data = subghz_protocol_decoder_oregon3_get_hash_data,
+    .serialize = subghz_protocol_decoder_oregon3_serialize,
+    .deserialize = subghz_protocol_decoder_oregon3_deserialize,
+    .get_string = subghz_protocol_decoder_oregon3_get_string,
+};
+
+struct subghz_protocol_encoder_oregon3 {
+    SubGhzProtocolEncoderBase base;
+
+    SubGhzProtocolBlockEncoder encoder;
+    SubGhzBlockGeneric generic;
 };
 
 const SubGhzProtocol subghz_protocol_oregon3 = {
     .name = SUBGHZ_PROTOCOL_OREGON3_NAME,
     //.type = SubGhzProtocolWeatherStation,
     .type = SubGhzProtocolTypeStatic,
-    .flag = SubGhzProtocolFlag_433 | SubGhzProtocolFlag_AM | SubGhzProtocolFlag_Decodable,
+    .flag = SubGhzProtocolFlag_433 | SubGhzProtocolFlag_AM | SubGhzProtocolFlag_Decodable | SubGhzProtocolFlag_Load | SubGhzProtocolFlag_Save | SubGhzProtocolFlag_Send,
 
-    .decoder = &ws_protocol_oregon3_decoder,
+    .decoder = &subghz_protocol_oregon3_decoder,
+    .encoder = &subghz_protocol_oregon3_encoder,
 };
+
+
+const SubGhzProtocolEncoder subghz_protocol_oregon3_encoder = {
+    .alloc = subghz_protocol_encoder_oregon3_alloc,
+    .free = subghz_protocol_encoder_oregon3_free,
+
+    .deserialize = subghz_protocol_encoder_oregon3_deserialize,
+    .stop = subghz_protocol_encoder_oregon3_stop,
+    .yield = subghz_protocol_encoder_oregon3_yield,
+};
+
+void* subghz_protocol_encoder_oregon3_alloc(SubGhzEnvironment* environment) {
+    UNUSED(environment);
+    subghz_protocol_encoder_oregon3* instance = malloc(sizeof(subghz_protocol_encoder_oregon3));
+
+    instance->base.protocol = &subghz_protocol_oregon3;
+    instance->generic.protocol_name = instance->base.protocol->name;
+
+    instance->encoder.repeat = 10;
+    instance->encoder.size_upload = 52;
+    instance->encoder.upload = malloc(instance->encoder.size_upload * sizeof(LevelDuration));
+    instance->encoder.is_running = false;
+    return instance;
+}
+
+void subghz_protocol_encoder_oregon3_free(void* context) {
+    furi_assert(context);
+    subghz_protocol_encoder_oregon3* instance = context;
+    free(instance->encoder.upload);
+    free(instance);
+}
+
+static bool subghz_protocol_encoder_oregon3_get_upload(subghz_protocol_encoder_oregon3* instance) {
+    furi_assert(instance);
+    size_t index = 0;
+    size_t size_upload = (instance->generic.data_count_bit * 2);
+    if(size_upload > instance->encoder.size_upload) {
+        FURI_LOG_E(TAG, "Size upload exceeds allocated encoder buffer.");
+        return false;
+    } else {
+        instance->encoder.size_upload = size_upload;
+    }
+
+    for(uint8_t i = instance->generic.data_count_bit; i > 1; i--) {
+        if(bit_read(instance->generic.data, i - 1)) {
+            //send bit 1
+            instance->encoder.upload[index++] =
+                level_duration_make(true, (uint32_t)subghz_protocol_oregon3_const.te_long);
+            instance->encoder.upload[index++] =
+                level_duration_make(false, (uint32_t)subghz_protocol_oregon3_const.te_short);
+        } else {
+            //send bit 0
+            instance->encoder.upload[index++] =
+                level_duration_make(true, (uint32_t)subghz_protocol_oregon3_const.te_short);
+            instance->encoder.upload[index++] =
+                level_duration_make(false, (uint32_t)subghz_protocol_oregon3_const.te_long);
+        }
+    }
+    if(bit_read(instance->generic.data, 0)) {
+        //send bit 1
+        instance->encoder.upload[index++] =
+            level_duration_make(true, (uint32_t)subghz_protocol_oregon3_const.te_long);
+        instance->encoder.upload[index++] = level_duration_make(
+            false,
+            (uint32_t)subghz_protocol_oregon3_const.te_short +
+                subghz_protocol_oregon3_const.te_long * 7);
+    } else {
+        //send bit 0
+        instance->encoder.upload[index++] =
+            level_duration_make(true, (uint32_t)subghz_protocol_oregon3_const.te_short);
+        instance->encoder.upload[index++] = level_duration_make(
+            false,
+            (uint32_t)subghz_protocol_oregon3_const.te_long +
+                subghz_protocol_oregon3_const.te_long * 7);
+    }
+    return true;
+}
+
+LevelDuration subghz_protocol_encoder_oregon3_yield(void* context) {
+    subghz_protocol_encoder_oregon3* instance = context;
+
+    if(instance->encoder.repeat == 0 || !instance->encoder.is_running) {
+        instance->encoder.is_running = false;
+        return level_duration_reset();
+    }
+
+    LevelDuration ret = instance->encoder.upload[instance->encoder.front];
+
+    if(++instance->encoder.front == instance->encoder.size_upload) {
+        instance->encoder.repeat--;
+        instance->encoder.front = 0;
+    }
+
+    return ret;
+}
+
+void subghz_protocol_encoder_oregon3_stop(void* context) {
+    subghz_protocol_encoder_oregon3* instance = context;
+    instance->encoder.is_running = false;
+}
+
+SubGhzProtocolStatus subghz_protocol_encoder_oregon3_deserialize(void* context, FlipperFormat* flipper_format) {
+    furi_assert(context);
+    subghz_protocol_encoder_oregon3* instance = context;
+    SubGhzProtocolStatus ret = SubGhzProtocolStatusError;
+    do {
+        ret = subghz_block_generic_deserialize_check_count_bit(
+            &instance->generic,
+            flipper_format,
+            subghz_protocol_oregon3_const.min_count_bit_for_found);
+        if(ret != SubGhzProtocolStatusOk) {
+            break;
+        }
+        //optional parameter parameter
+        flipper_format_read_uint32(
+            flipper_format, "Repeat", (uint32_t*)&instance->encoder.repeat, 1);
+
+        if(!subghz_protocol_encoder_oregon3_get_upload(instance)) {
+            ret = SubGhzProtocolStatusErrorEncoderGetUpload;
+            break;
+        }
+        instance->encoder.is_running = true;
+
+    } while(false);
+
+    return ret;
+}

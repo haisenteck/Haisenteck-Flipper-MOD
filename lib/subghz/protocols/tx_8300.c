@@ -41,7 +41,7 @@ static const SubGhzBlockConst subghz_protocol_tx_8300_const = {
     .min_count_bit_for_found = 72,
 };
 
-struct subghz_protocol_DecoderTX_8300 {
+struct subghz_protocol_decoder_TX_8300 {
     SubGhzProtocolDecoderBase base;
 
     SubGhzBlockDecoder decoder;
@@ -50,7 +50,7 @@ struct subghz_protocol_DecoderTX_8300 {
     uint32_t package_2;
 };
 
-struct subghz_protocol_EncoderTX_8300 {
+struct subghz_protocol_encoder_tx_8300 {
     SubGhzProtocolEncoderBase base;
 
     SubGhzProtocolBlockEncoder encoder;
@@ -97,9 +97,23 @@ const SubGhzProtocol subghz_protocol_tx_8300 = {
     .encoder = &subghz_protocol_tx_8300_encoder,
 };
 
+void* subghz_protocol_encoder_tx_8300_alloc(SubGhzEnvironment* environment) {
+    UNUSED(environment);
+    subghz_protocol_encoder_tx_8300* instance = malloc(sizeof(subghz_protocol_encoder_tx_8300));
+
+    instance->base.protocol = &subghz_protocol_tx_8300;
+    instance->generic.protocol_name = instance->base.protocol->name;
+
+    instance->encoder.repeat = 10;
+    instance->encoder.size_upload = 52;
+    instance->encoder.upload = malloc(instance->encoder.size_upload * sizeof(LevelDuration));
+    instance->encoder.is_running = false;
+    return instance;
+}
+
 void* subghz_protocol_decoder_tx_8300_alloc(SubGhzEnvironment* environment) {
     UNUSED(environment);
-    subghz_protocol_DecoderTX_8300* instance = malloc(sizeof(subghz_protocol_DecoderTX_8300));
+    subghz_protocol_decoder_TX_8300* instance = malloc(sizeof(subghz_protocol_decoder_TX_8300));
     instance->base.protocol = &subghz_protocol_tx_8300;
     instance->generic.protocol_name = instance->base.protocol->name;
     return instance;
@@ -107,17 +121,17 @@ void* subghz_protocol_decoder_tx_8300_alloc(SubGhzEnvironment* environment) {
 
 void subghz_protocol_decoder_tx_8300_free(void* context) {
     furi_assert(context);
-    subghz_protocol_DecoderTX_8300* instance = context;
+    subghz_protocol_decoder_TX_8300* instance = context;
     free(instance);
 }
 
 void subghz_protocol_decoder_tx_8300_reset(void* context) {
     furi_assert(context);
-    subghz_protocol_DecoderTX_8300* instance = context;
+    subghz_protocol_decoder_TX_8300* instance = context;
     instance->decoder.parser_step = TX_8300DecoderStepReset;
 }
 
-static bool subghz_protocol_tx_8300_check_crc(subghz_protocol_DecoderTX_8300* instance) {
+static bool subghz_protocol_tx_8300_check_crc(subghz_protocol_decoder_TX_8300* instance) {
     if(!instance->package_2) return false;
     if(instance->package_1 != ~instance->package_2) return false;
 
@@ -156,7 +170,7 @@ static void subghz_protocol_tx_8300_remote_controller(SubGhzBlockGeneric* instan
 
 void subghz_protocol_decoder_tx_8300_feed(void* context, bool level, uint32_t duration) {
     furi_assert(context);
-    subghz_protocol_DecoderTX_8300* instance = context;
+    subghz_protocol_decoder_TX_8300* instance = context;
 
     switch(instance->decoder.parser_step) {
     case TX_8300DecoderStepReset:
@@ -240,9 +254,16 @@ void subghz_protocol_decoder_tx_8300_feed(void* context, bool level, uint32_t du
     }
 }
 
+void subghz_protocol_encoder_tx_8300_free(void* context) {
+    furi_assert(context);
+    subghz_protocol_encoder_tx_8300* instance = context;
+    free(instance->encoder.upload);
+    free(instance);
+}
+
 uint8_t subghz_protocol_decoder_tx_8300_get_hash_data(void* context) {
     furi_assert(context);
-    subghz_protocol_DecoderTX_8300* instance = context;
+    subghz_protocol_decoder_TX_8300* instance = context;
     return subghz_protocol_blocks_get_hash_data(
         &instance->decoder, (instance->decoder.decode_count_bit / 8) + 1);
 }
@@ -252,21 +273,116 @@ SubGhzProtocolStatus subghz_protocol_decoder_tx_8300_serialize(
     FlipperFormat* flipper_format,
     SubGhzRadioPreset* preset) {
     furi_assert(context);
-    subghz_protocol_DecoderTX_8300* instance = context;
+    subghz_protocol_decoder_TX_8300* instance = context;
     return subghz_block_generic_serialize(&instance->generic, flipper_format, preset);
 }
 
-SubGhzProtocolStatus
-    subghz_protocol_decoder_tx_8300_deserialize(void* context, FlipperFormat* flipper_format) {
+static bool subghz_protocol_encoder_tx_8300_get_upload(subghz_protocol_encoder_tx_8300* instance) {
+    furi_assert(instance);
+    size_t index = 0;
+    size_t size_upload = (instance->generic.data_count_bit * 2);
+    if(size_upload > instance->encoder.size_upload) {
+        FURI_LOG_E(TAG, "Size upload exceeds allocated encoder buffer.");
+        return false;
+    } else {
+        instance->encoder.size_upload = size_upload;
+    }
+
+    for(uint8_t i = instance->generic.data_count_bit; i > 1; i--) {
+        if(bit_read(instance->generic.data, i - 1)) {
+            //send bit 1
+            instance->encoder.upload[index++] =
+                level_duration_make(true, (uint32_t)subghz_protocol_tx_8300_const.te_long);
+            instance->encoder.upload[index++] =
+                level_duration_make(false, (uint32_t)subghz_protocol_tx_8300_const.te_short);
+        } else {
+            //send bit 0
+            instance->encoder.upload[index++] =
+                level_duration_make(true, (uint32_t)subghz_protocol_tx_8300_const.te_short);
+            instance->encoder.upload[index++] =
+                level_duration_make(false, (uint32_t)subghz_protocol_tx_8300_const.te_long);
+        }
+    }
+    if(bit_read(instance->generic.data, 0)) {
+        //send bit 1
+        instance->encoder.upload[index++] =
+            level_duration_make(true, (uint32_t)subghz_protocol_tx_8300_const.te_long);
+        instance->encoder.upload[index++] = level_duration_make(
+            false,
+            (uint32_t)subghz_protocol_tx_8300_const.te_short +
+                subghz_protocol_tx_8300_const.te_long * 7);
+    } else {
+        //send bit 0
+        instance->encoder.upload[index++] =
+            level_duration_make(true, (uint32_t)subghz_protocol_tx_8300_const.te_short);
+        instance->encoder.upload[index++] = level_duration_make(
+            false,
+            (uint32_t)subghz_protocol_tx_8300_const.te_long +
+                subghz_protocol_tx_8300_const.te_long * 7);
+    }
+    return true;
+}
+
+LevelDuration subghz_protocol_encoder_tx_8300_yield(void* context) {
+    subghz_protocol_encoder_tx_8300* instance = context;
+
+    if(instance->encoder.repeat == 0 || !instance->encoder.is_running) {
+        instance->encoder.is_running = false;
+        return level_duration_reset();
+    }
+
+    LevelDuration ret = instance->encoder.upload[instance->encoder.front];
+
+    if(++instance->encoder.front == instance->encoder.size_upload) {
+        instance->encoder.repeat--;
+        instance->encoder.front = 0;
+    }
+
+    return ret;
+}
+
+void subghz_protocol_encoder_tx_8300_stop(void* context) {
+    subghz_protocol_encoder_tx_8300* instance = context;
+    instance->encoder.is_running = false;
+}
+
+SubGhzProtocolStatus subghz_protocol_decoder_tx_8300_deserialize(void* context, FlipperFormat* flipper_format) {
     furi_assert(context);
-    subghz_protocol_DecoderTX_8300* instance = context;
+    subghz_protocol_decoder_TX_8300* instance = context;
     return subghz_block_generic_deserialize_check_count_bit(
         &instance->generic, flipper_format, subghz_protocol_tx_8300_const.min_count_bit_for_found);
 }
 
+SubGhzProtocolStatus subghz_protocol_encoder_tx_8300_deserialize(void* context, FlipperFormat* flipper_format) {
+    furi_assert(context);
+    subghz_protocol_encoder_tx_8300* instance = context;
+    SubGhzProtocolStatus ret = SubGhzProtocolStatusError;
+    do {
+        ret = subghz_block_generic_deserialize_check_count_bit(
+            &instance->generic,
+            flipper_format,
+            subghz_protocol_tx_8300_const.min_count_bit_for_found);
+        if(ret != SubGhzProtocolStatusOk) {
+            break;
+        }
+        //optional parameter parameter
+        flipper_format_read_uint32(
+            flipper_format, "Repeat", (uint32_t*)&instance->encoder.repeat, 1);
+
+        if(!subghz_protocol_encoder_tx_8300_get_upload(instance)) {
+            ret = SubGhzProtocolStatusErrorEncoderGetUpload;
+            break;
+        }
+        instance->encoder.is_running = true;
+
+    } while(false);
+
+    return ret;
+}
+
 void subghz_protocol_decoder_tx_8300_get_string(void* context, FuriString* output) {
     furi_assert(context);
-    subghz_protocol_DecoderTX_8300* instance = context;
+    subghz_protocol_decoder_TX_8300* instance = context;
     furi_string_printf(
         output,
         "%s %dbit\r\n"

@@ -27,7 +27,7 @@ static const SubGhzBlockConst subghz_protocol_lacrosse_tx141thbv2_const = {
     .min_count_bit_for_found = 40,
 };
 
-struct subghz_protocol_DecoderLaCrosse_TX141THBv2 {
+struct subghz_protocol_decoder_lacrosse_tx141thbv2 {
     SubGhzProtocolDecoderBase base;
 
     SubGhzBlockDecoder decoder;
@@ -36,7 +36,7 @@ struct subghz_protocol_DecoderLaCrosse_TX141THBv2 {
     uint16_t header_count;
 };
 
-struct subghz_protocol_EncoderLaCrosse_TX141THBv2 {
+struct subghz_protocol_encoder_lacrosse_tx141thbv2 {
     SubGhzProtocolEncoderBase base;
 
     SubGhzProtocolBlockEncoder encoder;
@@ -64,12 +64,12 @@ const SubGhzProtocolDecoder subghz_protocol_lacrosse_tx141thbv2_decoder = {
 };
 
 const SubGhzProtocolEncoder subghz_protocol_lacrosse_tx141thbv2_encoder = {
-    .alloc = NULL,
-    .free = NULL,
+    .alloc = subghz_protocol_encoder_lacrosse_tx141thbv2_alloc,
+    .free = subghz_protocol_encoder_lacrosse_tx141thbv2_free,
 
-    .deserialize = NULL,
-    .stop = NULL,
-    .yield = NULL,
+    .deserialize = subghz_protocol_encoder_lacrosse_tx141thbv2_deserialize,
+    .stop = subghz_protocol_encoder_lacrosse_tx141thbv2_stop,
+    .yield = subghz_protocol_encoder_lacrosse_tx141thbv2_yield,
 };
 
 const SubGhzProtocol subghz_protocol_lacrosse_tx141thbv2 = {
@@ -83,10 +83,24 @@ const SubGhzProtocol subghz_protocol_lacrosse_tx141thbv2 = {
     .encoder = &subghz_protocol_lacrosse_tx141thbv2_encoder,
 };
 
+void* subghz_protocol_encoder_lacrosse_tx141thbv2_alloc(SubGhzEnvironment* environment) {
+    UNUSED(environment);
+    subghz_protocol_encoder_lacrosse_tx141thbv2* instance = malloc(sizeof(subghz_protocol_encoder_lacrosse_tx141thbv2));
+
+    instance->base.protocol = &subghz_protocol_lacrosse_tx141thbv2;
+    instance->generic.protocol_name = instance->base.protocol->name;
+
+    instance->encoder.repeat = 10;
+    instance->encoder.size_upload = 52;
+    instance->encoder.upload = malloc(instance->encoder.size_upload * sizeof(LevelDuration));
+    instance->encoder.is_running = false;
+    return instance;
+}
+
 void* subghz_protocol_decoder_lacrosse_tx141thbv2_alloc(SubGhzEnvironment* environment) {
     UNUSED(environment);
-    subghz_protocol_DecoderLaCrosse_TX141THBv2* instance =
-        malloc(sizeof(subghz_protocol_DecoderLaCrosse_TX141THBv2));
+    subghz_protocol_decoder_lacrosse_tx141thbv2* instance =
+        malloc(sizeof(subghz_protocol_decoder_lacrosse_tx141thbv2));
     instance->base.protocol = &subghz_protocol_lacrosse_tx141thbv2;
     instance->generic.protocol_name = instance->base.protocol->name;
     return instance;
@@ -94,18 +108,17 @@ void* subghz_protocol_decoder_lacrosse_tx141thbv2_alloc(SubGhzEnvironment* envir
 
 void subghz_protocol_decoder_lacrosse_tx141thbv2_free(void* context) {
     furi_assert(context);
-    subghz_protocol_DecoderLaCrosse_TX141THBv2* instance = context;
+    subghz_protocol_decoder_lacrosse_tx141thbv2* instance = context;
     free(instance);
 }
 
 void subghz_protocol_decoder_lacrosse_tx141thbv2_reset(void* context) {
     furi_assert(context);
-    subghz_protocol_DecoderLaCrosse_TX141THBv2* instance = context;
+    subghz_protocol_decoder_lacrosse_tx141thbv2* instance = context;
     instance->decoder.parser_step = LaCrosse_TX141THBv2DecoderStepReset;
 }
 
-static bool
-    subghz_protocol_lacrosse_tx141thbv2_check_crc(subghz_protocol_DecoderLaCrosse_TX141THBv2* instance) {
+static bool subghz_protocol_lacrosse_tx141thbv2_check_crc(subghz_protocol_decoder_lacrosse_tx141thbv2* instance) {
     if(!instance->decoder.decode_data) return false;
     uint64_t data = instance->decoder.decode_data;
     if(instance->decoder.decode_count_bit == LACROSSE_TX141TH_BV2_BIT_COUNT) {
@@ -139,7 +152,7 @@ static void subghz_protocol_lacrosse_tx141thbv2_remote_controller(SubGhzBlockGen
  * @param instance Pointer to a SubGhzBlockGeneric* instance
  */
 static bool subghz_protocol_decoder_lacrosse_tx141thbv2_add_bit(
-    subghz_protocol_DecoderLaCrosse_TX141THBv2* instance,
+    subghz_protocol_decoder_lacrosse_tx141thbv2* instance,
     uint32_t te_last,
     uint32_t te_current) {
     furi_assert(instance);
@@ -159,9 +172,10 @@ static bool subghz_protocol_decoder_lacrosse_tx141thbv2_add_bit(
 
     return ret;
 }
+
 void subghz_protocol_decoder_lacrosse_tx141thbv2_feed(void* context, bool level, uint32_t duration) {
     furi_assert(context);
-    subghz_protocol_DecoderLaCrosse_TX141THBv2* instance = context;
+    subghz_protocol_decoder_lacrosse_tx141thbv2* instance = context;
 
     switch(instance->decoder.parser_step) {
     case LaCrosse_TX141THBv2DecoderStepReset:
@@ -247,9 +261,16 @@ void subghz_protocol_decoder_lacrosse_tx141thbv2_feed(void* context, bool level,
     }
 }
 
+void subghz_protocol_encoder_lacrosse_tx141thbv2_free(void* context) {
+    furi_assert(context);
+    subghz_protocol_encoder_lacrosse_tx141thbv2* instance = context;
+    free(instance->encoder.upload);
+    free(instance);
+}
+
 uint8_t subghz_protocol_decoder_lacrosse_tx141thbv2_get_hash_data(void* context) {
     furi_assert(context);
-    subghz_protocol_DecoderLaCrosse_TX141THBv2* instance = context;
+    subghz_protocol_decoder_lacrosse_tx141thbv2* instance = context;
     return subghz_protocol_blocks_get_hash_data(
         &instance->decoder, (instance->decoder.decode_count_bit / 8) + 1);
 }
@@ -259,24 +280,120 @@ SubGhzProtocolStatus subghz_protocol_decoder_lacrosse_tx141thbv2_serialize(
     FlipperFormat* flipper_format,
     SubGhzRadioPreset* preset) {
     furi_assert(context);
-    subghz_protocol_DecoderLaCrosse_TX141THBv2* instance = context;
+    subghz_protocol_decoder_lacrosse_tx141thbv2* instance = context;
     return subghz_block_generic_serialize(&instance->generic, flipper_format, preset);
+}
+
+static bool subghz_protocol_encoder_lacrosse_tx141thbv2_get_upload(subghz_protocol_encoder_lacrosse_tx141thbv2* instance) {
+    furi_assert(instance);
+    size_t index = 0;
+    size_t size_upload = (instance->generic.data_count_bit * 2);
+    if(size_upload > instance->encoder.size_upload) {
+        FURI_LOG_E(TAG, "Size upload exceeds allocated encoder buffer.");
+        return false;
+    } else {
+        instance->encoder.size_upload = size_upload;
+    }
+
+    for(uint8_t i = instance->generic.data_count_bit; i > 1; i--) {
+        if(bit_read(instance->generic.data, i - 1)) {
+            //send bit 1
+            instance->encoder.upload[index++] =
+                level_duration_make(true, (uint32_t)subghz_protocol_lacrosse_tx141thbv2_const.te_long);
+            instance->encoder.upload[index++] =
+                level_duration_make(false, (uint32_t)subghz_protocol_lacrosse_tx141thbv2_const.te_short);
+        } else {
+            //send bit 0
+            instance->encoder.upload[index++] =
+                level_duration_make(true, (uint32_t)subghz_protocol_lacrosse_tx141thbv2_const.te_short);
+            instance->encoder.upload[index++] =
+                level_duration_make(false, (uint32_t)subghz_protocol_lacrosse_tx141thbv2_const.te_long);
+        }
+    }
+    if(bit_read(instance->generic.data, 0)) {
+        //send bit 1
+        instance->encoder.upload[index++] =
+            level_duration_make(true, (uint32_t)subghz_protocol_lacrosse_tx141thbv2_const.te_long);
+        instance->encoder.upload[index++] = level_duration_make(
+            false,
+            (uint32_t)subghz_protocol_lacrosse_tx141thbv2_const.te_short +
+                subghz_protocol_lacrosse_tx141thbv2_const.te_long * 7);
+    } else {
+        //send bit 0
+        instance->encoder.upload[index++] =
+            level_duration_make(true, (uint32_t)subghz_protocol_lacrosse_tx141thbv2_const.te_short);
+        instance->encoder.upload[index++] = level_duration_make(
+            false,
+            (uint32_t)subghz_protocol_lacrosse_tx141thbv2_const.te_long +
+                subghz_protocol_lacrosse_tx141thbv2_const.te_long * 7);
+    }
+    return true;
+}
+
+LevelDuration subghz_protocol_encoder_lacrosse_tx141thbv2_yield(void* context) {
+    subghz_protocol_encoder_lacrosse_tx141thbv2* instance = context;
+
+    if(instance->encoder.repeat == 0 || !instance->encoder.is_running) {
+        instance->encoder.is_running = false;
+        return level_duration_reset();
+    }
+
+    LevelDuration ret = instance->encoder.upload[instance->encoder.front];
+
+    if(++instance->encoder.front == instance->encoder.size_upload) {
+        instance->encoder.repeat--;
+        instance->encoder.front = 0;
+    }
+
+    return ret;
+}
+
+void subghz_protocol_encoder_lacrosse_tx141thbv2_stop(void* context) {
+    subghz_protocol_encoder_lacrosse_tx141thbv2* instance = context;
+    instance->encoder.is_running = false;
 }
 
 SubGhzProtocolStatus subghz_protocol_decoder_lacrosse_tx141thbv2_deserialize(
     void* context,
     FlipperFormat* flipper_format) {
     furi_assert(context);
-    subghz_protocol_DecoderLaCrosse_TX141THBv2* instance = context;
+    subghz_protocol_decoder_lacrosse_tx141thbv2* instance = context;
     return subghz_block_generic_deserialize_check_count_bit(
         &instance->generic,
         flipper_format,
         subghz_protocol_lacrosse_tx141thbv2_const.min_count_bit_for_found);
 }
 
+SubGhzProtocolStatus subghz_protocol_encoder_lacrosse_tx141thbv2_deserialize(void* context, FlipperFormat* flipper_format) {
+    furi_assert(context);
+    subghz_protocol_encoder_lacrosse_tx141thbv2* instance = context;
+    SubGhzProtocolStatus ret = SubGhzProtocolStatusError;
+    do {
+        ret = subghz_block_generic_deserialize_check_count_bit(
+            &instance->generic,
+            flipper_format,
+            subghz_protocol_lacrosse_tx141thbv2_const.min_count_bit_for_found);
+        if(ret != SubGhzProtocolStatusOk) {
+            break;
+        }
+        //optional parameter parameter
+        flipper_format_read_uint32(
+            flipper_format, "Repeat", (uint32_t*)&instance->encoder.repeat, 1);
+
+        if(!subghz_protocol_encoder_lacrosse_tx141thbv2_get_upload(instance)) {
+            ret = SubGhzProtocolStatusErrorEncoderGetUpload;
+            break;
+        }
+        instance->encoder.is_running = true;
+
+    } while(false);
+
+    return ret;
+}
+
 void subghz_protocol_decoder_lacrosse_tx141thbv2_get_string(void* context, FuriString* output) {
     furi_assert(context);
-    subghz_protocol_DecoderLaCrosse_TX141THBv2* instance = context;
+    subghz_protocol_decoder_lacrosse_tx141thbv2* instance = context;
     furi_string_printf(
         output,
         "%s %dbit\r\n"

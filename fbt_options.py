@@ -8,7 +8,7 @@ TARGET_HW = 7
 ## Optimize for size
 COMPACT = 1
 ## Optimize for debugging experience
-DEBUG = 0
+DEBUG = 1
 WORKFLOW_BRANCH_OR_TAG = "dev"
 # Aggiungi il percorso relativo del file che contiene la versione
 VERSION_FILE = "versione.txt"

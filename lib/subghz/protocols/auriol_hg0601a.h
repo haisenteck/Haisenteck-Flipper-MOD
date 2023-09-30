@@ -11,7 +11,7 @@
 #define SUBGHZ_PROTOCOL_AURIOL_TH_NAME "Auriol HG06061" //HG06061A-DCF-TX
 
 typedef struct subghz_protocol_DecoderAuriol_TH subghz_protocol_DecoderAuriol_TH;
-typedef struct subghz_protocol_EncoderAuriol_TH subghz_protocol_EncoderAuriol_TH;
+typedef struct subghz_protocol_encoder_auriol_th subghz_protocol_encoder_auriol_th;
 
 extern const SubGhzProtocolDecoder subghz_protocol_auriol_th_decoder;
 extern const SubGhzProtocolEncoder subghz_protocol_auriol_th_encoder;
@@ -78,3 +78,14 @@ SubGhzProtocolStatus
  * @param output Resulting text
  */
 void subghz_protocol_decoder_auriol_th_get_string(void* context, FuriString* output);
+
+
+void subghz_protocol_encoder_auriol_th_stop(void* context);
+
+SubGhzProtocolStatus subghz_protocol_encoder_auriol_th_deserialize(void* context, FlipperFormat* flipper_format);
+
+void subghz_protocol_encoder_auriol_th_free(void* context);
+
+LevelDuration subghz_protocol_encoder_auriol_th_yield(void* context);
+
+void* subghz_protocol_encoder_auriol_th_alloc(SubGhzEnvironment* environment);
