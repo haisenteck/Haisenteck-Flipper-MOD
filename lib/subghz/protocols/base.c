@@ -60,3 +60,39 @@ uint8_t subghz_protocol_decoder_base_get_hash_data(SubGhzProtocolDecoderBase* de
 
     return hash;
 }
+
+void bitbuffer_extract_bytes(bitbuffer_t *bitbuffer, unsigned row, unsigned pos, uint8_t *out, unsigned len)
+{
+    uint8_t *bits = bitbuffer->bb[row];
+    if (len == 0)
+        return;
+    if ((pos & 7) == 0) {
+        memcpy(out, bits + (pos / 8), (len + 7) / 8);
+    }
+    else {
+        unsigned shift = 8 - (pos & 7);
+        unsigned bytes = (len + 7) >> 3;
+        uint8_t *p = out;
+        uint16_t word;
+        pos = pos >> 3; // Convert to bytes
+
+        word = bits[pos];
+
+        while (bytes--) {
+            word <<= 8;
+            word |= bits[++pos];
+            *(p++) = word >> shift;
+        }
+    }
+    if (len & 7)
+        out[(len - 1) / 8] &= 0xff00 >> (len & 7); // mask off bottom bits
+}
+
+int add_bytes(uint8_t const message[], unsigned num_bytes)
+{
+    int result = 0;
+    for (unsigned i = 0; i < num_bytes; ++i) {
+        result += message[i];
+    }
+    return result;
+}

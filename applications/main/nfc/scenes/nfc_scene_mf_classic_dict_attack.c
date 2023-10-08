@@ -100,8 +100,7 @@ bool nfc_scene_mf_classic_dict_attack_on_event(void* context, SceneManagerEvent 
     MfClassicData* data = &nfc->dev->dev_data.mf_classic_data;
     bool consumed = false;
 
-    uint32_t state =
-        scene_manager_get_scene_state(nfc->scene_manager, NfcSceneMfClassicDictAttack);
+    uint32_t state = scene_manager_get_scene_state(nfc->scene_manager, NfcSceneMfClassicDictAttack);
     if(event.type == SceneManagerEventTypeCustom) {
         if(event.event == NfcWorkerEventSuccess) {
             if(state == DictAttackStateUserDictInProgress) {

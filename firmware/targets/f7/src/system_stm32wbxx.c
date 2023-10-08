@@ -19,7 +19,8 @@
                is no need to call the 2 first functions listed above, since SystemCoreClock
                variable is updated automatically.
   */
-uint32_t SystemCoreClock = 4000000UL; /*CPU1: M4 on MSI clock after startup (4MHz)*/
+uint32_t SystemCoreClock = 8000000UL; /*CPU1: M4 on MSI clock after startup (8MHz)*/
+//uint32_t SystemCoreClock = 4000000UL; /*CPU1: M4 on MSI clock after startup (4MHz)*/
 
 const uint32_t AHBPrescTable[16UL] =
     {1UL, 3UL, 5UL, 1UL, 1UL, 6UL, 10UL, 32UL, 2UL, 4UL, 8UL, 16UL, 64UL, 128UL, 256UL, 512UL};

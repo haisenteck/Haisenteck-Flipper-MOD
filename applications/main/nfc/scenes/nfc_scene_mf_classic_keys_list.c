@@ -1,6 +1,6 @@
 #include "../nfc_i.h"
 
-#define NFC_SCENE_MF_CLASSIC_KEYS_LIST_MAX (100)
+#define NFC_SCENE_MF_CLASSIC_KEYS_LIST_MAX (1000)
 
 void nfc_scene_mf_classic_keys_list_submenu_callback(void* context, uint32_t index) {
     furi_assert(context);

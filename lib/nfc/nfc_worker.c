@@ -20,7 +20,7 @@ NfcWorker* nfc_worker_alloc() {
 
     // Initialize rfal
     while(furi_hal_nfc_is_busy()) {
-        furi_delay_ms(10);
+        furi_delay_ms(1);
     }
     nfc_worker_change_state(nfc_worker, NfcWorkerStateReady);
 

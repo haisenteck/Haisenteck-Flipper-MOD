@@ -62,5 +62,6 @@
 #include "wendox_w6726.h"
 #include "schrader_gg4.h"
 #include "pocsag.h"
+#include "yale_hsa.h"
 //#include "baldr_rain.h"
 #include "bin_raw.h"
