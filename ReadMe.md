@@ -1,6 +1,6 @@
 </a>
 <h3>Haisenteck - Flipper zero firmware Mod</h3><br>
-Link all'installazione dell'ultima release tramite Web Updater: <a href='https://lab.flipper.net/?url=https://github.com/haisenteck/Haisenteck-Flipper-MOD/releases/download/V1.0.12/flipper-z-f7-update-Haisenteck_V1.0.12.tgz' target='_blank'>WEB UPDATER - RELEASE</a><br>
+Link all'installazione dell'ultima release tramite Web Updater: <a href='https://lab.flipper.net/?url=https://github.com/haisenteck/Haisenteck-Flipper-MOD/releases/download/V1.0.11/flipper-z-f7-update-Haisenteck_V1.0.12.tgz' target='_blank'>WEB UPDATER - RELEASE</a><br>
 link al file di installazione stabile: <a href='https://github.com/haisenteck/Haisenteck-Flipper-MOD/releases/tag/V1.0.12' target='_blank'>Versione STABILE</a><br>
 Link al file di installazione DEV build: <a href='https://github.com/haisenteck/Haisenteck-Flipper-MOD/blob/dev/dist/f7-C/flipper-z-f7-update-Haisenteck_V1.0.12.tgz' target='_blank'>Versione DEV Build</a><br>
 Link al repository dei contenuti extra: <a href='https://github.com/haisenteck/Flipper_MicroSD' target='_blank'>Contenuti Extra per Micro SD</a><br>
