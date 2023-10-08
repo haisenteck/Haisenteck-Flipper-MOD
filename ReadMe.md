@@ -1,8 +1,8 @@
 </a>
 <h3>Haisenteck - Flipper zero firmware Mod</h3><br>
-Link all'installazione dell'ultima release tramite Web Updater: <a href='https://lab.flipper.net/?url=https://github.com/haisenteck/Haisenteck-Flipper-MOD/releases/download/V1.0.11/flipper-z-f7-update-Haisenteck_V1.0.11.tgz' target='_blank'>WEB UPDATER - RELEASE</a><br>
-link al file di installazione stabile: <a href='https://github.com/haisenteck/Haisenteck-Flipper-MOD/releases/tag/V1.0.11' target='_blank'>Versione STABILE</a><br>
-Link al file di installazione DEV build: <a href='https://github.com/haisenteck/Haisenteck-Flipper-MOD/blob/dev/dist/f7-C/flipper-z-f7-update-Haisenteck_V1.0.11.tgz' target='_blank'>Versione DEV Build</a><br>
+Link all'installazione dell'ultima release tramite Web Updater: <a href='https://lab.flipper.net/?url=https://github.com/haisenteck/Haisenteck-Flipper-MOD/releases/download/V1.0.11/flipper-z-f7-update-Haisenteck_V1.0.12.tgz' target='_blank'>WEB UPDATER - RELEASE</a><br>
+link al file di installazione stabile: <a href='https://github.com/haisenteck/Haisenteck-Flipper-MOD/releases/tag/V1.0.12' target='_blank'>Versione STABILE</a><br>
+Link al file di installazione DEV build: <a href='https://github.com/haisenteck/Haisenteck-Flipper-MOD/blob/dev/dist/f7-C/flipper-z-f7-update-Haisenteck_V1.0.12.tgz' target='_blank'>Versione DEV Build</a><br>
 Link al repository dei contenuti extra: <a href='https://github.com/haisenteck/Flipper_MicroSD' target='_blank'>Contenuti Extra per Micro SD</a><br>
 <br>
 # Novità<br>
@@ -31,27 +31,28 @@ Link al repository dei contenuti extra: <a href='https://github.com/haisenteck/F
 	<li>SubGhz Rolling Flaws - app aggiunta grazie a https://github.com/jamisonderek/flipper-zero-tutorials </li>
 	<li>Subghz Shapshup - app aggiunta e corretto alcune parti di codice</li>
 	<li>SubGhz - Protocolli Aggiunti:<ul>
-		<li>Weather - Acurite 592			-	lettura OK - salvataggio OK - invio OK</li>
-		<li>Weather - Acurite 606TX			-	lettura OK - salvataggio OK - invio OK</li>
-		<li>Weather - Acurite 609TXC		-	lettura OK - salvataggio OK - invio OK</li>
-		<li>Weather - Ambient Wheather		-	lettura OK - salvataggio OK - invio OK</li>
-		<li>Weather - Auriol_AHFL			-	lettura OK - salvataggio OK - invio OK</li>
-		<li>Weather - Auriol HG06061		-	lettura OK - salvataggio OK - invio OK</li>
-		<li>Weather - GT-WT02				-	lettura OK - salvataggio OK - invio OK</li>
-		<li>Weather - GT-WT03				-	lettura OK - salvataggio OK - invio OK</li>
-		<li>Weather - inFactory-TH			-	lettura OK - salvataggio OK - invio OK</li>
-		<li>Weather - LaCrosse_TX			-	lettura OK - salvataggio OK - invio OK</li>
-		<li>Weather - LaCrosse_TX141THBv2	-	lettura OK - salvataggio OK - invio OK</li>
-		<li>Weather - Nexus-TH				-	lettura OK - salvataggio OK - invio OK</li>
-		<li>Weather - Oregon V1				-	lettura OK - salvataggio na - invio OK</li>
-		<li>Weather - Oregon2				-	lettura OK - salvataggio na - invio OK</li>
-		<li>Weather - Oregon3				-	lettura OK - salvataggio na - invio OK</li>
-		<li>Weather - ThermoPRO-TX4			-	lettura OK - salvataggio OK - invio OK</li>
-		<li>Weather - TX8300				-	lettura OK - salvataggio OK - invio OK</li>
-		<li>Weather - Wendox W6726			-	lettura OK - salvataggio OK - invio OK</li>
+		<li>Weather - Acurite 592			-	lettura OK - salvataggio OK - invio   </li>
+		<li>Weather - Acurite 606TX			-	lettura OK - salvataggio OK - invio   </li>
+		<li>Weather - Acurite 609TXC		-	lettura OK - salvataggio OK - invio   </li>
+		<li>Weather - Ambient Wheather		-	lettura OK - salvataggio OK - invio   </li>
+		<li>Weather - Auriol_AHFL			-	lettura OK - salvataggio OK - invio   </li>
+		<li>Weather - Auriol HG06061		-	lettura OK - salvataggio OK - invio   </li>
+		<li>Weather - GT-WT02				-	lettura OK - salvataggio OK - invio   </li>
+		<li>Weather - GT-WT03				-	lettura OK - salvataggio OK - invio   </li>
+		<li>Weather - inFactory-TH			-	lettura OK - salvataggio OK - invio   </li>
+		<li>Weather - LaCrosse_TX			-	lettura OK - salvataggio OK - invio   </li>
+		<li>Weather - LaCrosse_TX141THBv2	-	lettura OK - salvataggio OK - invio   </li>
+		<li>Weather - Nexus-TH				-	lettura OK - salvataggio OK - invio   </li>
+		<li>Weather - Oregon V1				-	lettura OK - salvataggio na - invio   </li>
+		<li>Weather - Oregon2				-	lettura OK - salvataggio na - invio   </li>
+		<li>Weather - Oregon3				-	lettura OK - salvataggio na - invio   </li>
+		<li>Weather - ThermoPRO-TX4			-	lettura OK - salvataggio OK - invio   </li>
+		<li>Weather - TX8300				-	lettura OK - salvataggio OK - invio   </li>
+		<li>Weather - Wendox W6726			-	lettura OK - salvataggio OK - invio   </li>
 		<li>Weather - Baldr Rain (supporto protocolo per Nexus) ------ attualmente rimosso per problemi (falsi riconoscimenti) ------</li>
 		<li>SUBGHZ - X10					-	lettura OK - salvataggio OK - invio OK </li>
 		<li>SUBGHZ - POCSAG					-	lettura OK - salvataggio    - invio   </li>
+		<li>SUBGHZ - YALE HSA				-	lettura OK - salvataggio    - invio   </li>
 		<li>TPMS - Schrader GG4				-	lettura OK - salvataggio    - invio   </li>
 		</ul></li>
 </ul>
