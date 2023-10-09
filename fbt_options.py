@@ -26,7 +26,7 @@ DIST_SUFFIX = "Haisenteck_" + UPDATE_VERSION_STRING
 # Coprocessor firmware
 COPRO_OB_DATA = "scripts/ob.data"
 # Must match lib/stm32wb_copro version
-COPRO_CUBE_VERSION = "1.15.0"
+COPRO_CUBE_VERSION = "1.17.3"
 COPRO_CUBE_DIR = "lib/stm32wb_copro"
 # Default radio stack
 COPRO_STACK_BIN = "stm32wb5x_BLE_Stack_light_fw.bin"

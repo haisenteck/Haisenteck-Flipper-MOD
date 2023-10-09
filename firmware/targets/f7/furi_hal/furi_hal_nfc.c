@@ -417,10 +417,8 @@ bool furi_hal_nfc_emulate_nfca(
     memcpy(config.nfcid, uid, uid_len);
     memcpy(config.SENS_RES, atqa, RFAL_LM_SENS_RES_LEN);
     config.SEL_RES = sak;
-    uint8_t buff_rx[512];
-    uint16_t buff_rx_size = 512;
-    //uint8_t buff_rx[256];
-    //uint16_t buff_rx_size = 256;
+    uint8_t buff_rx[256];
+    uint16_t buff_rx_size = 256;
     uint16_t buff_rx_len = 0;
     uint8_t buff_tx[1040];
     uint16_t buff_tx_len = 0;
