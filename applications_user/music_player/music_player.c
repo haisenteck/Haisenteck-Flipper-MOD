@@ -3,14 +3,15 @@
 #include <furi.h>
 #include <furi_hal.h>
 
-#include <music_player_icons.h>
+#include "music_player_icons.h"
+#include <assets_icons.h>
 #include <gui/gui.h>
 #include <dialogs/dialogs.h>
 #include <storage/storage.h>
 
 #define TAG "MusicPlayer"
 
-#define MUSIC_PLAYER_APP_PATH_FOLDER ANY_PATH("music_player")
+#define MUSIC_PLAYER_APP_PATH_FOLDER EXT_PATH("music_player")
 #define MUSIC_PLAYER_APP_EXTENSION "*"
 
 #define MUSIC_PLAYER_SEMITONE_HISTORY_SIZE 4

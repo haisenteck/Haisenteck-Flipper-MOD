@@ -3,14 +3,15 @@
 #include <furi.h>
 #include <furi_hal.h>
 
-#include <music_beeper_icons.h>
+#include "music_beeper_icons.h"
+#include <assets_icons.h>
 #include <gui/gui.h>
 #include <dialogs/dialogs.h>
 #include <storage/storage.h>
 
 #define TAG "MusicBeeper"
 
-#define MUSIC_BEEPER_APP_PATH_FOLDER ANY_PATH("music_player")
+#define MUSIC_BEEPER_APP_PATH_FOLDER EXT_PATH("music_player")
 #define MUSIC_BEEPER_APP_EXTENSION "*"
 
 #define MUSIC_BEEPER_SEMITONE_HISTORY_SIZE 4
@@ -312,7 +313,7 @@ int32_t music_beeper_app(void* p) {
             DialogsFileBrowserOptions browser_options;
             dialog_file_browser_set_basic_options(
                 &browser_options, MUSIC_BEEPER_APP_EXTENSION, &I_music_10px);
-            browser_options.hide_ext = false;
+            browser_options.base_path = MUSIC_BEEPER_APP_PATH_FOLDER;
 
             DialogsApp* dialogs = furi_record_open(RECORD_DIALOGS);
             bool res = dialog_file_browser_show(dialogs, file_path, file_path, &browser_options);
