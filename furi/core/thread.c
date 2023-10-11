@@ -296,7 +296,7 @@ bool furi_thread_join(FuriThread* thread) {
     // If your thread exited, but your app stuck here: some other thread uses
     // all cpu time, which delays kernel from releasing task handle
     while(thread->task_handle) {
-        furi_delay_ms(10);
+        furi_delay_ms(5);
     }
 
     return true;
