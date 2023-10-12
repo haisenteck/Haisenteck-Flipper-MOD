@@ -26,12 +26,7 @@
 
 /* Exported macro ------------------------------------------------------------*/
 /* Flash parameters */
-#if defined(STM32WB55xx)
 #define PAGE_SIZE                          4096
-#endif
-#if defined(STM32WB15xx)
-#define PAGE_SIZE                          2048
-#endif
 #define RESET_MANAGER_FLASH_BASE_ADDRESS   (0x10040000)
 
 

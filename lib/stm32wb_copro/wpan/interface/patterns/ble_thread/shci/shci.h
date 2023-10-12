@@ -871,7 +871,6 @@ extern "C" {
  * Device ID
  */
 #define SHCI_C2_CONFIG_STM32WB55xx                    (0x495)
-#define SHCI_C2_CONFIG_STM32WB15xx                    (0x494)
 
 /**
  * Config1

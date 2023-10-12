@@ -33,11 +33,8 @@ extern const void* mobleNvmBase;
 
 /* Private define ------------------------------------------------------------*/
 #define NVM_BASE                                     ((unsigned int)mobleNvmBase)
-#if defined(STM32WB55xx)
 #define NVM_SIZE                                                           8192U
-#elif defined(STM32WB15xx)
-#define NVM_SIZE                                                           4096U
-#endif
+
 
 typedef enum
 {
