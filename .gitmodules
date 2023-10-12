@@ -1,7 +1,3 @@
-[submodule "assets/protobuf"]
-	path = assets/protobuf
-	url = https://github.com/flipperdevices/flipperzero-protobuf.git
-	shallow = false
 [submodule "lib/microtar"]
 	path = lib/microtar
 	url = https://github.com/amachronic/microtar.git
