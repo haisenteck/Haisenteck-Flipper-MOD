@@ -24,6 +24,8 @@ extern uint32_t SystemCoreClock;
 #define configMAX_PRIORITIES (32)
 #define configMINIMAL_STACK_SIZE ((uint16_t)128)
 
+#define configUSE_MPU_WRAPPERS_V1 1
+
 /* Heap size determined automatically by linker */
 // #define configTOTAL_HEAP_SIZE                    ((size_t)0)
 #define configMAX_TASK_NAME_LEN (16)

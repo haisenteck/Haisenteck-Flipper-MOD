@@ -1,5 +1,5 @@
 entry,status,name,type,params
-Version,+,39.0,,
+Version,+,39.1,,
 Header,+,applications/drivers/subghz/cc1101_ext/cc1101_ext_interconnect.h,,
 Header,+,applications/services/bt/bt_service/bt.h,,
 Header,+,applications/services/cli/cli.h,,
@@ -3047,6 +3047,8 @@ Function,-,ulTaskGenericNotifyTake,uint32_t,"UBaseType_t, BaseType_t, TickType_t
 Function,-,ulTaskGenericNotifyValueClear,uint32_t,"TaskHandle_t, UBaseType_t, uint32_t"
 Function,-,ulTaskGetIdleRunTimeCounter,uint32_t,
 Function,-,ulTaskGetIdleRunTimePercent,uint32_t,
+Function,-,ulTaskGetRunTimeCounter,uint32_t,const TaskHandle_t
+Function,-,ulTaskGetRunTimePercent,uint32_t,const TaskHandle_t
 Function,-,ungetc,int,"int, FILE*"
 Function,-,unsetenv,int,const char*
 Function,-,usbd_poll,void,usbd_device*
@@ -3239,6 +3241,7 @@ Function,-,xTaskGetCurrentTaskHandle,TaskHandle_t,
 Function,+,xTaskGetHandle,TaskHandle_t,const char*
 Function,-,xTaskGetIdleTaskHandle,TaskHandle_t,
 Function,+,xTaskGetSchedulerState,BaseType_t,
+Function,+,xTaskGetStaticBuffers,BaseType_t,"TaskHandle_t, StackType_t**, StaticTask_t**"
 Function,+,xTaskGetTickCount,TickType_t,
 Function,-,xTaskGetTickCountFromISR,TickType_t,
 Function,-,xTaskIncrementTick,BaseType_t,
@@ -3254,6 +3257,7 @@ Function,+,xTimerGenericCommand,BaseType_t,"TimerHandle_t, const BaseType_t, con
 Function,-,xTimerGetExpiryTime,TickType_t,TimerHandle_t
 Function,-,xTimerGetPeriod,TickType_t,TimerHandle_t
 Function,-,xTimerGetReloadMode,BaseType_t,TimerHandle_t
+Function,+,xTimerGetStaticBuffer,BaseType_t,"TimerHandle_t, StaticTimer_t**"
 Function,-,xTimerGetTimerDaemonTaskHandle,TaskHandle_t,
 Function,-,xTimerIsTimerActive,BaseType_t,TimerHandle_t
 Function,-,xTimerPendFunctionCall,BaseType_t,"PendedFunction_t, void*, uint32_t, TickType_t"
