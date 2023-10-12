@@ -6,6 +6,10 @@ Link al file di installazione DEV build: <a href='https://github.com/haisenteck/
 Link al repository dei contenuti extra: <a href='https://github.com/haisenteck/Flipper_MicroSD' target='_blank'>Contenuti Extra per Micro SD</a><br>
 <br>
 # Novità<br>
+- **FreeRTOS**<br>
+<ul>
+	<li>Upgrade da versione V10.5.1 a V10.6.0</li>
+</ul>
 - **BLUETOOTH**<br>
 <ul>
 	<del><li>modifica a libreria di base per inclusione di diverse modalità del bluetooth notification per presentare il flipper come dispositivo Apple.</li></del>
@@ -55,6 +59,11 @@ Link al repository dei contenuti extra: <a href='https://github.com/haisenteck/F
 		<li>SUBGHZ - YALE HSA				-	lettura OK - salvataggio    - invio   </li>
 		<li>TPMS - Schrader GG4				-	lettura OK - salvataggio    - invio   </li>
 		</ul></li>
+</ul>
+- **VARIE**<br>
+<ul>
+	<li>rimosso svariate problematiche relative a submoduli di github bloccati.</li>
+	<li>variazione di svariati parametri per ridurre i tempi morti tra i comandi e la frequenza di base del flipper (a discapito di un consumo leggermente superiore di batteria</li>
 </ul>
 
 - **APP**<br>
