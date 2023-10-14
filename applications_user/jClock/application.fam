@@ -1,0 +1,32 @@
+App(
+    appid="jclock",
+    name="jClock",
+    #apptype=FlipperAppType.APP,
+	apptype=FlipperAppType.EXTERNAL,
+    entry_point="jclock",
+    cdefines=["APP_JCLOCK"],
+    requires=["gui", "jclock_settings"],
+    #? provides=["jclock_settings"],
+    #icon="A_Clock_14",
+    stack_size=2 * 1024,
+    order=9,
+    fap_icon="jclock_10px.png",
+    #fap_icon_assets="assets",
+    fap_category="Misc",
+	fap_author="hrundeel",
+)
+
+App(
+    appid="jclock_settings",
+    name="jClock settings",
+    #apptype=FlipperAppType.SETTINGS,
+	apptype=FlipperAppType.EXTERNAL,
+    entry_point="jclock_settings",
+    requires=["gui"],
+    #provides=["jclock"],
+    stack_size=1 * 1024,
+    order=20,
+    fap_icon="jclockset_10px.png",
+    fap_category="Misc",
+)
+
