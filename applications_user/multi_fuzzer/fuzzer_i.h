@@ -22,7 +22,6 @@
 
 #include <flipper_format/flipper_format_i.h>
 #include "fuzzer_icons.h"
-#include <assets_icons.h>
 
 #define FUZZ_TIME_DELAY_MAX (80)
 #define KEY_NAME_SIZE 24
