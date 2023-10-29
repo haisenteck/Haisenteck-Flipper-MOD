@@ -29,6 +29,16 @@ typedef void (*SubGhzProtocolDecoderBaseSerialize)(
 typedef uint8_t bitrow_t[BITBUF_COLS];
 typedef bitrow_t bitarray_t[BITBUF_ROWS];
 
+enum decode_return_codes {
+    DECODE_FAIL_OTHER   = 0, ///< legacy, do not use
+    /** Bitbuffer row count or row length is wrong for this sensor. */
+    DECODE_ABORT_LENGTH = -1,
+    DECODE_ABORT_EARLY  = -2,
+    /** Message Integrity Check failed: e.g. checksum/CRC doesn't validate. */
+    DECODE_FAIL_MIC     = -3,
+    DECODE_FAIL_SANITY  = -4,
+};
+
 typedef enum {
     DATA_DATA,   /**< pointer to data is stored */
     DATA_INT,    /**< pointer to integer is stored */
@@ -59,6 +69,8 @@ typedef struct bitbuffer {
     uint16_t syncs_before_row[BITBUF_ROWS]; ///< Number of sync pulses before row
     bitarray_t bb;                          ///< The actual bits buffer
 } bitbuffer_t;
+
+void bitbuffer_invert(bitbuffer_t *bits);
 
 typedef struct data {
     struct data *next; /**< chaining to the next element in the linked list; NULL indicates end-of-list */

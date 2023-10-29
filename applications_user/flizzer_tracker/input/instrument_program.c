@@ -1,5 +1,6 @@
 #include "instrument_program.h"
 #include "../macros.h"
+#include <math.h>
 
 void instrument_program_edit_event(FlizzerTrackerApp* tracker, FlizzerTrackerEvent* event) {
     if(event->input.key == InputKeyOk && event->input.type == InputTypeShort) {

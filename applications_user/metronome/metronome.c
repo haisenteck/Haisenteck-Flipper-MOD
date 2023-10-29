@@ -6,6 +6,7 @@
 #include <gui/gui.h>
 #include <gui/elements.h>
 #include <gui/canvas.h>
+#include <math.h>
 
 #include <notification/notification.h>
 #include <notification/notification_messages.h>

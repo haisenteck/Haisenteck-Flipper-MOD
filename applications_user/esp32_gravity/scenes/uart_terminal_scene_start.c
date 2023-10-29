@@ -28,13 +28,6 @@ typedef struct {
 */
 const UART_TerminalItem items[NUM_MENU_ITEMS] = {
     {"Console", {"View", "Clear"}, 2, {"", "cls"}, NO_ARGS, FOCUS_CONSOLE_END, NO_TIP},
-    {"Bluetooth",
-    {"On", "Off"},
-    2,
-    {"bluetooth on", "bluetooth off"},
-    NO_ARGS,
-    FOCUS_CONSOLE_END,
-    NO_TIP},
     {"Beacon",
     {"Status", "target-ssids", "APs", "RickRoll", "Random", "Infinite", "Off"},
     7,
@@ -71,9 +64,9 @@ const UART_TerminalItem items[NUM_MENU_ITEMS] = {
     FOCUS_CONSOLE_END,
     NO_TIP},
     {"Scan",
-    {"Status", "On", "Off", "<ssid>"},
-    4,
-    {"scan", "scan on", "scan off", "scan "},
+    {"Status", "<SSID>", "WiFi", "BT", "BLE", "BT Svcs", "Off"},
+    7,
+    {"scan", "scan ", "scan wifi", "scan bt", "scan ble", "scan bt services", "scan off"},
     TOGGLE_ARGS,
     FOCUS_CONSOLE_END,
     NO_TIP},
@@ -85,44 +78,51 @@ const UART_TerminalItem items[NUM_MENU_ITEMS] = {
     FOCUS_CONSOLE_END,
     NO_TIP},
     {"View",
-    {"STA", "AP", "STA+AP"},
-    3,
-    {"view sta", "view ap", "view sta ap"},
+    {"STA", "AP", "BT", "BT SVCS", "BT+AP+STA", "STA+AP"},
+    6,
+    {"view sta", "view ap", "view bt", "view bt services", "view ap sta bt", "view sta ap"},
     NO_ARGS,
     FOCUS_CONSOLE_START,
     NO_TIP},
     {"Select",
-    {"STA", "AP"},
-    2,
-    {"select sta ", "select ap "},
+    {"STA", "AP", "BT"},
+    3,
+    {"select sta ", "select ap ", "select bt "},
     INPUT_ARGS,
     FOCUS_CONSOLE_END,
     NO_TIP},
     {"Selected",
-    {"STA", "AP", "STA+AP"},
-    3,
-    {"selected sta", "selected ap", "selected"},
+    {"STA", "AP", "BT", "AP+STA+BT"},
+    4,
+    {"selected sta", "selected ap", "selected bt", "selected"},
     NO_ARGS,
     FOCUS_CONSOLE_START,
     NO_TIP},
     {"Clear",
-    {"STA", "AP", "ALL"},
-    3,
-    {"clear sta", "clear ap", "clear all"},
+    {"STA", "STA Sel.", "AP", "AP Sel.", "BT", "BT Sel.", "BT Svcs", "ALL"},
+    8,
+    {"clear sta", "clear sta selected", "clear ap", "clear ap selected", "clear bt", "clear bt selected", "clear bt services", "clear all"},
+    NO_ARGS,
+    FOCUS_CONSOLE_END,
+    NO_TIP},
+    {"Purge",
+    {"AP", "STA", "BT", "BLE"},
+    4,
+    {"purge ap", "purge sta", "purge bt", "purge ble"},
     NO_ARGS,
     FOCUS_CONSOLE_END,
     NO_TIP},
     {"Get",
-    {"pkt expiry", "SSID rnd chars", "Attack millis", "SSID min len", "SSID max len", "default SSID count", "Channel", "MAC", "MAC Randomisation"},
-    9,
-    {"get expiry", "get scramble_words", "get attack_millis", "get ssid_len_min", "get ssid_len_max", "get default_ssid_count", "get channel", "get mac", "get mac_rand"},
+    {"pkt expiry", "SSID rnd chars", "Attack millis", "SSID min len", "SSID max len", "default SSID count", "Channel", "MAC", "MAC Randomisation", "Purge Strategy", "Purge Min Age", "Purge Max RSSI"},
+    12,
+    {"get expiry", "get scramble_words", "get attack_millis", "get ssid_len_min", "get ssid_len_max", "get default_ssid_count", "get channel", "get mac", "get mac_rand", "get ble_purge_strat", "get ble_purge_min_age", "get ble_purge_max_rssi"},
     NO_ARGS,
     FOCUS_CONSOLE_END,
     NO_TIP},
     {"Set",
-    {"pkt expiry", "SSID rnd chars", "Attack millis", "SSID min len", "SSID max len", "default SSID count", "Channel", "MAC", "MAC Randomisation"},
-    9,
-    {"set expiry ", "set scramble_words ", "set attack_millis ", "set ssid_len_min ", "set ssid_len_max ", "set default_ssid_count ", "set channel ", "set mac ", "set mac_rand "},
+    {"pkt expiry", "SSID rnd chars", "Attack millis", "SSID min len", "SSID max len", "default SSID count", "Channel", "MAC", "MAC Randomisation", "Purge Strategy", "Purge Min Age", "Purge Max RSSI"},
+    12,
+    {"set expiry ", "set scramble_words ", "set attack_millis ", "set ssid_len_min ", "set ssid_len_max ", "set default_ssid_count ", "set channel ", "set mac ", "set mac_rand ", "set BLE_PURGE_STRAT ", "set BLE_PURGE_MIN_AGE ", "set BLE_PURGE_MAX_RSSI "},
     INPUT_ARGS,
     FOCUS_CONSOLE_END,
     NO_TIP},
@@ -169,9 +169,9 @@ const UART_TerminalItem items[NUM_MENU_ITEMS] = {
     FOCUS_CONSOLE_END,
     NO_TIP},
     {"Homing",
-    {"802.11", "ANY"},
+    {"On", "Off"},
     2,
-    {"stalk on", "stalk on"},
+    {"stalk on", "stalk off"},
     NO_ARGS,
     FOCUS_CONSOLE_END,
     NO_TIP},
@@ -225,9 +225,9 @@ static void uart_terminal_scene_start_var_list_enter_callback(void* context, uin
     furi_assert(index < NUM_MENU_ITEMS);
     const UART_TerminalItem* item = &items[index];
 
-    dolphin_deed(DolphinDeedGpioUartBridge);
 
     const int selected_option_index = app->selected_option_index[index];
+    dolphin_deed(DolphinDeedGpioUartBridge);
     furi_assert(selected_option_index < item->num_options_menu);
     app->selected_tx_string = item->actual_commands[selected_option_index];
     /* Don't clear screen if command is an empty string */
@@ -240,9 +240,10 @@ static void uart_terminal_scene_start_var_list_enter_callback(void* context, uin
     app->show_stopscan_tip = item->show_stopscan_tip;
 
     /* GRAVITY: Set app->gravityMode based on first word in command */
-    
+
     //char *cmd = strsep(&origCmd, " ");
     /* GRAVITY: strsep is disabled by Flipper's SDK. RYO */
+
     char *cmd = strToken((char *)app->selected_tx_string, ' ', 1);
     if (!strcmp(cmd, "beacon")) {
         app->gravityCommand = GRAVITY_BEACON;

@@ -10,7 +10,7 @@
 #define TAG "sudoku"
 
 #define BOARD_SIZE 9
-#define BOARD_SIZE_3 BOARD_SIZE / 3
+#define BOARD_SIZE_3 3
 #define FONT_SIZE 6
 
 #define VALUE_MASK 0x0F
@@ -40,6 +40,8 @@ typedef struct {
     uint16_t vertivalFlags;
     GameState state;
     int8_t menuCursor;
+    int8_t lastGameMode;
+    bool blockInputUntilRelease;
 } SudokuState;
 
 #define MENU_ITEMS_COUNT 5
@@ -82,10 +84,20 @@ const uint8_t u8g2_font_tom_thumb_4x6_tr[725] =
     "y\11\227\307$\225dJ\0z\7\223\310\254\221\6{\10\227\310\251\32D\1|\6\265\310(\1}\11"
     "\227\310\310\14RR\0~\6\213\313\215\4\0\0\0\4\377\377\0";
 
-#define SAVE_VERSION 1
+static int get_mode_gaps(int index) {
+    if(index <= 0) {
+        return EASY_GAPS;
+    }
+    if(index == 1) {
+        return NORMAL_GAPS;
+    }
+    return HARD_GAPS;
+}
+
+#define SAVE_VERSION 2
 #define SAVE_FILE APP_DATA_PATH("save.dat")
 
-bool load_game(SudokuState* state) {
+static bool load_game(SudokuState* state) {
     Storage* storage = furi_record_open(RECORD_STORAGE);
     File* file = storage_file_alloc(storage);
     bool res = false;
@@ -109,7 +121,7 @@ bool load_game(SudokuState* state) {
     return res;
 }
 
-void save_game(SudokuState* app) {
+static void save_game(SudokuState* app) {
     Storage* storage = furi_record_open(RECORD_STORAGE);
     File* file = storage_file_alloc(storage);
 
@@ -269,10 +281,24 @@ static void input_callback(InputEvent* input_event, void* ctx) {
     furi_message_queue_put(event_queue, input_event, FuriWaitForever);
 }
 
+// static void print_board(SudokuState* state) {
+//     char buf[BOARD_SIZE * 2 + 1];
+//     for(int i = 0; i < BOARD_SIZE * 2; ++i) {
+//         buf[i] = ' ';
+//     }
+//     buf[BOARD_SIZE * 2] = 0;
+//     for(int i = 0; i != BOARD_SIZE; ++i) {
+//         for(int j = 0; j != BOARD_SIZE; ++j) {
+//             buf[j * 2] = state->board[j][i] == 0 ? '_' : '0' + state->board[j][i];
+//         }
+//         FURI_LOG_D(TAG, "%s", buf);
+//     }
+// }
+
 static void init_board(SudokuState* state) {
     for(int i = 0; i != BOARD_SIZE; ++i) {
         for(int j = 0; j != BOARD_SIZE; ++j) {
-            state->board[i][j] = 1 + (i * BOARD_SIZE_3 + i % BOARD_SIZE_3 + j) % 9;
+            state->board[i][j] = 1 + (i * BOARD_SIZE_3 + i / 3 + j) % 9;
         }
     }
 }
@@ -323,7 +349,7 @@ static void shuffle_board(SudokuState* state, int times) {
 }
 
 static void add_gaps(SudokuState* state, int inputCells) {
-    for(int i = 0; i < inputCells; ++i) {
+    for(int i = 0; i <= inputCells; ++i) {
         int x, y;
         do {
             x = furi_hal_random_get() % BOARD_SIZE;
@@ -399,12 +425,111 @@ static bool validate_board(SudokuState* state) {
     return true;
 }
 
-static bool start_game(SudokuState* state, int inputCells) {
+// fast validation, checks only one given cell
+static bool board_cell_is_valid(SudokuState* state, int x, int y) {
+    // check vertical lines for duplicates
+    {
+        uint flags = 0;
+        for(int j = 0; j != BOARD_SIZE; ++j) {
+            int value = state->board[x][j];
+            if(value == 0) {
+                continue;
+            }
+            if(flags & (1 << value)) {
+                return false;
+            }
+            flags |= 1 << value;
+        }
+    }
+    // check horizontal lines for duplicates
+    {
+        uint flags = 0;
+        for(int j = 0; j != BOARD_SIZE; ++j) {
+            int value = state->board[j][y];
+            if(value == 0) {
+                continue;
+            }
+            if(flags & (1 << value)) {
+                return false;
+            }
+            flags |= 1 << value;
+        }
+    }
+    // check 3x3 squares for duplicates
+    {
+        {
+            int p = x - x % BOARD_SIZE_3;
+            int q = y - y % BOARD_SIZE_3;
+            uint flags = 0;
+            for(int k = 0; k != BOARD_SIZE_3; ++k) {
+                for(int l = 0; l != BOARD_SIZE_3; ++l) {
+                    int value = state->board[p + k][q + l];
+                    if(value == 0) {
+                        continue;
+                    }
+                    if(flags & (1 << value)) {
+                        return false;
+                    }
+                    flags |= 1 << value;
+                }
+            }
+        }
+    }
+    return true;
+}
+
+static bool solve_board(SudokuState* state, int x, int y) {
+    if(x == BOARD_SIZE) {
+        x = 0;
+        if(++y == BOARD_SIZE) {
+            return true;
+        }
+    }
+    while(state->board[x][y] != 0) {
+        ++x;
+        if(x == BOARD_SIZE) {
+            x = 0;
+            if(++y == BOARD_SIZE) {
+                return true;
+            }
+        }
+    }
+    int offset = furi_hal_random_get() % BOARD_SIZE;
+    for(int val = 1; val <= BOARD_SIZE; ++val) {
+        state->board[x][y] = (val + offset) % BOARD_SIZE + 1;
+        if(board_cell_is_valid(state, x, y) && solve_board(state, x + 1, y)) {
+            return true;
+        }
+    }
+    state->board[x][y] = 0;
+    return false;
+}
+
+static bool generate_board(SudokuState* state) {
+    memset(state->board, 0, sizeof(state->board));
+    return solve_board(state, 0, 0);
+}
+
+static bool start_game(SudokuState* state) {
+    state->state = GameStateRunning;
     state->cursorX = 0;
     state->cursorY = 0;
-    init_board(state);
-    shuffle_board(state, 10);
-    add_gaps(state, inputCells);
+    state->blockInputUntilRelease = false;
+    bool generated = false;
+    for(int i = 0; i != 3; i++) {
+        if(generate_board(state)) {
+            FURI_LOG_D(TAG, "generate_board success on %d iteration", i);
+            generated = true;
+            break;
+        }
+    }
+    if(!generated) {
+        // fallback to init_board
+        FURI_LOG_D(TAG, "board not generated, fallback to init_board");
+        init_board(state);
+        shuffle_board(state, 100);
+    }
+    add_gaps(state, get_mode_gaps(state->lastGameMode));
     return validate_board(state);
 }
 
@@ -416,9 +541,10 @@ int32_t sudoku_main(void* p) {
 
     SudokuState* state = malloc(sizeof(SudokuState));
     if(!load_game(state) || state->state == GameStateRestart) {
-        state->state = GameStateRunning;
         state->menuCursor = 0;
-        start_game(state, NORMAL_GAPS);
+        if(state->state != GameStateRestart)
+            state->lastGameMode = 1; // set normal game mode by default, except restart
+        start_game(state);
     }
     state->mutex = furi_mutex_alloc(FuriMutexTypeNormal);
     furi_check(state->mutex, "mutex alloc failed");
@@ -455,12 +581,9 @@ int32_t sudoku_main(void* p) {
                     if(state->state == GameStatePaused && state->menuCursor == 0) {
                         state->state = GameStateRunning;
                     } else if(state->menuCursor >= 1 && state->menuCursor <= 3) {
-                        state->state = GameStateRunning;
-                        int gaps = state->menuCursor == 1 ? EASY_GAPS :
-                                   state->menuCursor == 2 ? NORMAL_GAPS :
-                                                            HARD_GAPS;
-                        start_game(state, gaps);
+                        state->lastGameMode = state->menuCursor - 1;
                         state->menuCursor = 0;
+                        start_game(state);
                     } else if(state->menuCursor == 4) {
                         exit = true;
                         break;
@@ -486,23 +609,31 @@ int32_t sudoku_main(void* p) {
                 }
             }
 
+            bool invalidLidAndRow =
+                !(state->horizontalFlags & (1 << state->cursorY) ||
+                  state->vertivalFlags & (1 << state->cursorX));
+
             if(event.type == InputTypePress || event.type == InputTypeLong ||
                event.type == InputTypeRepeat) {
                 switch(event.key) {
                 case InputKeyLeft:
+                    state->blockInputUntilRelease = false;
                     state->cursorX = (state->cursorX + BOARD_SIZE - 1) % BOARD_SIZE;
                     break;
                 case InputKeyRight:
+                    state->blockInputUntilRelease = false;
                     state->cursorX = (state->cursorX + 1) % BOARD_SIZE;
                     break;
                 case InputKeyUp:
+                    state->blockInputUntilRelease = false;
                     state->cursorY = (state->cursorY + BOARD_SIZE - 1) % BOARD_SIZE;
                     break;
                 case InputKeyDown:
+                    state->blockInputUntilRelease = false;
                     state->cursorY = (state->cursorY + 1) % BOARD_SIZE;
                     break;
                 case InputKeyOk:
-                    if(userInput) {
+                    if(userInput && !state->blockInputUntilRelease) {
                         int flags = state->board[state->cursorX][state->cursorY] & FLAGS_MASK;
                         int value = state->board[state->cursorX][state->cursorY] & VALUE_MASK;
                         state->board[state->cursorX][state->cursorY] = flags | ((value + 1) % 10);
@@ -512,14 +643,24 @@ int32_t sudoku_main(void* p) {
                 default:
                     break;
                 }
+            } else if(event.type == InputTypeRelease) {
+                state->blockInputUntilRelease = false;
             }
-            if(invalidField && validate_board(state)) {
-                dolphin_deed(DolphinDeedPluginGameWin);
-                state->state = GameStateVictory;
-                state->menuCursor = 0;
-                for(int i = 0; i != BOARD_SIZE; ++i) {
-                    for(int j = 0; j != BOARD_SIZE; ++j) {
-                        state->board[i][j] &= ~USER_INPUT_FLAG;
+            if(invalidField) {
+                if(validate_board(state)) {
+                    dolphin_deed(DolphinDeedPluginGameWin);
+                    state->state = GameStateVictory;
+                    state->menuCursor = 0;
+                    for(int i = 0; i != BOARD_SIZE; ++i) {
+                        for(int j = 0; j != BOARD_SIZE; ++j) {
+                            state->board[i][j] &= ~USER_INPUT_FLAG;
+                        }
+                    }
+                } else {
+                    bool isValidLineOrRow = state->horizontalFlags & (1 << state->cursorY) ||
+                                            state->vertivalFlags & (1 << state->cursorX);
+                    if(invalidLidAndRow && isValidLineOrRow) {
+                        state->blockInputUntilRelease = true;
                     }
                 }
             }

@@ -10,8 +10,7 @@
 #include <lib/subghz/protocols/raw.h>
 #include <lib/subghz/protocols/princeton.h>
 #include <lib/subghz/subghz_tx_rx_worker.h>
-#include "tanks_icons.h"
-#include <assets_icons.h>
+#include <tanks_icons.h>
 #include "helpers/radio_device_loader.h"
 
 #include "constants.h"
@@ -1439,8 +1438,8 @@ int32_t tanks_game_app(void* p) {
             // event timeout
         }
 
-        view_port_update(view_port);
         furi_mutex_release(tanks_state->mutex);
+        view_port_update(view_port);
         furi_delay_ms(1);
     }
 

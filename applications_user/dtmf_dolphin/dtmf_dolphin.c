@@ -2,6 +2,7 @@
 
 #include <furi.h>
 #include <furi_hal.h>
+#include <math.h>
 
 static bool dtmf_dolphin_app_custom_event_callback(void* context, uint32_t event) {
     furi_assert(context);

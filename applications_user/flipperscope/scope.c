@@ -9,6 +9,7 @@
 #include <notification/notification_messages.h>
 
 #include "scope_app_i.h"
+#include <math.h>
 
 void assert_failed(uint8_t* file, uint32_t line) {
     UNUSED(file);
