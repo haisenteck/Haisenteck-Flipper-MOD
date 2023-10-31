@@ -79,11 +79,19 @@ class FlipperApplication:
     fap_extbuild: List[ExternallyBuiltFile] = field(default_factory=list)
     fap_private_libs: List[Library] = field(default_factory=list)
     fap_file_assets: Optional[str] = None
+    fal_embedded: bool = False
     # Internally used by fbt
     _appmanager: Optional["AppManager"] = None
     _appdir: Optional[object] = None
     _apppath: Optional[str] = None
     _plugins: List["FlipperApplication"] = field(default_factory=list)
+    _assets_dirs: List[object] = field(default_factory=list)
+    _section_fapmeta: Optional[object] = None
+    _section_fapfileassets: Optional[object] = None
+
+    @property
+    def embeds_plugins(self):
+        return any(plugin.fal_embedded for plugin in self._plugins)
 
     def supports_hardware_target(self, target: str):
         return target in self.targets or "all" in self.targets
@@ -91,6 +99,10 @@ class FlipperApplication:
     @property
     def is_default_deployable(self):
         return self.apptype != FlipperAppType.DEBUG and self.fap_category != "Examples"
+
+    @property
+    def do_strict_import_checks(self):
+        return self.apptype != FlipperAppType.PLUGIN
 
     def __post_init__(self):
         if self.apptype == FlipperAppType.PLUGIN:
@@ -136,6 +148,11 @@ class AppManager:
             if not kw.get("requires"):
                 raise FlipperManifestException(
                     f"Plugin {kw.get('appid')} must have 'requires' in manifest"
+                )
+        else:
+            if kw.get("fal_embedded"):
+                raise FlipperManifestException(
+                    f"App {kw.get('appid')} cannot have fal_embedded set"
                 )
         # Harmless - cdefines for external apps are meaningless
         # if apptype == FlipperAppType.EXTERNAL and kw.get("cdefines"):

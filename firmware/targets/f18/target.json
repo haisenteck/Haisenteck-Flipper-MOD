@@ -20,7 +20,7 @@
         "littlefs",
         "flipperformat",
         "toolbox",
-		"digital_signal",
+        "digital_signal",
         "signal_reader",
         "microtar",
         "usb_stm32",
@@ -33,12 +33,12 @@
         "flipperformat",
         "toolbox",
         "flipper18"
-		
+
     ],
     "excluded_sources": [
         "furi_hal_infrared.c",
         "furi_hal_nfc.c",
-		"furi_hal_nfc_timer.c",
+        "furi_hal_nfc_timer.c",
         "furi_hal_nfc_irq.c",
         "furi_hal_nfc_event.c",
         "furi_hal_nfc_iso15693.c",
