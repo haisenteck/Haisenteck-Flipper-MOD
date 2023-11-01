@@ -1,5 +1,4 @@
 #include "dtmf_dolphin_audio.h"
-#include <math.h>
 
 DTMFDolphinAudio* current_player;
 

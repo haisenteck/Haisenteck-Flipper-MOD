@@ -2,7 +2,6 @@
 #include "../macros.h"
 
 #include <flizzer_tracker_icons.h>
-#include <math.h>
 
 #define PATTERN_EDITOR_Y ((tracker->focus == EDIT_PATTERN) ? 4 : (64 - (6 * 5) - 1))
 

@@ -1,5 +1,4 @@
 #include "tracker_engine.h"
-#include <math.h>
 
 #include "../flizzer_tracker_hal.h"
 #include "../macros.h"

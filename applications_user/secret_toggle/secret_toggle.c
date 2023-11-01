@@ -13,7 +13,6 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include "util.h"
-#include <math.h>
 
 #define BOARD_HEIGHT 7
 #define BOARD_WIDTH 7

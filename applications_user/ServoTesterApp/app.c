@@ -7,7 +7,6 @@
 #include <stm32wbxx_ll_tim.h>
 #include <stm32wbxx_ll_lptim.h>
 #include <stm32wbxx_ll_rcc.h>
-#include <math.h>
 
 // ./fbt.cmd launch_app APPSRC=servotester
 

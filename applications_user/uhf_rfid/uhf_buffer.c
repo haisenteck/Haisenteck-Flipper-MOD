@@ -56,9 +56,6 @@ void buffer_close(Buffer* buf) {
 }
 
 void buffer_reset(Buffer* buf) {
-    for(size_t i = 0; i < MAX_BUFFER_SIZE; i++) {
-        buf->data[i] = 0;
-    }
     buf->size = 0;
     buf->closed = false;
 }

@@ -1,29 +1,29 @@
-#include "../nfc_app_i.h"
+#include "../nfc_i.h"
 
 enum SubmenuIndex {
-    SubmenuIndexMfUlUnlockMenuReader,
+    SubmenuIndexMfUlUnlockMenuAuto,
     SubmenuIndexMfUlUnlockMenuAmeebo,
     SubmenuIndexMfUlUnlockMenuXiaomi,
     SubmenuIndexMfUlUnlockMenuManual,
 };
 
 void nfc_scene_mf_ultralight_unlock_menu_submenu_callback(void* context, uint32_t index) {
-    NfcApp* nfc = context;
+    Nfc* nfc = context;
 
     view_dispatcher_send_custom_event(nfc->view_dispatcher, index);
 }
 
 void nfc_scene_mf_ultralight_unlock_menu_on_enter(void* context) {
-    NfcApp* nfc = context;
+    Nfc* nfc = context;
     Submenu* submenu = nfc->submenu;
 
     uint32_t state =
         scene_manager_get_scene_state(nfc->scene_manager, NfcSceneMfUltralightUnlockMenu);
-    if(nfc_device_get_protocol(nfc->nfc_device) == NfcProtocolMfUltralight) {
+    if(nfc->dev->dev_data.protocol == NfcDeviceProtocolMifareUl) {
         submenu_add_item(
             submenu,
             "Unlock With Reader",
-            SubmenuIndexMfUlUnlockMenuReader,
+            SubmenuIndexMfUlUnlockMenuAuto,
             nfc_scene_mf_ultralight_unlock_menu_submenu_callback,
             nfc);
     }
@@ -50,25 +50,24 @@ void nfc_scene_mf_ultralight_unlock_menu_on_enter(void* context) {
 }
 
 bool nfc_scene_mf_ultralight_unlock_menu_on_event(void* context, SceneManagerEvent event) {
-    NfcApp* nfc = context;
+    Nfc* nfc = context;
     bool consumed = false;
 
     if(event.type == SceneManagerEventTypeCustom) {
         if(event.event == SubmenuIndexMfUlUnlockMenuManual) {
-            nfc->mf_ul_auth->type = MfUltralightAuthTypeManual;
+            nfc->dev->dev_data.mf_ul_data.auth_method = MfUltralightAuthMethodManual;
             scene_manager_next_scene(nfc->scene_manager, NfcSceneMfUltralightKeyInput);
             consumed = true;
         } else if(event.event == SubmenuIndexMfUlUnlockMenuAmeebo) {
-            nfc->mf_ul_auth->type = MfUltralightAuthTypeAmiibo;
+            nfc->dev->dev_data.mf_ul_data.auth_method = MfUltralightAuthMethodAmeebo;
             scene_manager_next_scene(nfc->scene_manager, NfcSceneMfUltralightUnlockWarn);
             consumed = true;
         } else if(event.event == SubmenuIndexMfUlUnlockMenuXiaomi) {
-            nfc->mf_ul_auth->type = MfUltralightAuthTypeXiaomi;
+            nfc->dev->dev_data.mf_ul_data.auth_method = MfUltralightAuthMethodXiaomi;
             scene_manager_next_scene(nfc->scene_manager, NfcSceneMfUltralightUnlockWarn);
             consumed = true;
-        } else if(event.event == SubmenuIndexMfUlUnlockMenuReader) {
-            nfc->mf_ul_auth->type = MfUltralightAuthTypeReader;
-            scene_manager_next_scene(nfc->scene_manager, NfcSceneMfUltralightCapturePass);
+        } else if(event.event == SubmenuIndexMfUlUnlockMenuAuto) {
+            scene_manager_next_scene(nfc->scene_manager, NfcSceneMfUltralightUnlockAuto);
             consumed = true;
         }
         scene_manager_set_scene_state(
@@ -78,7 +77,7 @@ bool nfc_scene_mf_ultralight_unlock_menu_on_event(void* context, SceneManagerEve
 }
 
 void nfc_scene_mf_ultralight_unlock_menu_on_exit(void* context) {
-    NfcApp* nfc = context;
+    Nfc* nfc = context;
 
     submenu_reset(nfc->submenu);
 }

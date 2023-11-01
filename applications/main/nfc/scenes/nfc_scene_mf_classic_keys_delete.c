@@ -1,40 +1,42 @@
-#include "../nfc_app_i.h"
+#include "../nfc_i.h"
 
 void nfc_scene_mf_classic_keys_delete_widget_callback(
     GuiButtonType result,
     InputType type,
     void* context) {
-    NfcApp* instance = context;
+    Nfc* nfc = context;
     if(type == InputTypeShort) {
-        view_dispatcher_send_custom_event(instance->view_dispatcher, result);
+        view_dispatcher_send_custom_event(nfc->view_dispatcher, result);
     }
 }
 
 void nfc_scene_mf_classic_keys_delete_on_enter(void* context) {
-    NfcApp* instance = context;
-
+    Nfc* nfc = context;
+    MfClassicDict* dict = mf_classic_dict_alloc(MfClassicDictTypeUser);
     uint32_t key_index =
-        scene_manager_get_scene_state(instance->scene_manager, NfcSceneMfClassicKeysDelete);
-    FuriString* key_str = furi_string_alloc();
+        scene_manager_get_scene_state(nfc->scene_manager, NfcSceneMfClassicKeysDelete);
+    // Setup Custom Widget view
+    FuriString* key_str;
+    key_str = furi_string_alloc();
 
     widget_add_string_element(
-        instance->widget, 64, 0, AlignCenter, AlignTop, FontPrimary, "Delete this key?");
+        nfc->widget, 64, 0, AlignCenter, AlignTop, FontPrimary, "Delete this key?");
     widget_add_button_element(
-        instance->widget,
+        nfc->widget,
         GuiButtonTypeLeft,
         "Cancel",
         nfc_scene_mf_classic_keys_delete_widget_callback,
-        instance);
+        nfc);
     widget_add_button_element(
-        instance->widget,
+        nfc->widget,
         GuiButtonTypeRight,
         "Delete",
         nfc_scene_mf_classic_keys_delete_widget_callback,
-        instance);
+        nfc);
 
-    mf_user_dict_get_key_str(instance->mf_user_dict, key_index, key_str);
+    mf_classic_dict_get_key_at_index_str(dict, key_str, key_index);
     widget_add_string_element(
-        instance->widget,
+        nfc->widget,
         64,
         32,
         AlignCenter,
@@ -43,35 +45,39 @@ void nfc_scene_mf_classic_keys_delete_on_enter(void* context) {
         furi_string_get_cstr(key_str));
 
     furi_string_free(key_str);
+    mf_classic_dict_free(dict);
 
-    view_dispatcher_switch_to_view(instance->view_dispatcher, NfcViewWidget);
+    view_dispatcher_switch_to_view(nfc->view_dispatcher, NfcViewWidget);
 }
 
 bool nfc_scene_mf_classic_keys_delete_on_event(void* context, SceneManagerEvent event) {
-    NfcApp* instance = context;
+    Nfc* nfc = context;
     bool consumed = false;
+    uint32_t key_index =
+        scene_manager_get_scene_state(nfc->scene_manager, NfcSceneMfClassicKeysDelete);
 
     if(event.type == SceneManagerEventTypeCustom) {
-        if(event.event == GuiButtonTypeRight) {
-            uint32_t key_index = scene_manager_get_scene_state(
-                instance->scene_manager, NfcSceneMfClassicKeysDelete);
-            if(mf_user_dict_delete_key(instance->mf_user_dict, key_index)) {
-                scene_manager_next_scene(instance->scene_manager, NfcSceneDeleteSuccess);
+        if(event.event == GuiButtonTypeLeft) {
+            consumed = scene_manager_search_and_switch_to_previous_scene(
+                nfc->scene_manager, NfcSceneMfClassicKeys);
+        } else if(event.event == GuiButtonTypeRight) {
+            MfClassicDict* dict = mf_classic_dict_alloc(MfClassicDictTypeUser);
+            if(mf_classic_dict_delete_index(dict, key_index)) {
+                scene_manager_next_scene(nfc->scene_manager, NfcSceneDeleteSuccess);
             } else {
-                scene_manager_previous_scene(instance->scene_manager);
+                scene_manager_search_and_switch_to_previous_scene(
+                    nfc->scene_manager, NfcSceneMfClassicKeys);
             }
-        } else if(event.event == GuiButtonTypeLeft) {
-            scene_manager_previous_scene(instance->scene_manager);
+            mf_classic_dict_free(dict);
+            consumed = true;
         }
-        consumed = true;
     }
 
     return consumed;
 }
 
 void nfc_scene_mf_classic_keys_delete_on_exit(void* context) {
-    NfcApp* instance = context;
+    Nfc* nfc = context;
 
-    mf_user_dict_free(instance->mf_user_dict);
-    widget_reset(instance->widget);
+    widget_reset(nfc->widget);
 }

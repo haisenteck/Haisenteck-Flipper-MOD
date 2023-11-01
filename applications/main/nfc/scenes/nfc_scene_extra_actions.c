@@ -1,72 +1,92 @@
-#include "../nfc_app_i.h"
+#include "../nfc_i.h"
 
 enum SubmenuIndex {
     SubmenuIndexReadCardType,
     SubmenuIndexMfClassicKeys,
     SubmenuIndexMfUltralightUnlock,
+    SubmenuIndexNfcVUnlock,
+    SubmenuIndexNfcVSniff,
 };
 
 void nfc_scene_extra_actions_submenu_callback(void* context, uint32_t index) {
-    NfcApp* instance = context;
+    Nfc* nfc = context;
 
-    view_dispatcher_send_custom_event(instance->view_dispatcher, index);
+    view_dispatcher_send_custom_event(nfc->view_dispatcher, index);
 }
 
 void nfc_scene_extra_actions_on_enter(void* context) {
-    NfcApp* instance = context;
-    Submenu* submenu = instance->submenu;
+    Nfc* nfc = context;
+    Submenu* submenu = nfc->submenu;
 
     submenu_add_item(
         submenu,
         "Read Specific Card Type",
         SubmenuIndexReadCardType,
         nfc_scene_extra_actions_submenu_callback,
-        instance);
+        nfc);
     submenu_add_item(
         submenu,
         "Mifare Classic Keys",
         SubmenuIndexMfClassicKeys,
         nfc_scene_extra_actions_submenu_callback,
-        instance);
+        nfc);
     submenu_add_item(
         submenu,
         "Unlock NTAG/Ultralight",
         SubmenuIndexMfUltralightUnlock,
         nfc_scene_extra_actions_submenu_callback,
-        instance);
+        nfc);
+    submenu_add_item(
+        submenu,
+        "Unlock SLIX-L",
+        SubmenuIndexNfcVUnlock,
+        nfc_scene_extra_actions_submenu_callback,
+        nfc);
+    submenu_add_item(
+        submenu,
+        "Listen NfcV Reader",
+        SubmenuIndexNfcVSniff,
+        nfc_scene_extra_actions_submenu_callback,
+        nfc);
     submenu_set_selected_item(
-        submenu, scene_manager_get_scene_state(instance->scene_manager, NfcSceneExtraActions));
-    view_dispatcher_switch_to_view(instance->view_dispatcher, NfcViewMenu);
+        submenu, scene_manager_get_scene_state(nfc->scene_manager, NfcSceneExtraActions));
+    view_dispatcher_switch_to_view(nfc->view_dispatcher, NfcViewMenu);
 }
 
 bool nfc_scene_extra_actions_on_event(void* context, SceneManagerEvent event) {
-    NfcApp* instance = context;
+    Nfc* nfc = context;
     bool consumed = false;
 
     if(event.type == SceneManagerEventTypeCustom) {
         if(event.event == SubmenuIndexMfClassicKeys) {
-            if(nfc_dict_check_presence(NFC_APP_MF_CLASSIC_DICT_USER_PATH)) {
-                scene_manager_next_scene(instance->scene_manager, NfcSceneMfClassicKeys);
+            if(mf_classic_dict_check_presence(MfClassicDictTypeSystem)) {
+                scene_manager_next_scene(nfc->scene_manager, NfcSceneMfClassicKeys);
             } else {
-                scene_manager_previous_scene(instance->scene_manager);
+                scene_manager_next_scene(nfc->scene_manager, NfcSceneDictNotFound);
             }
             consumed = true;
         } else if(event.event == SubmenuIndexMfUltralightUnlock) {
-            mf_ultralight_auth_reset(instance->mf_ul_auth);
-            scene_manager_next_scene(instance->scene_manager, NfcSceneMfUltralightUnlockMenu);
+            scene_manager_next_scene(nfc->scene_manager, NfcSceneMfUltralightUnlockMenu);
             consumed = true;
         } else if(event.event == SubmenuIndexReadCardType) {
-            scene_manager_next_scene(instance->scene_manager, NfcSceneSelectProtocol);
+            scene_manager_set_scene_state(nfc->scene_manager, NfcSceneReadCardType, 0);
+            scene_manager_next_scene(nfc->scene_manager, NfcSceneReadCardType);
+            consumed = true;
+        } else if(event.event == SubmenuIndexNfcVUnlock) {
+            scene_manager_next_scene(nfc->scene_manager, NfcSceneNfcVUnlockMenu);
+            consumed = true;
+        } else if(event.event == SubmenuIndexNfcVSniff) {
+            scene_manager_next_scene(nfc->scene_manager, NfcSceneNfcVSniff);
             consumed = true;
         }
-        scene_manager_set_scene_state(instance->scene_manager, NfcSceneExtraActions, event.event);
+        scene_manager_set_scene_state(nfc->scene_manager, NfcSceneExtraActions, event.event);
     }
 
     return consumed;
 }
 
 void nfc_scene_extra_actions_on_exit(void* context) {
-    NfcApp* instance = context;
+    Nfc* nfc = context;
 
-    submenu_reset(instance->submenu);
+    submenu_reset(nfc->submenu);
 }

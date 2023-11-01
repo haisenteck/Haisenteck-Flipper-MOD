@@ -23,7 +23,6 @@
 #include "stm32wbxx_ll_pwr.h"
 #include "stm32wbxx_ll_tim.h"
 #include "stm32wbxx_ll_gpio.h"
-#include <math.h>
 
 #include "../scope_app_i.h"
 #include "flipperscope_icons.h"

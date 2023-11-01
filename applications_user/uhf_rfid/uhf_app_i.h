@@ -11,7 +11,6 @@
 #include <gui/modules/loading.h>
 #include <gui/modules/text_input.h>
 #include <gui/modules/widget.h>
-#include <gui/modules/variable_item_list.h>
 
 #include <input/input.h>
 
@@ -43,7 +42,6 @@ enum UHFCustomEvent {
     UHFCustomEventWorkerExit,
     UHFCustomEventByteInputDone,
     UHFCustomEventTextInputDone,
-    UHFCustomEventSceneSettingLock,
 };
 
 typedef enum {
@@ -57,7 +55,6 @@ struct UHFApp {
     Gui* gui;
     NotificationApp* notifications;
     SceneManager* scene_manager;
-    VariableItemList* variable_item_list;
     // Storage* storage;
     UHFDevice* uhf_device;
     char text_store[UHF_TEXT_STORE_SIZE + 1];
@@ -76,7 +73,6 @@ typedef enum {
     UHFViewLoading,
     UHFViewTextInput,
     UHFViewWidget,
-    UHFViewVariableItemList,
 } UHFView;
 
 UHFApp* uhf_app_alloc();

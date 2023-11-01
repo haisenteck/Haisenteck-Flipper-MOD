@@ -6,6 +6,9 @@ void uhf_read_tag_worker_callback(UHFWorkerEvent event, void* ctx) {
     if(event == UHFWorkerEventSuccess) {
         view_dispatcher_send_custom_event(uhf_app->view_dispatcher, UHFCustomEventWorkerExit);
     }
+    // } else if(event == UHFWorkerEventAborted) {
+    //     scene_manager_search_and_switch_to_previous_scene(uhf_app->scene_manager, UHFSceneStart);
+    // }
 }
 
 void uhf_scene_read_tag_on_enter(void* ctx) {
@@ -41,5 +44,6 @@ void uhf_scene_read_tag_on_exit(void* ctx) {
     uhf_worker_stop(uhf_app->worker);
     // Clear view
     popup_reset(uhf_app->popup);
+
     uhf_blink_stop(uhf_app);
 }

@@ -66,8 +66,7 @@ void wiegand_save(void* context) {
 void wiegand_save_scene_on_enter(void* context) {
     App* app = context;
     text_input_reset(app->text_input);
-    
-    name_generator_make_auto(app->file_name, WIEGAND_KEY_NAME_SIZE, "WiegandKey");
+    name_generator_make_random(app->file_name, WIEGAND_KEY_NAME_SIZE);
 
     text_input_set_header_text(app->text_input, "Name the key");
     text_input_set_result_callback(

@@ -2,7 +2,6 @@
 #include "../flizzer_tracker_hal.h"
 
 #include <furi_hal.h>
-#include <math.h>
 
 #define PI 3.1415
 

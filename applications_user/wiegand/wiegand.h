@@ -1,25 +1,22 @@
 #pragma once
 
 #include <furi.h>
-#include <furi_hal.h>
 #include <gui/gui.h>
 #include <gui/view_dispatcher.h>
 #include <gui/scene_manager.h>
 #include <gui/modules/widget.h>
 #include <gui/modules/submenu.h>
 #include <gui/modules/text_input.h>
-#include <toolbox/name_generator.h>
+#include <lib/toolbox/name_generator.h>
 #include <notification/notification.h>
 #include <notification/notification_messages.h>
 #include <dialogs/dialogs.h>
 #include <storage/storage.h>
 
 extern const GpioPin* const pinD0;
-extern const GpioPin* const pinD0mosfet;
 extern const GpioPin* const pinD1;
-extern const GpioPin* const pinD1mosfet;
 extern volatile int bit_count;
-#define MAX_BITS 48
+#define MAX_BITS 42
 extern volatile bool data[];
 extern volatile uint32_t data_fall[];
 extern volatile uint32_t data_rise[];
@@ -38,7 +35,6 @@ typedef enum {
     WiegandMainMenuScene,
     WiegandInstructionsScene,
     WiegandReadScene,
-    WiegandScanScene,
     WiegandDataScene,
     WiegandSaveScene,
     WiegandLoadScene,
@@ -66,7 +62,6 @@ typedef struct App {
 typedef enum {
     WiegandMainMenuInstructions,
     WiegandMainMenuRead,
-    WiegandMainMenuScan,
     WiegandMainMenuLoad,
 } WiegandMainMenuSceneIndex;
 
@@ -74,7 +69,6 @@ typedef enum {
     WiegandMainMenuUnknownEvent,
     WiegandMainMenuInstructionsEvent,
     WiegandMainMenuReadEvent,
-    WiegandMainMenuScanEvent,
     WiegandMainMenuLoadEvent,
 } WiegandMainMenuEvent;
 
@@ -122,10 +116,6 @@ void wiegand_load_scene_on_enter(void* context);
 // void wiegand_load_scene_on_exit(void* context);
 bool wiegand_custom_callback(void* context, uint32_t custom_event);
 bool wiegand_back_event_callback(void* context);
-
-void wiegand_scan_scene_on_enter(void* context);
-//bool wiegand_scan_scene_on_event(void* context, SceneManagerEvent event);
-void wiegand_scan_scene_on_exit(void* context);
 
 // Methods with no implementation.
 bool wiegand_empty_scene_on_event(void* context, SceneManagerEvent event);

@@ -96,19 +96,3 @@ int add_bytes(uint8_t const message[], unsigned num_bytes)
     }
     return result;
 }
-
-void bitbuffer_invert(bitbuffer_t *bits)
-{
-    for (unsigned row = 0; row < bits->num_rows; ++row) {
-        if (bits->bits_per_row[row] > 0) {
-            uint8_t *b = bits->bb[row];
-
-            const unsigned last_col  = (bits->bits_per_row[row] - 1) / 8;
-            const unsigned last_bits = ((bits->bits_per_row[row] - 1) % 8) + 1;
-            for (unsigned col = 0; col <= last_col; ++col) {
-                b[col] = ~b[col]; // Invert
-            }
-            b[last_col] ^= 0xFF >> last_bits; // Re-invert unused bits in last byte
-        }
-    }
-}

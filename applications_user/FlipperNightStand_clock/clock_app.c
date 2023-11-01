@@ -3,7 +3,6 @@
 
 #include <gui/gui.h>
 #include <gui/elements.h>
-#include <math.h>
 
 #include <notification/notification_messages.h>
 #include <notification/notification_app.h>
@@ -347,8 +346,8 @@ int32_t clock_app(void* p) {
             furi_hal_rtc_get_datetime(&plugin_state->datetime);
         }*/
 
-        furi_mutex_release(plugin_state->mutex);
         view_port_update(view_port);
+        furi_mutex_release(plugin_state->mutex);
     }
 
     furi_timer_free(timer);

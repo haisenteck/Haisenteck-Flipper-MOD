@@ -3,8 +3,18 @@
 
 #define FLIPBIP_SUBMENU_TEXT "** FlipBIP wallet " FLIPBIP_VERSION " **"
 
+enum SubmenuIndex {
+    SubmenuIndexScene1BTC = 10,
+    SubmenuIndexScene1ETH,
+    SubmenuIndexScene1DOGE,
+    SubmenuIndexScene1ZEC,
+    SubmenuIndexScene1New,
+    SubmenuIndexScene1Import,
+    SubmenuIndexSettings,
+    SubmenuIndexNOP,
+};
+
 void flipbip_scene_menu_submenu_callback(void* context, uint32_t index) {
-    furi_assert(context);
     FlipBip* app = context;
     view_dispatcher_send_custom_event(app->view_dispatcher, index);
 }
@@ -49,7 +59,7 @@ void flipbip_scene_menu_on_enter(void* context) {
         submenu_add_item(
             app->submenu,
             "Regenerate wallet",
-            SubmenuIndexScene1Renew,
+            SubmenuIndexScene1New,
             flipbip_scene_menu_submenu_callback,
             app);
     } else {
@@ -120,12 +130,9 @@ bool flipbip_scene_menu_on_event(void* context, SceneManagerEvent event) {
         } else if(event.event == SubmenuIndexScene1New) {
             app->overwrite_saved_seed = 1;
             app->import_from_mnemonic = 0;
-            app->wallet_create(app);
-            return true;
-        } else if(event.event == SubmenuIndexScene1Renew) {
-            app->overwrite_saved_seed = 1;
-            app->import_from_mnemonic = 0;
-            view_dispatcher_switch_to_view(app->view_dispatcher, FlipBipViewRenewConfirm);
+            scene_manager_set_scene_state(
+                app->scene_manager, FlipBipSceneMenu, SubmenuIndexScene1New);
+            scene_manager_next_scene(app->scene_manager, FlipBipSceneScene_1);
             return true;
         } else if(event.event == SubmenuIndexScene1Import) {
             app->import_from_mnemonic = 1;

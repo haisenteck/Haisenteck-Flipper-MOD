@@ -47,6 +47,7 @@ struct SubGhzBlockGeneric {
     FuriString* result_msg;
 };
 
+
 /**
  * Get name preset.
  * @param preset_name name preset

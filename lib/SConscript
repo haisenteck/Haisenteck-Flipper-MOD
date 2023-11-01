@@ -5,11 +5,11 @@ env.Append(
         Dir("app-scened-template"),
         Dir("digital_signal"),
         Dir("pulse_reader"),
-        Dir("signal_reader"),
         Dir("drivers"),
         Dir("flipper_format"),
         Dir("infrared"),
         Dir("nfc"),
+        Dir("ST25RFAL002"),
         Dir("subghz"),
         Dir("toolbox"),
         Dir("u8g2"),
@@ -27,6 +27,7 @@ env.Append(
         "#/lib/mlib",
         # Ugly hack
         Dir("../assets/compiled"),
+        Dir("../../icons"),
     ],
     SDK_HEADERS=[
         *(
@@ -44,6 +45,7 @@ env.Append(
                 "variant",
             )
         ),
+        
     ],
     CPPDEFINES=[
         '"M_MEMORY_FULL(x)=abort()"',
@@ -83,6 +85,7 @@ libs = env.BuildModules(
         "print",
         "microtar",
         "toolbox",
+        "ST25RFAL002",
         "libusb_stm32",
         "drivers",
         "fatfs",
@@ -96,7 +99,6 @@ libs = env.BuildModules(
         "nfc",
         "digital_signal",
         "pulse_reader",
-        "signal_reader",
         "appframe",
         "misc",
         "lfrfid",
