@@ -67,10 +67,7 @@ class FlipperFormatFile:
         self.writeLine("")
 
     def writeComment(self, text: str):
-        if text:
-            self.writeLine(f"# {text}")
-        else:
-            self.writeLine("#")
+        self.writeLine(f"# {text}")
 
     def getHeader(self):
         if self.cursor != 0 and len(self.lines) == 0:

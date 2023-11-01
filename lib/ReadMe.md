@@ -2,6 +2,7 @@
 
 - `FreeRTOS-Kernel`     - FreeRTOS kernel source code
 - `FreeRTOS-glue`       - Extra glue to hold together FreeRTOS kernel and flipper firmware
+- `ST25RFAL002`         - ST25R3916 Driver and protocol stack
 - `app-scened-template` - C++ app library
 - `callback-connector`  - Callback connector library
 - `cmsis_core`          - CMSIS Core package, contain cortex-m core headers

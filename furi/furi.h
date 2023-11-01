@@ -24,9 +24,6 @@
 // FreeRTOS timer, REMOVE AFTER REFACTORING
 #include <timers.h>
 
-#include <math.h>
-
-
 #ifdef __cplusplus
 extern "C" {
 #endif

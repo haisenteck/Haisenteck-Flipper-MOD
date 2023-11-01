@@ -4,13 +4,15 @@ import json
 import os
 import subprocess
 from datetime import date, datetime
-
 from flipper.app import App
+
+from pathlib import Path
+import posixpath
 
 
 class GitVersion:
     REVISION_SUFFIX_LENGTH = 8
-
+    VERSION_FILE = "versione.txt"
     def __init__(self, source_dir):
         self.source_dir = source_dir
 
@@ -30,14 +32,26 @@ class GitVersion:
         # If WORKFLOW_BRANCH_OR_TAG is set in environment, is has precedence
         # (set by CI)
         branch = (
-            os.environ.get("WORKFLOW_BRANCH_OR_TAG", None)
-            or self._exec_git("rev-parse --abbrev-ref HEAD")
-            or "unknown"
+            "Haisenteck"
+            #os.environ.get("WORKFLOW_BRANCH_OR_TAG", None)
+            #or self._exec_git("rev-parse --abbrev-ref HEAD")
+            #or "unknown"
         )
-
+        
+        VERSION_FILE = "versione.txt"
+        # Controlla se il file esiste nella stessa cartella del firmware
+        if Path(VERSION_FILE).exists():
+            # Leggi il contenuto del file e assegna il valore a UPDATE_VERSION_STRING
+            with open(VERSION_FILE, 'r') as version_file:
+                UPDATE_VERSION_STRING = version_file.read().strip()
+        else:
+            # Imposta un valore predefinito nel caso il file non esista
+            UPDATE_VERSION_STRING = "DEBUG_v"
+        
         version = (
-            os.environ.get("DIST_SUFFIX", None)
-            or "unknown"
+            UPDATE_VERSION_STRING
+            #os.environ.get("DIST_SUFFIX", None)
+            #or "unknown"
         )
 
         force_no_dirty = (
@@ -62,7 +76,7 @@ class GitVersion:
             "GIT_BRANCH": branch,
             "VERSION": version,
             "BUILD_DIRTY": dirty and 1 or 0,
-            "GIT_ORIGIN": "https://github.com/DarkFlippers/unleashed-firmware.git",
+            "GIT_ORIGIN": "https://github.com/haisenteck/Haisenteck-Flipper-MOD.git",
             "GIT_COMMIT_DATE": commit_date,
         }
     

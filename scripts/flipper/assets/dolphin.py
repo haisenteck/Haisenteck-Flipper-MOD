@@ -267,7 +267,7 @@ class DolphinManifest:
         # Load animation data
         while True:
             try:
-                # Read animation specification
+                # Read animation spcification
                 name = file.readKey("Name")
                 min_butthurt = file.readKeyInt("Min butthurt")
                 max_butthurt = file.readKeyInt("Max butthurt")

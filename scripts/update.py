@@ -76,7 +76,7 @@ class Main(App):
         self.parser_generate.add_argument(
             "--stackversion", dest="stack_version", required=False, default=""
         )
-
+        
         self.parser_generate.set_defaults(func=self.generate)
 
     def generate(self):

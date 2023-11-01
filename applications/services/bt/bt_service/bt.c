@@ -367,13 +367,13 @@ static void bt_change_profile(Bt* bt, BtMessage* message) {
             *message->result = false;
         }
     }
-    if(message->lock) api_lock_unlock(message->lock);
+    furi_event_flag_set(bt->api_event, BT_API_UNLOCK_EVENT);
 }
 
-static void bt_close_connection(Bt* bt, BtMessage* message) {
+static void bt_close_connection(Bt* bt) {
     bt_close_rpc_connection(bt);
     furi_hal_bt_stop_advertising();
-    if(message->lock) api_lock_unlock(message->lock);
+    furi_event_flag_set(bt->api_event, BT_API_UNLOCK_EVENT);
 }
 
 static inline FuriHalBtProfile get_hal_bt_profile(BtProfile profile) {
@@ -520,7 +520,7 @@ int32_t bt_srv(void* p) {
         } else if(message.type == BtMessageTypeSetProfile) {
             bt_change_profile(bt, &message);
         } else if(message.type == BtMessageTypeDisconnect) {
-            bt_close_connection(bt, &message);
+            bt_close_connection(bt);
         } else if(message.type == BtMessageTypeForgetBondedDevices) {
             bt_keys_storage_delete(bt->keys_storage);
         }

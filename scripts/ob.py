@@ -22,8 +22,7 @@ class Main(App):
         self.parser_set = self.subparsers.add_parser("set", help="Set Option Bytes")
         self._add_args(self.parser_set)
         self.parser_set.set_defaults(func=self.set)
-
-        # Recover command
+        # Set command
         self.parser_recover = self.subparsers.add_parser(
             "recover", help="Recover Option Bytes"
         )

@@ -21,8 +21,7 @@ typedef enum {
     FlipperApplicationPreloadStatusUnspecifiedError,
     FlipperApplicationPreloadStatusInvalidFile,
     FlipperApplicationPreloadStatusInvalidManifest,
-    FlipperApplicationPreloadStatusApiTooOld,
-    FlipperApplicationPreloadStatusApiTooNew,
+    FlipperApplicationPreloadStatusApiMismatch,
     FlipperApplicationPreloadStatusTargetMismatch,
 } FlipperApplicationPreloadStatus;
 

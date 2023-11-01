@@ -101,14 +101,9 @@ static FlipperApplicationPreloadStatus
         return FlipperApplicationPreloadStatusTargetMismatch;
     }
 
-    if(!flipper_application_manifest_is_too_old(
+    if(!flipper_application_manifest_is_compatible(
            &app->manifest, elf_file_get_api_interface(app->elf))) {
-        return FlipperApplicationPreloadStatusApiTooOld;
-    }
-
-    if(!flipper_application_manifest_is_too_new(
-           &app->manifest, elf_file_get_api_interface(app->elf))) {
-        return FlipperApplicationPreloadStatusApiTooNew;
+        return FlipperApplicationPreloadStatusApiMismatch;
     }
 
     return FlipperApplicationPreloadStatusSuccess;
@@ -262,8 +257,7 @@ static const char* preload_status_strings[] = {
     [FlipperApplicationPreloadStatusUnspecifiedError] = "Unknown error",
     [FlipperApplicationPreloadStatusInvalidFile] = "Invalid file",
     [FlipperApplicationPreloadStatusInvalidManifest] = "Invalid file manifest",
-    [FlipperApplicationPreloadStatusApiTooOld] = "Update Application to use with this Firmware (ApiTooOld)",
-    [FlipperApplicationPreloadStatusApiTooNew] = "Update Firmware to use with this Application (ApiTooNew)",
+    [FlipperApplicationPreloadStatusApiMismatch] = "API version mismatch",
     [FlipperApplicationPreloadStatusTargetMismatch] = "Hardware target mismatch",
 };
 
@@ -271,7 +265,7 @@ static const char* load_status_strings[] = {
     [FlipperApplicationLoadStatusSuccess] = "Success",
     [FlipperApplicationLoadStatusUnspecifiedError] = "Unknown error",
     [FlipperApplicationLoadStatusNoFreeMemory] = "Out of memory",
-    [FlipperApplicationLoadStatusMissingImports] = "Update Firmware to use with this Application (MissingImports)",
+    [FlipperApplicationLoadStatusMissingImports] = "Found unsatisfied imports",
 };
 
 const char* flipper_application_preload_status_to_string(FlipperApplicationPreloadStatus status) {
