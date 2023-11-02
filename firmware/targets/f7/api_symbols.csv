@@ -1,5 +1,5 @@
 entry,status,name,type,params
-Version,+,39.1,,
+Version,+,39.2,,
 Header,+,applications/drivers/subghz/cc1101_ext/cc1101_ext_interconnect.h,,
 Header,+,applications/services/bt/bt_service/bt.h,,
 Header,+,applications/services/cli/cli.h,,
@@ -588,6 +588,7 @@ Function,+,bit_lib_set_bits,void,"uint8_t*, size_t, uint8_t, uint8_t"
 Function,+,bit_lib_test_parity,_Bool,"const uint8_t*, size_t, uint8_t, BitLibParity, uint8_t"
 Function,+,bit_lib_test_parity_32,_Bool,"uint32_t, BitLibParity"
 Function,+,bitbuffer_extract_bytes,void,"bitbuffer_t*, unsigned, unsigned, uint8_t*, unsigned"
+Function,+,bitbuffer_invert,void,bitbuffer_t*
 Function,+,ble_app_get_key_storage_buff,void,"uint8_t**, uint16_t*"
 Function,+,ble_app_init,_Bool,
 Function,+,ble_app_thread_stop,void,

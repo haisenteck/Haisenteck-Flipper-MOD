@@ -12,7 +12,7 @@ static const SubGhzBlockConst subghz_protocol_yale_hsa_const = {
     .te_short = 850,
     .te_long = 1460,
     .te_delta = 150,
-    .min_count_bit_for_found = 13,
+    .min_count_bit_for_found = 78,
 };
 
 struct SubGhzProtocolDecoderyale_hsa {
